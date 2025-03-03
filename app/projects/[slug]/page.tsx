@@ -28,6 +28,8 @@ interface Project {
   repoUrl: string
 }
 
+// Base URL for all assets
+const baseUrl = "https://pub-23ed2f7e90c646778e7f318e43b4e788.r2.dev/public";
 
 const projects: Record<string, Project> = {
     "custom-rocket": {
@@ -36,27 +38,27 @@ const projects: Record<string, Project> = {
       longDescription:
         "I built and launched a rocket equipped with a custom altimeter and a wireless launch system, successfully breaking the sound barrier. To power the rocket, I developed APCP rocket fuel from scratch, formulating unique mixtures tailored to our specific rocket specifications. I also designed and fabricated a custom converging-diverging nozzle and casing, optimizing them for reusability and ease of manufacturing. To validate performance, I constructed a test stand to measure thrust and compare results with simulations. It was awesome.",
       tags: ["KiCad", "Onshape", "OpenRocket", "Microcontrollers", "Rocket Propellant"],
-      // Full image array
+      // Full image array with updated paths
       images: [
-        { url: "/rocket_photos/overview_rocket.JPG", description: "The evolution of our rocket motors and nozzles." },
-        { url: "/rocket_photos/completed_rocket.png", description: "The fully assembled rocket, ready for flight testing." },
-        { url: "/rocket_photos/APCP_creation.png", description: "Mixing up the APCP propellant for maximum thrust output." },
-        { url: "/rocket_photos/APCP_fuel_mold.png", description: "Filling and molding the solid rocket propellant grains." },
-        { url: "/rocket_photos/APCP_vacuum.png", description: "Pulling a vacuum on the propellant to remove air bubbles." },
-        { url: "/rocket_photos/completed_ignitor_pair.png", description: "A pair of homemade ignitors to trigger the propellant." },
-        { url: "/rocket_photos/ignitor_testing.png", description: "Testing the ignitor’s reliability and ignition timing." },
-        { url: "/rocket_photos/thrust_stand.png", description: "Custom-built thrust stand for measuring rocket motor performance." },
-        { url: "/rocket_photos/motor_testing.PNG", description: "Rocket motor hot-fire test on the thrust stand." },
-        { url: "/rocket_photos/thrust_stand_explosion.PNG", description: "That moment the test stand exploded—less than ideal, but a learning experience!" },
-        { url: "/rocket_photos/automatic_parachute_deployment.png", description: "Electronics for automatic parachute deployment." },
-        { url: "/rocket_photos/nozzle.png", description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow." },
-        { url: "/rocket_photos/rocket_launch.PNG", description: "Liftoff! Achieved Mach 1 during ascent." },
+        { url: `${baseUrl}/rocket_photos/overview_rocket.JPG`, description: "The evolution of our rocket motors and nozzles." },
+        { url: `${baseUrl}/rocket_photos/completed_rocket.png`, description: "The fully assembled rocket, ready for flight testing." },
+        { url: `${baseUrl}/rocket_photos/APCP_creation.png`, description: "Mixing up the APCP propellant for maximum thrust output." },
+        { url: `${baseUrl}/rocket_photos/APCP_fuel_mold.png`, description: "Filling and molding the solid rocket propellant grains." },
+        { url: `${baseUrl}/rocket_photos/APCP_vacuum.png`, description: "Pulling a vacuum on the propellant to remove air bubbles." },
+        { url: `${baseUrl}/rocket_photos/completed_ignitor_pair.png`, description: "A pair of homemade ignitors to trigger the propellant." },
+        { url: `${baseUrl}/rocket_photos/ignitor_testing.png`, description: "Testing the ignitor's reliability and ignition timing." },
+        { url: `${baseUrl}/rocket_photos/thrust_stand.png`, description: "Custom-built thrust stand for measuring rocket motor performance." },
+        { url: `${baseUrl}/rocket_photos/motor_testing.PNG`, description: "Rocket motor hot-fire test on the thrust stand." },
+        { url: `${baseUrl}/rocket_photos/thrust_stand_explosion.PNG`, description: "That moment the test stand exploded—less than ideal, but a learning experience!" },
+        { url: `${baseUrl}/rocket_photos/automatic_parachute_deployment.png`, description: "Electronics for automatic parachute deployment." },
+        { url: `${baseUrl}/rocket_photos/nozzle.png`, description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow." },
+        { url: `${baseUrl}/rocket_photos/rocket_launch.PNG`, description: "Liftoff! Achieved Mach 1 during ascent." },
       ],
-      // Full videos array
+      // Full videos array with updated paths
       videos: [
-        { url: "/rocket_photos/rocket_launch.mp4", description: "Successful rocket launch." },
-        { url: "/rocket_photos/test_fire.mp4", description: "First successful static fire w/ data collection." },
-        { url: "/rocket_photos/loadcell_measurements_apcp.mp4", description: "Using the data collected from our test stand we graphed the thrust curve and compared it to the simulation." }
+        { url: `${baseUrl}/rocket_photos/rocket_launch.mp4`, description: "Successful rocket launch." },
+        { url: `${baseUrl}/rocket_photos/test_fire.mp4`, description: "First successful static fire w/ data collection." },
+        { url: `${baseUrl}/rocket_photos/loadcell_measurements_apcp.mp4`, description: "Using the data collected from our test stand we graphed the thrust curve and compared it to the simulation." }
       ],
       codeSnippets: [
         {
@@ -106,10 +108,10 @@ const projects: Record<string, Project> = {
   master(nrf)`
         }
       ],
-      // Full stlModels array
+      // Full stlModels array with updated paths
       stlModels: [
-        { url: "/rocket_photos/rocket.stl", description: "Our custom rocket motor geometry." },
-        { url: "/rocket_photos/thrust_stand.stl", description: "Logged thrust measurements from motor at 80Hz." }
+        { url: `${baseUrl}/rocket_photos/rocket.stl`, description: "Our custom rocket motor geometry." },
+        { url: `${baseUrl}/rocket_photos/thrust_stand.stl`, description: "Logged thrust measurements from motor at 80Hz." }
       ],
       // Demo + repo
       liveUrl: "https://www.youtube.com/watch?v=p_gHWFGRnWY&ab_channel=HenrySpeiser",
@@ -119,22 +121,22 @@ const projects: Record<string, Project> = {
     "atila-biosystems": {
       title: "Atila Biosystems",
       description: "Designed and developed PCBs for biomedical point-of-care (POC) devices.",
-      longDescription: `I designed and developed printed circuit boards for biomedical point-of-care devices, working on a reusable virus testing device that was not only as accurate as PCR but also extremely fast. I created a heating element controller that precisely regulated temperatures to ensure the sample wasn’t destroyed while also creating the perfect conditions for the multiplication of the cells. Within 30 minutes, the device could determine if you had a virus based on the capsule selected, testing for things like COVID, influenza, HPV, and more, all in a single dock using interchangeable cartridges. It was 90% cheaper than competitors, could be powered in multiple ways, and was designed for use anywhere on Earth. The device was presented to the Bill & Melinda Gates foundation and contributed to Atila's reciving of a $500k grant. It has been FDA approved and will undergo production very soon.`,
+      longDescription: `I designed and developed printed circuit boards for biomedical point-of-care devices, working on a reusable virus testing device that was not only as accurate as PCR but also extremely fast. I created a heating element controller that precisely regulated temperatures to ensure the sample wasn't destroyed while also creating the perfect conditions for the multiplication of the cells. Within 30 minutes, the device could determine if you had a virus based on the capsule selected, testing for things like COVID, influenza, HPV, and more, all in a single dock using interchangeable cartridges. It was 90% cheaper than competitors, could be powered in multiple ways, and was designed for use anywhere on Earth. The device was presented to the Bill & Melinda Gates foundation and contributed to Atila's reciving of a $500k grant. It has been FDA approved and will undergo production very soon.`,
       tags: ["Altium", "KiCad", "C", "MicroPython", "SolidWorks", "Patience", "Teamwork"],
       images: [
-        { url: "/atila_photos/breadboard_version_of_final_circuit.png", description: "Breadboard version of the final circuit." },
-        { url: "/atila_photos/other_view_of_bread_board_circuit.png", description: "Another angle of the breadboard circuit." },
-        { url: "/atila_photos/testing_breadboard_before_main_design.png", description: "Testing the breadboard before final design." },
-        { url: "/atila_photos/first_rev_of_caritrage.png", description: "First revision of the cartridge design." },
-        { url: "/atila_photos/hand_maufacturing_the_prototypes.png", description: "Hand-manufacturing the prototypes." },
-        { url: "/atila_photos/resuable_capsule.png", description: "Reusable capsule injection mold." },
-        { url: "/atila_photos/Rev1-Rev2.png", description: "Side-by-side: Revision 1 and Revision 2 PCBs." },
-        { url: "/atila_photos/debugging_code.png", description: "Debugging code on the microcontroller." },
-        { url: "/atila_photos/manufacturing_device.png", description: "First prototype of the heated wax pump to manufacture the cartridges." },
-        { url: "/atila_photos/running_tests.png", description: "Running preliminary tests on the device." }
+        { url: `${baseUrl}/atila_photos/breadboard_version_of_final_circuit.png`, description: "Breadboard version of the final circuit." },
+        { url: `${baseUrl}/atila_photos/other_view_of_bread_board_circuit.png`, description: "Another angle of the breadboard circuit." },
+        { url: `${baseUrl}/atila_photos/testing_breadboard_before_main_design.png`, description: "Testing the breadboard before final design." },
+        { url: `${baseUrl}/atila_photos/first_rev_of_caritrage.png`, description: "First revision of the cartridge design." },
+        { url: `${baseUrl}/atila_photos/hand_maufacturing_the_prototypes.png`, description: "Hand-manufacturing the prototypes." },
+        { url: `${baseUrl}/atila_photos/resuable_capsule.png`, description: "Reusable capsule injection mold." },
+        { url: `${baseUrl}/atila_photos/Rev1-Rev2.png`, description: "Side-by-side: Revision 1 and Revision 2 PCBs." },
+        { url: `${baseUrl}/atila_photos/debugging_code.png`, description: "Debugging code on the microcontroller." },
+        { url: `${baseUrl}/atila_photos/manufacturing_device.png`, description: "First prototype of the heated wax pump to manufacture the cartridges." },
+        { url: `${baseUrl}/atila_photos/running_tests.png`, description: "Running preliminary tests on the device." }
       ],
       videos: [
-        { url: "/atila_photos/litmus.mp4", description: "Successful results from the device's cell amplification." }
+        { url: `${baseUrl}/atila_photos/litmus.mp4`, description: "Successful results from the device's cell amplification." }
       ],
       codeSnippets: [],
       stlModels: [],
@@ -147,18 +149,18 @@ const projects: Record<string, Project> = {
       longDescription: "In our robotics competitions, we frequently encountered issues where high-impact collisions caused connectors to sensors and motors to unplug, rendering the robot inoperable mid-match. To solve this, I designed a suite of 11 custom circuit boards that securely attach to sensors, motors, and our onboard computing system, dramatically reducing connector failures. I transitioned our system to Molex SL connectors, which feature latching mechanisms to prevent accidental disconnections. Additionally, I developed a custom wire tester to ensure all connections were reliable before matches, incorporating LED indicators on each board for quick debugging. This system significantly improved our robot's reliability, and our designs were so effective that we began selling these boards to other teams at competitions.",
       tags: ["KiCad", "Electronics Design", "Embedded Systems", "PCB Manufacturing", "Connector Engineering", "Robotics"],
       images: [
-        { url: "/robot_electronics/robot.png", description: "Final competition robot, equipped with all custom electronics." },
-        { url: "/robot_electronics/beam_break_adapter.png", description: "Beam break sensor circuit for object detection." },
-        { url: "/robot_electronics/jetson_orin_assembly.png", description: "Jetson Orin NX computing module wired and assembled." },
-        { url: "/robot_electronics/jetson_orin_adapter.png", description: "Adapter board for integrating the Jetson Orin NX with robot systems." },
-        { url: "/robot_electronics/motor_can_adapter.png", description: "CAN motor controller adapter for improved signal integrity." },
-        { url: "/robot_electronics/optical_encoder_adapter.png", description: "Optical encoder adapter for precision motor feedback." },
-        { url: "/robot_electronics/power_adapter.png", description: "Custom power adapter for sensor and motor connections." },
-        { url: "/robot_electronics/robot_wiring.png", description: "Complete robot wiring showcasing custom electronics integration." },
-        { url: "/robot_electronics/pot_board.png", description: "Potentiometer breakout board for analog feedback." },
-        { url: "/robot_electronics/mag_encoder.png", description: "Magnetic encoder board for precise motor control." },
-        { url: "/robot_electronics/roborio_interface.png", description: "Main interface board for the RoboRIO control system." },
-        { url: "/robot_electronics/wire_tester.png", description: "Custom wire tester for validating electrical connections." }
+        { url: `${baseUrl}/robot_electronics/robot.png`, description: "Final competition robot, equipped with all custom electronics." },
+        { url: `${baseUrl}/robot_electronics/beam_break_adapter.png`, description: "Beam break sensor circuit for object detection." },
+        { url: `${baseUrl}/robot_electronics/jetson_orin_assembly.png`, description: "Jetson Orin NX computing module wired and assembled." },
+        { url: `${baseUrl}/robot_electronics/jetson_orin_adapter.png`, description: "Adapter board for integrating the Jetson Orin NX with robot systems." },
+        { url: `${baseUrl}/robot_electronics/motor_can_adapter.png`, description: "CAN motor controller adapter for improved signal integrity." },
+        { url: `${baseUrl}/robot_electronics/optical_encoder_adapter.png`, description: "Optical encoder adapter for precision motor feedback." },
+        { url: `${baseUrl}/robot_electronics/power_adapter.png`, description: "Custom power adapter for sensor and motor connections." },
+        { url: `${baseUrl}/robot_electronics/robot_wiring.png`, description: "Complete robot wiring showcasing custom electronics integration." },
+        { url: `${baseUrl}/robot_electronics/pot_board.png`, description: "Potentiometer breakout board for analog feedback." },
+        { url: `${baseUrl}/robot_electronics/mag_encoder.png`, description: "Magnetic encoder board for precise motor control." },
+        { url: `${baseUrl}/robot_electronics/roborio_interface.png`, description: "Main interface board for the RoboRIO control system." },
+        { url: `${baseUrl}/robot_electronics/wire_tester.png`, description: "Custom wire tester for validating electrical connections." }
       ],
       stlModels: [],
       videos: [],
@@ -172,18 +174,18 @@ const projects: Record<string, Project> = {
         longDescription: "I designed and built a handcrafted outdoor bench using high-quality wood and durable fasteners. The bench was constructed with a slatted design for breathability and weather resistance. During assembly, I carefully reinforced structural joints to ensure long-term durability. After construction, the bench was sanded and finished with a protective varnish to withstand outdoor conditions. This project emphasized both functional design and craftsmanship, resulting in a bench that is comfortable, aesthetically pleasing, and built to last.",
         tags: ["Woodworking", "CAD", "Structural Design", "Hand Tools", "Outdoor Furniture"],
         images: [
-          { url: "/wooden_bench/top_cad_view.png", description: "Top-down CAD view of the bench design." },
-          { url: "/wooden_bench/underside_cad_view.png", description: "Underside CAD rendering of the bench structure." },
-          { url: "/wooden_bench/assembling_back.png", description: "Assembling the backrest of the bench." },
-          { url: "/wooden_bench/assembling_base.png", description: "Constructing the base frame of the bench." },
-          { url: "/wooden_bench/behind_bench.png", description: "A scenic view behind the completed bench." },
-          { url: "/wooden_bench/completed_without_varnish.png", description: "The completed bench before applying varnish." },
-          { url: "/wooden_bench/drying_bench.png", description: "The bench drying after applying varnish for protection." },
-          { url: "/wooden_bench/front_sitting_bench.png", description: "A front view of people sitting on the bench." },
-          { url: "/wooden_bench/hanging_bench.png", description: "The bench placed in its final outdoor setting." }
+          { url: `${baseUrl}/wooden_bench/top_cad_view.png`, description: "Top-down CAD view of the bench design." },
+          { url: `${baseUrl}/wooden_bench/underside_cad_view.png`, description: "Underside CAD rendering of the bench structure." },
+          { url: `${baseUrl}/wooden_bench/assembling_back.png`, description: "Assembling the backrest of the bench." },
+          { url: `${baseUrl}/wooden_bench/assembling_base.png`, description: "Constructing the base frame of the bench." },
+          { url: `${baseUrl}/wooden_bench/behind_bench.png`, description: "A scenic view behind the completed bench." },
+          { url: `${baseUrl}/wooden_bench/completed_without_varnish.png`, description: "The completed bench before applying varnish." },
+          { url: `${baseUrl}/wooden_bench/drying_bench.png`, description: "The bench drying after applying varnish for protection." },
+          { url: `${baseUrl}/wooden_bench/front_sitting_bench.png`, description: "A front view of people sitting on the bench." },
+          { url: `${baseUrl}/wooden_bench/hanging_bench.png`, description: "The bench placed in its final outdoor setting." }
         ],
         stlModels: [
-          { url: "/wooden_bench/bench.stl", description: "Bench design file" }
+          { url: `${baseUrl}/wooden_bench/bench.stl`, description: "Bench design file" }
         ],
         videos: [],
         codeSnippets: [],
@@ -196,10 +198,10 @@ const projects: Record<string, Project> = {
         longDescription: "For my exams, I was required to write my full name and student ID on every test page, sometimes up to 18 pages per test, with no additional time provided. To solve this, I designed a custom stamp holder that aligned three individual stamps perfectly. With this tool, I could stamp my name and ID across all test pages in about 15 seconds, saving valuable time during exams. After the first exam I used it, everyone wanted one. Unfortunately (Fortunately), after the course instructors saw me using it they fixed the exam because they understood how silly it was.",
         tags: ["3D Printing", "Futuristic Technology"],
         images: [
-          { url: "/tramp_stamp/side_view.png", description: "Side view of the Tranp Stamp setup." },
-          { url: "/tramp_stamp/stamp_examples.png", description: "Examples of stamped test pages using the device." },
-          { url: "/tramp_stamp/top_view.png", description: "Top view of the Tranp Stamp in action." },
-          { url: "/tramp_stamp/second_side_view.png", description: "Alternative side view of the Tranp Stamp." }
+          { url: `${baseUrl}/tramp_stamp/side_view.png`, description: "Side view of the Tranp Stamp setup." },
+          { url: `${baseUrl}/tramp_stamp/stamp_examples.png`, description: "Examples of stamped test pages using the device." },
+          { url: `${baseUrl}/tramp_stamp/top_view.png`, description: "Top view of the Tranp Stamp in action." },
+          { url: `${baseUrl}/tramp_stamp/second_side_view.png`, description: "Alternative side view of the Tranp Stamp." }
         ],
         stlModels: [],
         videos: [],
@@ -207,13 +209,7 @@ const projects: Record<string, Project> = {
         liveUrl: "",
         repoUrl: ""
     }
-  
-  
-  
 }
-
-
-
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
   const project = projects[params.slug]
@@ -238,8 +234,6 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   (projects[params.slug]?.videos?.length > 0 ? 1 : 0) +
   (projects[params.slug]?.codeSnippets?.length > 0 ? 1 : 0) +
   (projects[params.slug]?.stlModels?.length > 0 ? 1 : 0);
-
-  
 
   return (
     <div className="container px-4 py-12 md:px-6">
@@ -321,8 +315,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           {project?.stlModels?.length > 0 && (
             <TabsTrigger value="model">3D Models</TabsTrigger>
           )}
-      </TabsList>
-
+        </TabsList>
 
         {/* Always show gallery tab content */}
         <TabsContent value="gallery">
@@ -371,9 +364,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             ))}
           </TabsContent>
         )}
-
       </Tabs>
-
     </div>
   )
 }

@@ -3,6 +3,9 @@ import { Github, Linkedin, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import ProjectCard from "@/components/project-card"
 
+// Base URL for assets
+const baseUrl = "https://pub-23ed2f7e90c646778e7f318e43b4e788.r2.dev/public";
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -60,42 +63,42 @@ export default function Home() {
                 title="Custom Mach 1 Rocket"
                 description="Fully custom solid-state rocket with custom remote ignitors and parachute deployment system."
                 tags={["KiCAD", "Onshape", "Microcontrollers"]}
-                imageUrl="/homepage_pictures/rocket_center.JPG?height=400&width=600"
+                imageUrl={`${baseUrl}/rocket_photos/overview_rocket.JPG?height=400&width=600`}
                 slug="custom-rocket"
               />
               <ProjectCard
                 title="Atila BioSytems POC Device"
                 description="Reusable and affordable viral testing device with PCR-level efficacy."
                 tags={["Altium", "C", "Teamwork"]}
-                imageUrl="/atila_photos/Rev1-Rev2.png?height=400&width=600"
+                imageUrl={`${baseUrl}/atila_photos/Rev1-Rev2.png?height=400&width=600`}
                 slug="atila-biosystems"
               />
               <ProjectCard
                 title="Universal Connector System for FRC"
                 description="Universal connectorized system to reduce unintentional unplugs of sensor and motor connectors."
                 tags={["KiCAD", "OnShape", "FEA"]}
-                imageUrl="/robot_electronics/robot.png?height=400&width=600"
+                imageUrl={`${baseUrl}/robot_electronics/robot.png?height=400&width=600`}
                 slug="robot-electronics"
               />
               <ProjectCard
                 title="Custom CAN-Based Redundant Robot Controller"
                 description="A high-speed board designed to interface with joysticks and 18 buttons, providing reliable control over a robot."
                 tags={["KiCAD", "Power Electronics", "Pain"]}
-                imageUrl="/button_board/button_board_pcb.png?height=400&width=600"
+                imageUrl={`${baseUrl}/button_board/button_board_pcb.png?height=400&width=600`}
                 slug="button_board"
               />
               <ProjectCard
                 title="Hanging Wooden Bench"
                 description="A sturdy, hanging bench able to hold up to five people or 700 pounds, perfect for relaxing while watching the sunset."
                 tags={["Woodworking", "OnShape", "Removing Splinters"]}
-                imageUrl="/wooden_bench/hanging_bench.png?height=400&width=600"
+                imageUrl={`${baseUrl}/wooden_bench/hanging_bench.png?height=400&width=600`}
                 slug="wooden_bench"
               />
               <ProjectCard
                 title="The TRAMP Stamp"
                 description="A stamp system that perfectly aligns stamps to quickly fill out my name and student ID on every test page in seconds."
                 tags={["3D Printing", "Shameless Hacks"]}
-                imageUrl="/tramp_stamp/top_view.png?height=400&width=600"
+                imageUrl={`${baseUrl}/tramp_stamp/top_view.png?height=400&width=600`}
                 slug="tramp_stamp"
               />
             </div>
@@ -107,19 +110,19 @@ export default function Home() {
               <div className="space-y-4">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">About Me</h2>
                 <p className="text-gray-500 dark:text-gray-400">
-                Henry loves all things engineering, whether it’s designing in CAD, creating printed circuit boards, or writing code, he’s all about the process of designing anything. His journey in engineering started with FIRST Robotics, where, as a member of Team 971, he learned how to design PCBs, write industry-level code, and develop complex mechanical systems. Since then, he’s carried those skills into personal projects, constantly expanding his knowledge in engineering and problem-solving. He knows C++, Java, and Python, and works with KiCAD, Onshape, and SolidWorks.  
+                Henry loves all things engineering, whether it's designing in CAD, creating printed circuit boards, or writing code, he's all about the process of designing anything. His journey in engineering started with FIRST Robotics, where, as a member of Team 971, he learned how to design PCBs, write industry-level code, and develop complex mechanical systems. Since then, he's carried those skills into personal projects, constantly expanding his knowledge in engineering and problem-solving. He knows C++, Java, and Python, and works with KiCAD, Onshape, and SolidWorks.  
                 </p>
                 <p className="text-gray-500 dark:text-gray-400">
-                To Henry, the world is a sandbox, every problem is an opportunity to build something, whether it’s a small fix, like stamping his name 18 times on a test, or something massive, like launching rockets into space. He’s always thinking about different ways to do things.
+                To Henry, the world is a sandbox, every problem is an opportunity to build something, whether it's a small fix, like stamping his name 18 times on a test, or something massive, like launching rockets into space. He's always thinking about different ways to do things.
                 </p>
                 <p className="text-gray-500 dark:text-gray-400">
-                When he’s not deep in an engineering project, he’s skiing, hanging out with his fraternity brothers, or hiking in the Berkeley hills.
+                When he's not deep in an engineering project, he's skiing, hanging out with his fraternity brothers, or hiking in the Berkeley hills.
                 </p>
               </div>
               <div className="flex justify-center">
                 <div className="relative w-full max-w-sm aspect-square overflow-hidden rounded-xl">
                   <img
-                    src="/pictures_henry/profile.png?height=500&width=500"
+                    src={`${baseUrl}/pictures_henry/profile.png?height=500&width=500`}
                     alt="Profile"
                     className="object-cover"
                     width={500}
@@ -182,4 +185,3 @@ export default function Home() {
     </div>
   )
 }
-
