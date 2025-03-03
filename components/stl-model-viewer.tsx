@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react"
 import * as THREE from "three"
+
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader"
 
@@ -22,7 +23,7 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
 
     // Create scene, camera, and renderer
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000)
+    const camera = new THREE.PerspectiveCamera(60, width / height, 1, 5000)
     camera.position.set(0, 0, 100)
 
     const renderer = new THREE.WebGLRenderer({ antialias: true })
@@ -46,11 +47,11 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
     const loader = new STLLoader()
     loader.load(
       modelUrl,
-      (geometry) => {
+      (geometry: THREE.BufferGeometry) => {
         const material = new THREE.MeshStandardMaterial({ color: 0x6CA6CD })
         const mesh = new THREE.Mesh(geometry, material)
-
-        // Center the model
+    
+        // Compute bounding box to center the model
         geometry.computeBoundingBox()
         if (geometry.boundingBox) {
           const centerX = (geometry.boundingBox.max.x + geometry.boundingBox.min.x) / 2
@@ -58,14 +59,16 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
           const centerZ = (geometry.boundingBox.max.z + geometry.boundingBox.min.z) / 2
           mesh.position.set(-centerX, -centerY, -centerZ)
         }
-
+    
         scene.add(mesh)
       },
-      undefined,
-      (error) => {
+      undefined, // No progress callback
+      (error: Error | ErrorEvent) => {
         console.error("Error loading STL:", error)
       }
     )
+    
+    
 
     // Render loop
     const animate = () => {

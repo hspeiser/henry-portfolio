@@ -71,32 +71,32 @@ export default function Home() {
                 slug="atila-biosystems"
               />
               <ProjectCard
-                title="Mobile Fitness App"
-                description="Cross-platform mobile application for workout tracking and nutrition planning."
-                tags={["React Native", "Firebase", "Redux"]}
-                imageUrl="/placeholder.svg?height=400&width=600"
-                slug="fitness-app"
+                title="Universal Connector System for FRC"
+                description="Universal connectorized system to reduce unintentional unplugs of sensor and motor connectors."
+                tags={["KiCAD", "OnShape", "FEA"]}
+                imageUrl="/robot_electronics/robot.png?height=400&width=600"
+                slug="robot-electronics"
               />
               <ProjectCard
-                title="AI Content Generator"
-                description="Web application that leverages AI to generate marketing content."
-                tags={["Python", "TensorFlow", "Flask"]}
-                imageUrl="/placeholder.svg?height=400&width=600"
-                slug="ai-content-generator"
+                title="Custom CAN-Based Redundant Robot Controller"
+                description="A high-speed board designed to interface with joysticks and 18 buttons, providing reliable control over a robot."
+                tags={["KiCAD", "Power Electronics", "Pain"]}
+                imageUrl="/button_board/button_board_pcb.png?height=400&width=600"
+                slug="button_board"
               />
               <ProjectCard
-                title="Real-time Chat Application"
-                description="Secure messaging platform with end-to-end encryption and file sharing."
-                tags={["Socket.io", "Express", "Vue.js"]}
-                imageUrl="/placeholder.svg?height=400&width=600"
-                slug="chat-application"
+                title="Hanging Wooden Bench"
+                description="A sturdy, hanging bench able to hold up to five people or 700 pounds, perfect for relaxing while watching the sunset."
+                tags={["Woodworking", "OnShape", "Removing Splinters"]}
+                imageUrl="/wooden_bench/hanging_bench.png?height=400&width=600"
+                slug="wooden_bench"
               />
               <ProjectCard
-                title="Portfolio Website"
-                description="The website you're currently viewing, built with modern web technologies."
-                tags={["Next.js", "Tailwind CSS", "TypeScript"]}
-                imageUrl="/placeholder.svg?height=400&width=600"
-                slug="portfolio-website"
+                title="The TRAMP Stamp"
+                description="A stamp system that perfectly aligns stamps to quickly fill out my name and student ID on every test page in seconds."
+                tags={["3D Printing", "Shameless Hacks"]}
+                imageUrl="/tramp_stamp/top_view.png?height=400&width=600"
+                slug="tramp_stamp"
               />
             </div>
           </div>
