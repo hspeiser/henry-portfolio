@@ -40,6 +40,7 @@ const projects: Record<string, Project> = {
       tags: ["KiCad", "Onshape", "OpenRocket", "Microcontrollers", "Rocket Propellant"],
       // Full image array with updated paths
       images: [
+        { url: `${baseUrl}/rocket_photos/launch_good.png`, description: "Liftoff! Achieved Mach 1 during ascent." },
         { url: `${baseUrl}/rocket_photos/overview_rocket.JPG`, description: "The evolution of our rocket motors and nozzles." },
         { url: `${baseUrl}/rocket_photos/completed_rocket.png`, description: "The fully assembled rocket, ready for flight testing." },
         { url: `${baseUrl}/rocket_photos/APCP_creation.png`, description: "Mixing up the APCP propellant for maximum thrust output." },
@@ -51,8 +52,7 @@ const projects: Record<string, Project> = {
         { url: `${baseUrl}/rocket_photos/motor_testing.PNG`, description: "Rocket motor hot-fire test on the thrust stand." },
         { url: `${baseUrl}/rocket_photos/thrust_stand_explosion.PNG`, description: "I was lucky I didnt get blasted in the face when I took this photo, instead it flew into the neighbors yard and started a fire." },
         { url: `${baseUrl}/rocket_photos/automatic_parachute_deployment.png`, description: "Electronics for automatic parachute deployment." },
-        { url: `${baseUrl}/rocket_photos/nozzle.png`, description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow." },
-        { url: `${baseUrl}/rocket_photos/rocket_launch.PNG`, description: "Liftoff! Achieved Mach 1 during ascent." },
+        { url: `${baseUrl}/rocket_photos/nozzle.png`, description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow." }
       ],
       // Full videos array with updated paths
       videos: [
@@ -171,7 +171,7 @@ const projects: Record<string, Project> = {
       "wooden_bench": {
         title: "Handcrafted Outdoor Wooden Bench",
         description: "Designed and built a custom outdoor bench with a focus on durability and aesthetics.",
-        longDescription: "I designed and built a handcrafted outdoor bench using high-quality wood and durable fasteners. The bench was constructed with a slatted design for breathability and weather resistance. During assembly, I carefully reinforced structural joints to ensure long-term durability. After construction, the bench was sanded and finished with a protective varnish to withstand outdoor conditions. This project emphasized both functional design and craftsmanship, resulting in a bench that is comfortable, aesthetically pleasing, and built to last.",
+        longDescription: "I built a sturdy outdoor bench so I could hang out on my favorite mountain with my friends and spend time with the horses that roam around the preserve. I used high-quality wood and durable fasteners, going with a slatted design for breathability and weather resistance. Along the way, I learned the hard way that 2x4s aren’t actually 2 inches by 4 inches (which was a fun surprise when things didn’t line up). I reinforced the joints to make sure it would last, then sanded and finished it with a protective varnish. This project was all about getting my hands dirty, building something solid, and making a spot to just sit back and enjoy the view.",
         tags: ["Woodworking", "CAD", "Structural Design", "Hand Tools", "Outdoor Furniture"],
         images: [
           { url: `${baseUrl}/wooden_bench/top_cad_view.png`, description: "Top-down CAD view of the bench design." },
@@ -185,7 +185,7 @@ const projects: Record<string, Project> = {
           { url: `${baseUrl}/wooden_bench/hanging_bench.png`, description: "The bench placed in its final outdoor setting." }
         ],
         stlModels: [
-          { url: `/3d_models/bench.stl`, description: "Bench design file" }
+          { url: `/3d_models/bench.stl`, description: "Bench design file." }
         ],
         videos: [],
         codeSnippets: [],

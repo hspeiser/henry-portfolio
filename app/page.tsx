@@ -63,7 +63,7 @@ export default function Home() {
                 title="Custom Mach 1 Rocket"
                 description="Fully custom solid-state rocket with custom remote ignitors and parachute deployment system."
                 tags={["KiCAD", "Onshape", "Microcontrollers"]}
-                imageUrl={`${baseUrl}/rocket_photos/overview_rocket.JPG?height=400&width=600`}
+                imageUrl={`${baseUrl}/rocket_photos/launch_good.png?height=400&width=600`}
                 slug="custom-rocket"
               />
               <ProjectCard
