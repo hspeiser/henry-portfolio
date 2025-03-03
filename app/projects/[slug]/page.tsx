@@ -1,137 +1,130 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowLeft, Github, Globe } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 import CodeSnippet from "@/components/code-snippet"
 import VideoPlayer from "@/components/video-player"
 import ImageGallery from "@/components/image-gallery"
+import STLModelViewer from "@/components/stl-model-viewer"
 
-// This would typically come from a database or CMS
 const projects = {
   "custom-rocket": {
     title: "Custom Mach 1 Rocket",
-    description: "Fully custom solid-state rocket with custom remote ignitors and parachute deployment system.",
+    description: "Fully custom solid-state rocket with remote ignitors and parachute deployment system.",
     longDescription:
       "I built and launched a rocket equipped with a custom altimeter and a wireless launch system, successfully breaking the sound barrier. To power the rocket, I developed APCP rocket fuel from scratch, formulating unique mixtures tailored to our specific rocket specifications. I also designed and fabricated a custom converging-diverging nozzle and casing, optimizing them for reusability and ease of manufacturing. To validate performance, I constructed a test stand to measure thrust and compare results with simulations. It was awesome.",
     tags: ["KiCad", "Onshape", "OpenRocket", "Microcontrollers", "Rocket Propellant"],
+    // Full image array
     images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
+      { url: "/rocket_photos/overview_rocket.JPG", description: "The evolution of our rocket motors and nozzles." },
+      { url: "/rocket_photos/completed_rocket.png", description: "The fully assembled rocket, ready for flight testing." },
+      { url: "/rocket_photos/APCP_creation.png", description: "Mixing up the APCP propellant for maximum thrust output." },
+      { url: "/rocket_photos/APCP_fuel_mold.png", description: "Filling and molding the solid rocket propellant grains." },
+      { url: "/rocket_photos/APCP_vacuum.png", description: "Pulling a vacuum on the propellant to remove air bubbles." },
+      { url: "/rocket_photos/completed_ignitor_pair.png", description: "A pair of homemade ignitors to trigger the propellant." },
+      { url: "/rocket_photos/ignitor_testing.png", description: "Testing the ignitor’s reliability and ignition timing." },
+      { url: "/rocket_photos/thrust_stand.png", description: "Custom-built thrust stand for measuring rocket motor performance." },
+      { url: "/rocket_photos/motor_testing.PNG", description: "Rocket motor hot-fire test on the thrust stand." },
+      { url: "/rocket_photos/thrust_stand_explosion.PNG", description: "That moment the test stand exploded—less than ideal, but a learning experience!" },
+      { url: "/rocket_photos/automatic_parachute_deployment.png", description: "Electronics for automatic parachute deployment." },
+      { url: "/rocket_photos/nozzle.png", description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow." },
+      { url: "/rocket_photos/rocket_launch.PNG", description: "Liftoff! Achieved Mach 1 during ascent." },
     ],
-    videoUrl: "https://example.com/video.mp4", // Replace with actual video URL
+    // Full videos array
+    videos: [
+      { url: "/rocket_photos/rocket_launch.mp4", description: "Successful rocket launch." },
+      { url: "/rocket_photos/test_fire.mp4", description: "First successful static fire w/ data collection." },
+      { url: "/rocket_photos/loadcell_measurements_apcp.mp4", description: "Using the data collected from our test stand we graphed the thrust curve and compared it to the simulation." }
+    ],
     codeSnippets: [
       {
-        language: "javascript",
-        title: "Product API",
-        code: `// Product API Route
-const express = require('express');
-const router = express.Router();
-const Product = require('../models/Product');
+        language: "python",
+        title: "RPI Pico Ignitor Code",
+        code: `from machine import Pin, SPI
+import struct
+from nrf24l01 import NRF24L01
+import utime
 
-// Get all products
-router.get('/', async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.json(products);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+led = Pin(25, Pin.OUT)                
+csn = Pin(17, mode=Pin.OUT, value=1)  
+ce  = Pin(5, mode=Pin.OUT, value=0)   
+button = Pin(15, Pin.IN, Pin.PULL_UP) 
 
-// Get one product
-router.get('/:id', getProduct, (req, res) => {
-  res.json(res.product);
-});
+pipes = (b"\\xe1\\xf0\\xf0\\xf0\\xf0", b"\\xd2\\xf0\\xf0\\xf0\\xf0")
 
-// Create product
-router.post('/', async (req, res) => {
-  const product = new Product({
-    name: req.body.name,
-    description: req.body.description,
-    price: req.body.price,
-    category: req.body.category,
-    inventory: req.body.inventory
-  });
+def setup():
+    print("Initializing NRF24L01")
+    spi = SPI(0, baudrate=2000000, sck=Pin(18), mosi=Pin(19), miso=Pin(16))
+    nrf = NRF24L01(spi, csn, ce, payload_size=4)
+    
+    nrf.open_tx_pipe(pipes[0])
+    nrf.open_rx_pipe(1, pipes[1])
+    nrf.start_listening()
 
-  try {
-    const newProduct = await product.save();
-    res.status(201).json(newProduct);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+    led.value(0)
+    return nrf
 
-// Middleware function
-async function getProduct(req, res, next) {
-  let product;
-  try {
-    product = await Product.findById(req.params.id);
-    if (product == null) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
+def master(nrf):
+    while True:
+        if button.value() == 0:
+            led.value(1)
+            print("tx 1")
+            nrf.stop_listening()
+            try:
+                nrf.send(struct.pack("i", 1))
+                print("Message sent")
+                utime.sleep(0.01)
+            except OSError:
+                print('Message lost')
+        else:
+            led.value(0)
+            utime.sleep(0.1)
 
-  res.product = product;
-  next();
-}
-
-module.exports = router;`,
-      },
+nrf = setup()
+master(nrf)`
+      }
     ],
+    // Full stlModels array
+    stlModels: [
+      { url: "/rocket_photos/rocket.stl", description: "Our custom rocket motor geometry." },
+      { url: "/rocket_photos/thrust_stand.stl", description: "Logged thrust measurements from motor at 80Hz." }
+    ],
+    // Demo + repo
     liveUrl: "https://www.youtube.com/watch?v=p_gHWFGRnWY&ab_channel=HenrySpeiser",
-    repoUrl: "https://github.com/hspeiser/rocket-development",
+    repoUrl: "https://github.com/hspeiser/rocket-development"
   },
-  // Add more projects here with similar structure
-  "social-dashboard": {
-    title: "Social Media Dashboard",
-    description: "Analytics dashboard for tracking engagement across multiple social platforms.",
-    longDescription:
-      "This dashboard aggregates data from multiple social media platforms to provide a comprehensive view of social media performance. It tracks metrics such as engagement, reach, follower growth, and content performance. The dashboard includes customizable widgets, automated reporting, and data visualization tools to help users understand their social media impact.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Chart.js", "API Integration"],
+  // ====== 2) ATILA BIOSYSTEMS ======
+  "atila-biosystems": {
+    title: "Atila Biosystems",
+    description: "Designed and developed PCBs for biomedical point-of-care (POC) devices.",
+    longDescription: `I designed and developed printed circuit boards for biomedical point-of-care devices, working on a reusable virus testing device that was not only as accurate as PCR but also extremely fast. I created a heating element controller that precisely regulated temperatures to ensure the sample wasn’t destroyed while also creating the perfect conditions for the multiplication of the cells. Within 30 minutes, the device could determine if you had a virus based on the capsule selected, testing for things like COVID, influenza, HPV, and more, all in a single dock using interchangeable cartridges. It was 90% cheaper than competitors, could be powered in multiple ways, and was designed for use anywhere on Earth. The device was presented to the Bill & Melinda Gates foundation and contributed to Atila's reciving of a $500k grant. It has been FDA approved and will undergo production very soon.`,
+    tags: ["Altium", "KiCad", "C", "MicroPython", "SolidWorks", "Patience", "Teamwork"],
     images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
+      { url: "/atila_photos/breadboard_version_of_final_circuit.png", description: "Breadboard version of the final circuit." },
+      { url: "/atila_photos/other_view_of_bread_board_circuit.png", description: "Another angle of the breadboard circuit." },
+      { url: "/atila_photos/testing_breadboard_before_main_design.png", description: "Testing the breadboard before final design." },
+      { url: "/atila_photos/first_rev_of_caritrage.png", description: "First revision of the cartridge design." },
+      { url: "/atila_photos/hand_maufacturing_the_prototypes.png", description: "Hand-manufacturing the prototypes." },
+      { url: "/atila_photos/resuable_capsule.png", description: "Reusable capsule injection mold." },
+      { url: "/atila_photos/Rev1-Rev2.png", description: "Side-by-side: Revision 1 and Revision 2 PCBs." },
+      { url: "/atila_photos/debugging_code.png", description: "Debugging code on the microcontroller." },
+      { url: "/atila_photos/manufacturing_device.png", description: "First prototype of the heated wax pump to manufacture the cartridges." },
+      { url: "/atila_photos/running_tests.png", description: "Running preliminary tests on the device." }
     ],
-    videoUrl: "https://example.com/video.mp4",
-    codeSnippets: [
-      {
-        language: "typescript",
-        title: "Data Fetching",
-        code: `// Data fetching with SWR
-import useSWR from 'swr';
-
-interface SocialStats {
-  platform: string;
-  followers: number;
-  engagement: number;
-  reach: number;
-  growth: number;
-}
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-export function useSocialStats() {
-  const { data, error, isLoading } = useSWR<SocialStats[]>('/api/social-stats', fetcher, {
-    refreshInterval: 60000, // Refresh every minute
-  });
-
-  return {
-    stats: data,
-    isLoading,
-    isError: error,
-  };
-}`,
-      },
+    // Ignoring videos, code, 3D models => set them to empty arrays
+    videos: [
+      { url: "/atila_photos/litmus.mp4", description: "Successful results from the device's cell amplification." }
     ],
-    liveUrl: "https://social-dashboard-demo.vercel.app",
-    repoUrl: "https://github.com/yourusername/social-dashboard",
-  },
-  // Add more projects as needed
+    codeSnippets: [],
+    stlModels: [],
+    // Link to Atila site
+    liveUrl: "https://atilabiosystems.com/product/aipoct-dock/",
+    repoUrl: ""
+  }
 }
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
@@ -154,6 +147,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="container px-4 py-12 md:px-6">
+      {/* Back Button */}
       <Link
         href="/#projects"
         className="inline-flex items-center text-sm font-medium text-primary hover:underline mb-6"
@@ -162,9 +156,14 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         Back to Projects
       </Link>
 
+      {/* TOP SECTION: Title, Tags, Long Description, Demo/Repo Buttons, Featured Image */}
       <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-start">
+        {/* Left Column */}
         <div>
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">{project.title}</h1>
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">
+            {project.title}
+          </h1>
+          {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-6">
             {project.tags.map((tag) => (
               <Badge key={tag} variant="secondary">
@@ -172,7 +171,11 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
               </Badge>
             ))}
           </div>
-          <p className="text-gray-500 dark:text-gray-400 mb-6">{project.longDescription}</p>
+          {/* Long Description */}
+          <p className="text-gray-500 dark:text-gray-400 mb-6">
+            {project.longDescription}
+          </p>
+          {/* Demo / Repo Links */}
           <div className="flex flex-wrap gap-4 mb-8">
             {project.liveUrl && (
               <Button className="flex items-center gap-2" asChild>
@@ -193,36 +196,67 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           </div>
         </div>
 
+        {/* Right Column - Featured Image */}
         <div className="rounded-lg overflow-hidden">
           <img
-            src={project.images[0] || "/placeholder.svg"}
+            src={project.images[0]?.url || "/placeholder.svg"}
             alt={project.title}
             className="w-full h-auto object-cover"
           />
         </div>
       </div>
 
-      <Tabs defaultValue="gallery" className="mt-12">
-        <TabsList className="grid w-full grid-cols-3 mb-8">
+        <Tabs defaultValue="gallery" className="mt-12">
+        <TabsList className={`grid w-full ${project.codeSnippets.length || project.stlModels.length ? "grid-cols-4" : "grid-cols-2"} mb-8`}>
           <TabsTrigger value="gallery">Image Gallery</TabsTrigger>
           <TabsTrigger value="video">Video Demo</TabsTrigger>
-          <TabsTrigger value="code">Code Snippets</TabsTrigger>
+          {project.codeSnippets.length > 0 && <TabsTrigger value="code">Code Snippets</TabsTrigger>}
+          {project.stlModels.length > 0 && <TabsTrigger value="model">3D Models</TabsTrigger>}
         </TabsList>
+
+        {/* GALLERY TAB */}
         <TabsContent value="gallery">
           <ImageGallery images={project.images} alt={project.title} />
         </TabsContent>
+
+        {/* VIDEO TAB */}
         <TabsContent value="video">
-          <VideoPlayer videoUrl={project.videoUrl} title={project.title} />
+          {project.videos.length > 0 ? (
+            project.videos.map((video, idx) => (
+              <div key={idx} className="mb-8">
+                <VideoPlayer videoUrl={video.url} title={project.title} />
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{video.description}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 dark:text-gray-400">N/A</p>
+          )}
         </TabsContent>
-        <TabsContent value="code">
-          <div className="space-y-8">
-            {project.codeSnippets.map((snippet, index) => (
-              <CodeSnippet key={index} language={snippet.language} title={snippet.title} code={snippet.code} />
+
+        {/* CODE TAB - Hidden if empty */}
+        {project.codeSnippets.length > 0 && (
+          <TabsContent value="code">
+            {project.codeSnippets.map((snippet, idx) => (
+              <div key={idx} className="mb-8">
+                <CodeSnippet language={snippet.language} title={snippet.title} code={snippet.code} />
+              </div>
             ))}
-          </div>
-        </TabsContent>
+          </TabsContent>
+        )}
+
+        {/* 3D MODELS TAB - Hidden if empty */}
+        {project.stlModels.length > 0 && (
+          <TabsContent value="model">
+            {project.stlModels.map((model, idx) => (
+              <div key={idx} className="mb-8">
+                <STLModelViewer modelUrl={model.url} backgroundColor="#f5f5f5" />
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">{model.description}</p>
+              </div>
+            ))}
+          </TabsContent>
+        )}
       </Tabs>
+
     </div>
   )
 }
-

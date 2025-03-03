@@ -59,16 +59,16 @@ export default function Home() {
               <ProjectCard
                 title="Custom Mach 1 Rocket"
                 description="Fully custom solid-state rocket with custom remote ignitors and parachute deployment system."
-                tags={["KiCad", "Onshape", "Microcontrollers"]}
+                tags={["KiCAD", "Onshape", "Microcontrollers"]}
                 imageUrl="/homepage_pictures/rocket_center.JPG?height=400&width=600"
                 slug="custom-rocket"
               />
               <ProjectCard
-                title="Social Media Dashboard"
-                description="Analytics dashboard for tracking engagement across multiple social platforms."
-                tags={["Next.js", "TypeScript", "Tailwind CSS"]}
-                imageUrl="/placeholder.svg?height=400&width=600"
-                slug="social-dashboard"
+                title="Atila BioSytems POC Device"
+                description="Reusable and affordable viral testing device with PCR-level efficacy."
+                tags={["Altium", "C", "Teamwork"]}
+                imageUrl="/atila_photos/Rev1-Rev2.png?height=400&width=600"
+                slug="atila-biosystems"
               />
               <ProjectCard
                 title="Mobile Fitness App"
@@ -107,24 +107,19 @@ export default function Home() {
               <div className="space-y-4">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">About Me</h2>
                 <p className="text-gray-500 dark:text-gray-400">
-                  I'm a passionate developer with a background in computer science and a love for creating elegant
-                  solutions to complex problems. With over [X] years of experience in the industry, I've worked on a
-                  wide range of projects from small startups to large enterprise applications.
+                Henry loves all things engineering, whether it’s designing in CAD, creating printed circuit boards, or writing code, he’s all about the process of designing anything. His journey in engineering started with FIRST Robotics, where, as a member of Team 971, he learned how to design PCBs, write industry-level code, and develop complex mechanical systems. Since then, he’s carried those skills into personal projects, constantly expanding his knowledge in engineering and problem-solving. He knows C++, Java, and Python, and works with KiCAD, Onshape, and SolidWorks.  
                 </p>
                 <p className="text-gray-500 dark:text-gray-400">
-                  My expertise includes front-end development with React and Next.js, back-end development with Node.js
-                  and Python, and database design with SQL and NoSQL solutions. I'm always learning new technologies and
-                  methodologies to stay at the cutting edge of web development.
+                To Henry, the world is a sandbox, every problem is an opportunity to build something, whether it’s a small fix, like stamping his name 18 times on a test, or something massive, like launching rockets into space. He’s always thinking about different ways to do things.
                 </p>
                 <p className="text-gray-500 dark:text-gray-400">
-                  When I'm not coding, you can find me hiking, reading, or experimenting with new recipes in the
-                  kitchen.
+                When he’s not deep in an engineering project, he’s skiing, hanging out with his fraternity brothers, or hiking in the Berkeley hills.
                 </p>
               </div>
               <div className="flex justify-center">
                 <div className="relative w-full max-w-sm aspect-square overflow-hidden rounded-xl">
                   <img
-                    src="/placeholder.svg?height=500&width=500"
+                    src="/pictures_henry/profile.png?height=500&width=500"
                     alt="Profile"
                     className="object-cover"
                     width={500}
@@ -146,7 +141,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Button className="flex items-center gap-2" asChild>
-                  <a href="mailto:your.email@example.com">
+                  <a href="mailto:henry@speiser.net">
                     <Mail className="h-4 w-4" />
                     Email Me
                   </a>
