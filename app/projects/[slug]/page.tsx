@@ -198,12 +198,14 @@ const projects: Record<string, Project> = {
         longDescription: "For my exams, I was required to write my full name and student ID on every test page, sometimes up to 18 pages per test, with no additional time provided. To solve this, I designed a custom stamp holder that aligned three individual stamps perfectly. With this tool, I could stamp my name and ID across all test pages in about 15 seconds, saving valuable time during exams. After the first exam I used it, everyone wanted one. Unfortunately (Fortunately), after the course instructors saw me using it they fixed the exam because they understood how silly it was.",
         tags: ["3D Printing", "Futuristic Technology"],
         images: [
-          { url: `${baseUrl}/tramp_stamp/side_view.png`, description: "Side view of the Tranp Stamp setup." },
+          { url: `${baseUrl}/tramp_stamp/side_view.png`, description: "Side view of the TRAMP Stamp setup." },
           { url: `${baseUrl}/tramp_stamp/stamp_examples.png`, description: "Examples of stamped test pages using the device." },
-          { url: `${baseUrl}/tramp_stamp/top_view.png`, description: "Top view of the Tranp Stamp in action." },
-          { url: `${baseUrl}/tramp_stamp/second_side_view.png`, description: "Alternative side view of the Tranp Stamp." }
+          { url: `${baseUrl}/tramp_stamp/top_view.png`, description: "Top view of the TRAMP Stamp in action." },
+          { url: `${baseUrl}/tramp_stamp/second_side_view.png`, description: "Alternative side view of the TRAMP Stamp." }
         ],
-        stlModels: [],
+        stlModels: [
+          { url: `/3d_models/tramp.stl`, description: "Stamp holder 3d print." }   
+        ],
         videos: [],
         codeSnippets: [],
         liveUrl: "",
