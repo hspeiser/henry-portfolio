@@ -49,7 +49,7 @@ const projects: Record<string, Project> = {
         { url: `${baseUrl}/rocket_photos/ignitor_testing.png`, description: "Testing the ignitor's reliability and ignition timing." },
         { url: `${baseUrl}/rocket_photos/thrust_stand.png`, description: "Custom-built thrust stand for measuring rocket motor performance." },
         { url: `${baseUrl}/rocket_photos/motor_testing.PNG`, description: "Rocket motor hot-fire test on the thrust stand." },
-        { url: `${baseUrl}/rocket_photos/thrust_stand_explosion.PNG`, description: "That moment the test stand exploded—less than ideal, but a learning experience!" },
+        { url: `${baseUrl}/rocket_photos/thrust_stand_explosion.PNG`, description: "I was lucky I didnt get blasted in the face when I took this photo, instead it flew into the neighbors yard and started a fire." },
         { url: `${baseUrl}/rocket_photos/automatic_parachute_deployment.png`, description: "Electronics for automatic parachute deployment." },
         { url: `${baseUrl}/rocket_photos/nozzle.png`, description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow." },
         { url: `${baseUrl}/rocket_photos/rocket_launch.PNG`, description: "Liftoff! Achieved Mach 1 during ascent." },
@@ -110,8 +110,8 @@ const projects: Record<string, Project> = {
       ],
       // Full stlModels array with updated paths
       stlModels: [
-        { url: `${baseUrl}/rocket_photos/rocket.stl`, description: "Our custom rocket motor geometry." },
-        { url: `${baseUrl}/rocket_photos/thrust_stand.stl`, description: "Logged thrust measurements from motor at 80Hz." }
+        { url: `/3d_models/rocket.stl`, description: "Our custom rocket motor geometry." },
+        { url: `/3d_models/thrust_stand.stl`, description: "Logged thrust measurements from motor at 80Hz." }
       ],
       // Demo + repo
       liveUrl: "https://www.youtube.com/watch?v=p_gHWFGRnWY&ab_channel=HenrySpeiser",
@@ -185,7 +185,7 @@ const projects: Record<string, Project> = {
           { url: `${baseUrl}/wooden_bench/hanging_bench.png`, description: "The bench placed in its final outdoor setting." }
         ],
         stlModels: [
-          { url: `${baseUrl}/wooden_bench/bench.stl`, description: "Bench design file" }
+          { url: `/3d_models/bench.stl`, description: "Bench design file" }
         ],
         videos: [],
         codeSnippets: [],
