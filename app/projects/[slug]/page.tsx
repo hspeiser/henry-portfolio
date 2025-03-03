@@ -193,7 +193,7 @@ const projects: Record<string, Project> = {
         repoUrl: ""
     },
       "tramp_stamp": {
-        title: "The Tranp Stamp (Rapid Test Name Stamper)",
+        title: "The Tramp Stamp (Rapid Test Name Stamper)",
         description: "A custom multi-stamp holder designed to quickly fill out name and student ID fields on tests.",
         longDescription: "For my exams, I was required to write my full name and student ID on every test page, sometimes up to 18 pages per test, with no additional time provided. To solve this, I designed a custom stamp holder that aligned three individual stamps perfectly. With this tool, I could stamp my name and ID across all test pages in about 15 seconds, saving valuable time during exams. After the first exam I used it, everyone wanted one. Unfortunately (Fortunately), after the course instructors saw me using it they fixed the exam because they understood how silly it was.",
         tags: ["3D Printing", "Futuristic Technology"],

@@ -95,10 +95,10 @@ export default function Home() {
                 slug="wooden_bench"
               />
               <ProjectCard
-                title="The TRAMP Stamp"
+                title="The Stamp"
                 description="A stamp system that perfectly aligns stamps to quickly fill out my name and student ID on every test page in seconds."
                 tags={["3D Printing", "Shameless Hacks"]}
-                imageUrl={`${baseUrl}/tramp_stamp/top_view.png?height=400&width=600`}
+                imageUrl={`${baseUrl}/tramp_stamp/second_side_view.png?height=400&width=600`}
                 slug="tramp_stamp"
               />
             </div>
