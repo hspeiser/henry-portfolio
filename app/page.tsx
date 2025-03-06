@@ -101,6 +101,20 @@ export default function Home() {
                 imageUrl={`${baseUrl}/tramp_stamp/second_side_view.png?height=400&width=600`}
                 slug="tramp_stamp"
               />
+              <ProjectCard
+                title="100MPH FPV Drone"
+                description="I built a ridiculously fast FPV drone from scratch to explore aerial cinematography and scratch that itch for speed."
+                tags={["Robust Design", "Tuning", "Need For Speed"]}
+                imageUrl={`${baseUrl}/fpv_drone/ready_to_fly.png?height=400&width=600`}
+                slug="fpv_drone"
+              />
+              <ProjectCard
+                title="Rocket Car"
+                description="I strapped a massive rocket motor to a Fast & Furious RC car and it was awesome."
+                tags={["3D Printing", "Thrust Modeling", "Bad Ideas"]}
+                imageUrl={`${baseUrl}/rocket_car/side_view_rocket_car.png?height=400&width=600`}
+                slug="rocket_car"
+              />
             </div>
           </div>
         </section>
