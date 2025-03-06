@@ -34,7 +34,7 @@ export default function Home() {
                   Hi, I'm Henry
                 </h1>
                 <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Engineer that Loves Solving Problems
+                  I build things. Sometimes they even work.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">

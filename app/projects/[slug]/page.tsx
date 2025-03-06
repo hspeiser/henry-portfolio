@@ -237,11 +237,13 @@ const projects: Record<string, Project> = {
         longDescription: "One day, I was wandering through Target when I saw a Fast & Furious Vin Diesel style muscle car RC car, and an idea hit me, what if I strapped a rocket engine to it? I’d already built a rocket engine, so obviously, the next logical step was to design a mount for it, attach it to the car, and see what happened.\n\nBut I wasn’t just going to slap it on and hope for the best. I actually tried to calculate where the thrust should go so the car would drive in a straight line instead of flipping into oblivion. I 3D printed a mount with the perfect angle to keep it stable, strapped the rocket on, and lit it off.\n\nHowever, the motor was way too powerful, and despite my 'carefully' engineered thrust angle, the car immediately jumped into the air and started spinning in these terrifying, high-speed death circles. For a solid moment, I was convinced I was about to die.",
         tags: ["3D Printing", "Rocket", "RC Car", "Great Ideas"],
         images: [
-          { url: `${baseUrl}/rocket_car/ready_to_launch_car.png`, description: "The rocket car fully set up on the launch pad, ready for ignition." },
-          { url: `${baseUrl}/rocket_car/rocket_car_on_scale.png`, description: "Weighing the rocket car on a scale to measure its total mass before launch." },
-          { url: `${baseUrl}/rocket_car/side_view_rocket_car.png`, description: "Side view showing the 3D-printed rocket mount on the RC car." }
+          { url: `${baseUrl}/rocket_car/side_view_rocket_car.png`, description: "Side view showing the 3D-printed rocket mount on the RC car." },
+          { url: `${baseUrl}/rocket_car/ready_to_launch_car.png`, description: "Weighing the rocket car on a scale to measure its total mass before launch." },
+          { url: `${baseUrl}/rocket_car/rocket_car_on_scale.png`, description: "Showing the rocket and the motor for a side-by-side comparison" }
         ],
-        stlModels: [],
+        stlModels: [
+          { url: `/3d_models/rocket_car.stl`, description: "Rocket engine holder 3D print" }
+        ],
         videos: [
           { url: `${baseUrl}/rocket_car/rocket_car_ignition.MP4`, description: "Footage of the rocket engine ignition and the car’s chaotic first test run." }
         ],
