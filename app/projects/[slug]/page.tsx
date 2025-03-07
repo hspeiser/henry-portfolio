@@ -28,6 +28,16 @@ interface Project {
   repoUrl: string
 }
 
+const handleLiveDemoClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, projectSlug: string) => {
+  if (
+    projectSlug === "portfolio_website" &&
+    (window.location.hostname === "henryspeiser.com" || window.location.hostname.includes("localhost"))
+  ) {
+    event.preventDefault(); // Stop the link from opening
+    alert("You're already on the website, silly!");
+  }
+};
+
 // Base URL for all assets
 const baseUrl = "https://pub-23ed2f7e90c646778e7f318e43b4e788.r2.dev/public";
 
@@ -38,7 +48,6 @@ const projects: Record<string, Project> = {
       longDescription:
         "I built and launched a rocket equipped with a custom altimeter and a wireless launch system, successfully breaking the sound barrier. To power the rocket, I developed APCP rocket fuel from scratch, formulating unique mixtures tailored to our specific rocket specifications. I also designed and fabricated a custom converging-diverging nozzle and casing, optimizing them for reusability and ease of manufacturing. To validate performance, I constructed a test stand to measure thrust and compare results with simulations. It was awesome.",
       tags: ["KiCad", "Onshape", "OpenRocket", "Microcontrollers", "Rocket Propellant"],
-      // Full image array with updated paths
       images: [
         { url: `${baseUrl}/rocket_photos/launch_good.png`, description: "Liftoff! Achieved Mach 1 during ascent." },
         { url: `${baseUrl}/rocket_photos/overview_rocket.JPG`, description: "The evolution of our rocket motors and nozzles." },
@@ -54,7 +63,6 @@ const projects: Record<string, Project> = {
         { url: `${baseUrl}/rocket_photos/automatic_parachute_deployment.png`, description: "Electronics for automatic parachute deployment." },
         { url: `${baseUrl}/rocket_photos/nozzle.png`, description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow." }
       ],
-      // Full videos array with updated paths
       videos: [
         { url: `${baseUrl}/rocket_photos/rocket_launch.mp4`, description: "Successful rocket launch." },
         { url: `${baseUrl}/rocket_photos/test_fire.mp4`, description: "First successful static fire w/ data collection." },
@@ -267,6 +275,35 @@ const projects: Record<string, Project> = {
         codeSnippets: [],
         liveUrl: "",
         repoUrl: ""
+      },
+      "portfolio_website": {
+        title: "Personal Portfolio Website",
+        description: "A fully custom-built portfolio showcasing my engineering projects.",
+        longDescription: "I built a fully custom portfolio to showcase my engineering projects. I used Next.js and React, and I had to figure out how to structure a clean, fast loading site while making sure it could handle a ton of images and assets efficiently—because I had a lot, and that’s a lot of data to host. To solve that, I wrote some scripts that compress images and videos while keeping them sharp, so everything loads quickly without sacrificing quality. For storage, I set up Cloudflare R2, so images load fast no matter where you are, and I host the whole site on Vercel, which makes deployment automatic every time I push to GitHub. I had never done anything like this before, so everything, from getting the styles right with Tailwind CSS to setting up dynamic project pages, was a learning experience. It was really fun seeing it all come together and getting to build something completely from scratch.",
+        tags: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Cloudflare R2", "Vercel"],
+        images: [
+          { url: `${baseUrl}/portfolio_website/homepage.png`, description: "Homepage of the portfolio site, showcasing an overview of projects." },
+          { url: `${baseUrl}/portfolio_website/project_page.png`, description: "Detailed project page layout with interactive features." },
+          { url: `${baseUrl}/portfolio_website/codebase.png`, description: "Screenshot of the organized codebase, showing the Next.js project structure." },
+          { url: `${baseUrl}/portfolio_website/3d_model.png`, description: "Fully interactive 3d model's from my projects, built into the site." }
+        ],
+        videos: [],
+        codeSnippets: [
+          {
+            language: "typescript",
+            title: "Project Data Structure",
+            code: `const projects: Record<string, Project> = {
+      "custom-rocket": {
+        title: "Custom Mach 1 Rocket",
+        description: "Fully custom solid-state rocket with remote ignitors and parachute deployment system.",
+        tags: ["KiCad", "Onshape", "Microcontrollers"]
+      }
+    };`
+          }
+        ],
+        stlModels: [],
+        liveUrl: "https://henryspeiser.com",
+        repoUrl: "https://github.com/hspeiser/henry-portfolio"
       }
 }
 
@@ -327,12 +364,17 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
           {/* Demo / Repo Links */}
           <div className="flex flex-wrap gap-4 mb-8">
             {project.liveUrl && (
-              <Button className="flex items-center gap-2" asChild>
-                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                  <Globe className="h-4 w-4" />
-                  Live Demo
-                </a>
-              </Button>
+            <Button className="flex items-center gap-2" asChild>
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(event) => handleLiveDemoClick(event, params.slug)}
+              >
+                <Globe className="h-4 w-4" />
+                Live Demo
+            </a>
+          </Button>
             )}
             {project.repoUrl && (
               <Button variant="outline" className="flex items-center gap-2" asChild>
@@ -378,8 +420,9 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
         {/* Always show gallery tab content */}
         <TabsContent value="gallery">
-          <ImageGallery images={project.images} alt={project.title} />
+          <ImageGallery images={project.images.slice(1)} alt={project.title} />
         </TabsContent>
+
 
         {/* Videos tab content, only if they exist */}
         {project.videos.length > 0 && (

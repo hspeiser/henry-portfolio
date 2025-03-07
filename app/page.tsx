@@ -122,6 +122,13 @@ export default function Home() {
                 imageUrl={`${baseUrl}/tramp_stamp/second_side_view.png?height=400&width=600`}
                 slug="tramp_stamp"
               />
+              <ProjectCard
+                title="This Website!"
+                description="A fully custom-built portfolio showcasing my engineering projects."
+                tags={["React", "Next.js", "TypeScript"]}
+                imageUrl={`${baseUrl}/portfolio_website/homepage.png?height=400&width=600`}
+                slug="portfolio_website"
+              />
             </div>
           </div>
         </section>
