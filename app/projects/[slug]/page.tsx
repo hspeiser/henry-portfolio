@@ -242,7 +242,7 @@ const projects: Record<string, Project> = {
           { url: `${baseUrl}/rocket_car/rocket_car_on_scale.png`, description: "Showing the rocket and the motor for a side-by-side comparison" }
         ],
         stlModels: [
-          { url: `/3d_models/rocket_car.stl`, description: "Rocket engine holder 3D print" }
+          //{ url: `${baseUrl}/3d_models/rocket_car.stl`, description: "Rocket engine holder 3D print" }
         ],
         videos: [
           { url: `${baseUrl}/rocket_car/rocket_car_ignition.MP4`, description: "Footage of the rocket engine ignition and the car’s chaotic first test run." }
@@ -259,8 +259,8 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   if (!project) {
     return (
       <div className="container px-4 py-12 md:px-6 flex flex-col items-center justify-center min-h-[50vh]">
-        <h1 className="text-2xl font-bold mb-4">Project not found</h1>
-        <p className="mb-6">The project you're looking for doesn't exist or has been removed.</p>
+        <h1 className="text-2xl font-bold mb-4">Project Not Finished</h1>
+        <p className="mb-6">The project page you are looking for is still being developed. Come back soon!</p>
         <Button asChild>
           <Link href="/#projects">
             <ArrowLeft className="mr-2 h-4 w-4" />

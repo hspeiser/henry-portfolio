@@ -14,8 +14,11 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "My Shenanigans",
-  description: "Beep Boop... Boop",
+  title: "Built by Henry",
+  description: "Beep Boop... Boop Beep?",
+  icons: {
+    icon: "/favicon.ico", // Default icon
+  },
 };
 
 export default function RootLayout({

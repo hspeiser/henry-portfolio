@@ -67,7 +67,7 @@ export default function Home() {
                 slug="custom-rocket"
               />
               <ProjectCard
-                title="Atila BioSytems POC Device"
+                title="Atila Biosytems POC Device"
                 description="Reusable and affordable viral testing device with PCR-level efficacy."
                 tags={["Altium", "C", "Teamwork"]}
                 imageUrl={`${baseUrl}/atila_photos/Rev1-Rev2.png?height=400&width=600`}
@@ -88,20 +88,6 @@ export default function Home() {
                 slug="button_board"
               />
               <ProjectCard
-                title="Hanging Wooden Bench"
-                description="A sturdy, hanging bench able to hold up to five people or 700 pounds, perfect for relaxing while watching the sunset."
-                tags={["Woodworking", "OnShape", "Removing Splinters"]}
-                imageUrl={`${baseUrl}/wooden_bench/hanging_bench.png?height=400&width=600`}
-                slug="wooden_bench"
-              />
-              <ProjectCard
-                title="The Stamp"
-                description="A stamp system that perfectly aligns stamps to quickly fill out my name and student ID on every test page in seconds."
-                tags={["3D Printing", "Shameless Hacks"]}
-                imageUrl={`${baseUrl}/tramp_stamp/second_side_view.png?height=400&width=600`}
-                slug="tramp_stamp"
-              />
-              <ProjectCard
                 title="100MPH FPV Drone"
                 description="I built a ridiculously fast FPV drone from scratch to explore aerial cinematography and scratch that itch for speed."
                 tags={["Robust Design", "Tuning", "Need For Speed"]}
@@ -114,6 +100,20 @@ export default function Home() {
                 tags={["3D Printing", "Thrust Modeling", "Bad Ideas"]}
                 imageUrl={`${baseUrl}/rocket_car/side_view_rocket_car.png?height=400&width=600`}
                 slug="rocket_car"
+              />
+              <ProjectCard
+                title="Hanging Wooden Bench"
+                description="A sturdy, hanging bench able to hold up to five people or 700 pounds, perfect for relaxing while watching the sunset."
+                tags={["Woodworking", "OnShape", "Removing Splinters"]}
+                imageUrl={`${baseUrl}/wooden_bench/hanging_bench.png?height=400&width=600`}
+                slug="wooden_bench"
+              />
+              <ProjectCard
+                title="The Stamp"
+                description="A stamp system that perfectly aligns stamps to quickly fill out my name and student ID on every test page in seconds."
+                tags={["3D Printing", "Shameless Hacks"]}
+                imageUrl={`${baseUrl}/tramp_stamp/second_side_view.png?height=400&width=600`}
+                slug="tramp_stamp"
               />
             </div>
           </div>
