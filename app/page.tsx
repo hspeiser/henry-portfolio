@@ -59,6 +59,13 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 lg:grid-cols-3">
+            <ProjectCard
+                title="SkyDrive (Rocket Thrower)"
+                description="Centripetal force rocket thrower capable of ~600 feet throwing distance. Large-scale project, biggest yet."
+                tags={["WORK IN PROGRESS", "Motor Modeling", "Fluid Flow"]}
+                imageUrl={`${baseUrl}/sky_drive/rotor_view.png?height=400&width=600`}
+                slug="sky_drive"
+              />
               <ProjectCard
                 title="Custom Mach 1 Rocket"
                 description="Fully custom solid-state rocket with custom remote ignitors and parachute deployment system."

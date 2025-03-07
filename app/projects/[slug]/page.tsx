@@ -250,6 +250,23 @@ const projects: Record<string, Project> = {
         codeSnippets: [],
         liveUrl: "",
         repoUrl: ""
+      },
+      "sky_drive": {
+        title: "Rocket Thrower",
+        description: "Centripetal force rocket thrower with a 1m radius, capable of ~600 feet throwing distance. Large-scale project, biggest yet. Work in progress.",
+        longDescription: "Rockets spend 50-60% of their fuel just getting up to speed. But what if we could throw them up to speed instead, allowing for bigger payloads with less fuel? Sounds too good to be true, right? Well, that’s exactly what I’m going to test. With my small-scale version, I’ll explore what kinds of payloads and electronics can withstand extreme acceleration. SpinLaunch, which I’m taking inspiration from, launches at around 10,000 Gs, so I’m going to figure out what kinds of electronics and components can survive those forces. Plus, I’ll be launching a few things into the air to see how they hold up.",
+        tags: ["WORK IN PROGRESS", "Motor Modeling", "Fluid Flow", "Large-scale design"],
+        images: [
+          { url: `${baseUrl}/sky_drive/rotor_view.png`, description: "CAD view of the rotor with the carbon fiber airfoil clamps." },
+          { url: `${baseUrl}/sky_drive/Isometric_full_view.png`, description: "Isometric view of the mostly completed SkyDrive assembly with the rocket release system." }
+        ],
+        stlModels: [],
+        videos: [
+          { url: `${baseUrl}/sky_drive/rotor_spinning.mp4`, description: "Footage of the rocket engine ignition and the car’s chaotic first test run." }
+        ],
+        codeSnippets: [],
+        liveUrl: "",
+        repoUrl: ""
       }
 }
 
