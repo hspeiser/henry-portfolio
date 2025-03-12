@@ -5,6 +5,8 @@ import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+const baseUrl = "https://pub-23ed2f7e90c646778e7f318e43b4e788.r2.dev/public"
+
 export default function AndurilHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -61,6 +63,16 @@ export default function AndurilHeader() {
             Contact
             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
           </a>
+          <a
+            className="text-sm font-medium uppercase tracking-wider hover:text-white/80 transition-colors relative overflow-hidden group text-white"
+            href={`${baseUrl}/HenrySpeiserResume.pdf`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#ffffff !important" }}
+          >
+            Resume
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
+          </a>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -99,10 +111,19 @@ export default function AndurilHeader() {
             >
               Contact
             </a>
+            <a
+              className="text-sm font-medium uppercase tracking-wider py-2 hover:text-white/80 transition-colors text-white"
+              href={`${baseUrl}/HenrySpeiserResume.pdf`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              style={{ color: "#ffffff !important" }}
+            >
+              Resume
+            </a>
           </nav>
         </div>
       )}
     </header>
   )
 }
-
