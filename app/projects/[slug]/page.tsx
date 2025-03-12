@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import Link from "next/link"
 import { ArrowLeft, Github, Globe, FileText, Video, CuboidIcon as Cube } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -419,8 +419,15 @@ const projects: Record<string, Project> = {
 }
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
+  // Unwrap params using React.use()
   const project = projects[params.slug]
+
   const [isLoaded, setIsLoaded] = useState(false)
+  const [activeTab, setActiveTab] = useState("gallery")
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -571,7 +578,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
           <div className="section-divider" />
 
-          <Tabs defaultValue="gallery" className="mt-12 fade-in">
+          <Tabs defaultValue="gallery" className="mt-12 fade-in" value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="w-full flex flex-wrap justify-start mb-8 bg-muted">
               {/* Gallery tab always visible */}
               <TabsTrigger
@@ -580,10 +587,6 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
                 style={{ color: "#ffffff !important" }}
               >
                 <FileText className="h-4 w-4" />
-                Documentation
-              </TabsTrigger>
-
-              {/* Conditionally render "Video  />
                 Documentation
               </TabsTrigger>
 
@@ -664,7 +667,8 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
                   {project.stlModels.map((model, idx) => (
                     <div key={idx} className="mb-8">
-                      <STLModelViewer modelUrl={model.url} backgroundColor="#0a0c14" />
+                      {/* Only render the STLModelViewer when this tab is active */}
+                      {activeTab === "model" && <STLModelViewer modelUrl={model.url} backgroundColor="#0a0c14" />}
                       <p className="mt-2 text-sm text-white" style={{ color: "#ffffff !important" }}>
                         {model.description}
                       </p>
@@ -679,4 +683,3 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     </div>
   )
 }
-

@@ -1,175 +1,196 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import { OrbitControls as ThreeOrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader"
+import type { BufferGeometry } from "three"
+import { Button } from "@/components/ui/button"
+import { RefreshCw } from "lucide-react"
+
+type OrbitControls = InstanceType<typeof ThreeOrbitControls>
 
 interface STLModelViewerProps {
   modelUrl: string
   backgroundColor?: string
 }
 
-export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }: STLModelViewerProps) {
+export default function STLModelViewer({ modelUrl, backgroundColor = "#0a0c14" }: STLModelViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [loading, setLoading] = useState(true)
+
+  // OrbitControls reference with the derived type
+  const controlsRef = useRef<OrbitControls | null>(null)
+
+  // Reset camera view
+  const resetView = () => {
+    if (controlsRef.current) {
+      controlsRef.current.reset()
+      controlsRef.current.update()
+    }
+  }
 
   useEffect(() => {
     if (!containerRef.current) return
 
-    // Get initial container dimensions
+    containerRef.current.innerHTML = ""
+    setLoading(true)
+
     const width = containerRef.current.clientWidth
     const height = containerRef.current.clientHeight
 
-    // Create scene, camera, and renderer
+    // Scene and camera
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 5000)
+    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 2000)
     camera.position.set(0, 0, 100)
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true })
+    // WebGL renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
     renderer.setSize(width, height)
-    renderer.setClearColor(backgroundColor)
+    renderer.setClearColor(backgroundColor, 1)
+    renderer.setPixelRatio(window.devicePixelRatio)
     containerRef.current.appendChild(renderer.domElement)
 
-    // Setup orbit controls with full rotation capability
-    const controls = new OrbitControls(camera, renderer.domElement)
-
-    // Enable all rotations and improve responsiveness
-    controls.enableRotate = true
-    controls.rotateSpeed = 1.0
-    controls.enableZoom = true
-    controls.zoomSpeed = 1.2
-    controls.enablePan = true
-    controls.panSpeed = 0.8
+    // OrbitControls constructor
+    const controls = new ThreeOrbitControls(camera, renderer.domElement)
     controls.enableDamping = true
-    controls.dampingFactor = 0.2
-
-    // Allow rotation in all directions
-    controls.minPolarAngle = 0
+    controls.dampingFactor = 0.25
+    controls.screenSpacePanning = false
     controls.maxPolarAngle = Math.PI
-
-    // Set initial rotation target to origin
     controls.target.set(0, 0, 0)
-    controls.update()
+    controlsRef.current = controls
 
-    // Improved lighting for better visibility
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7)
+    // Basic lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6)
     scene.add(ambientLight)
 
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8)
-    dirLight1.position.set(10, 10, 10)
-    scene.add(dirLight1)
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
+    directionalLight.position.set(1, 1, 1).normalize()
+    scene.add(directionalLight)
 
-    const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.5)
-    dirLight2.position.set(-10, -5, -10)
-    scene.add(dirLight2)
+    const backLight = new THREE.DirectionalLight(0xffffff, 0.4)
+    backLight.position.set(-1, -1, -1).normalize()
+    scene.add(backLight)
 
-    // Add subtle hemisphere light for better shading
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.5)
-    scene.add(hemiLight)
-
-    // Load STL with centering and scaling
+    // Load STL
     const loader = new STLLoader()
     loader.load(
       modelUrl,
-      (geometry: THREE.BufferGeometry) => {
-        // Create the main mesh with improved material
+      (geometry: BufferGeometry) => {
+        // Create a mesh with a simple Phong material
         const material = new THREE.MeshPhongMaterial({
           color: 0x6ca6cd,
           specular: 0x111111,
-          shininess: 200,
+          shininess: 100,
+          flatShading: false,
         })
+
         const mesh = new THREE.Mesh(geometry, material)
 
-        // Center the model based on its bounding box
+        // Center the geometry
         geometry.computeBoundingBox()
         if (geometry.boundingBox) {
+          const boundingBox = geometry.boundingBox
+
+          // Center
           const center = new THREE.Vector3()
-          geometry.boundingBox.getCenter(center)
+          boundingBox.getCenter(center)
           mesh.position.set(-center.x, -center.y, -center.z)
 
-          // Update the controls target to the center of the model
-          controls.target.copy(new THREE.Vector3(0, 0, 0))
-
-          // Calculate appropriate camera distance based on model size
+          // Figure out how far camera should be
           const size = new THREE.Vector3()
-          geometry.boundingBox.getSize(size)
+          boundingBox.getSize(size)
           const maxDim = Math.max(size.x, size.y, size.z)
           const fov = camera.fov * (Math.PI / 180)
-          let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2))
-          cameraZ *= 1.5 // Add some margin
+          let cameraDistance = Math.abs(maxDim / (2 * Math.tan(fov / 2)))
 
-          // Position camera
-          camera.position.set(0, 0, cameraZ)
+          // Extra margin
+          cameraDistance *= 1.5
+          camera.position.set(0, 0, cameraDistance)
+          camera.lookAt(0, 0, 0)
+          controls.target.set(0, 0, 0)
           controls.update()
         }
 
-        // Add the main mesh to the scene
         scene.add(mesh)
+        setLoading(false)
 
-        // Create edges for better visibility
-        const edgesGeometry = new THREE.EdgesGeometry(geometry, 15) // 15 degree threshold
-        const edgesMaterial = new THREE.LineBasicMaterial({
-          color: 0x000000,
-          linewidth: 1,
-          opacity: 0.5,
-          transparent: true,
-        })
-        const edges = new THREE.LineSegments(edgesGeometry, edgesMaterial)
-
-        // Position edges to match the main mesh
-        edges.position.copy(mesh.position)
-
-        // Add edges to the scene
-        scene.add(edges)
+        // ADD OUTLINE / EDGES
+        // 1. Create edges geometry from the same STL geometry
+        const edgesGeometry = new THREE.EdgesGeometry(geometry)
+        // 2. Give it a black line material
+        const edgesMaterial = new THREE.LineBasicMaterial({ color: 0x000000 })
+        // 3. Combine geometry + material into a LineSegments object
+        const edgesMesh = new THREE.LineSegments(edgesGeometry, edgesMaterial)
+        // 4. Position the edges the same as the mesh
+        edgesMesh.position.copy(mesh.position)
+        scene.add(edgesMesh)
       },
-      undefined, // No progress callback
-      (error: Error | ErrorEvent) => {
+      undefined, // onProgress, optional
+      (error: ErrorEvent) => {
         console.error("Error loading STL:", error)
+        setLoading(false)
       },
     )
 
-    // Render loop with controls update
+    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate)
-      controls.update() // Important for smooth damping
+      controls.update()
       renderer.render(scene, camera)
     }
     animate()
 
-    // Better resize handling
+    // Handle window resizing
     const handleResize = () => {
       if (!containerRef.current) return
       const newWidth = containerRef.current.clientWidth
       const newHeight = containerRef.current.clientHeight
-
       camera.aspect = newWidth / newHeight
       camera.updateProjectionMatrix()
-
       renderer.setSize(newWidth, newHeight)
     }
+
     window.addEventListener("resize", handleResize)
 
     // Cleanup
     return () => {
       window.removeEventListener("resize", handleResize)
       if (containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement)
+        while (containerRef.current.firstChild) {
+          containerRef.current.removeChild(containerRef.current.firstChild)
+        }
       }
       controls.dispose()
-      scene.clear()
       renderer.dispose()
     }
   }, [modelUrl, backgroundColor])
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        width: "100%",
-        height: "600px",
-        position: "relative",
-      }}
-    />
+    <div className="relative">
+      <div
+        ref={containerRef}
+        style={{
+          width: "100%",
+          height: "600px",
+          position: "relative",
+          backgroundColor,
+        }}
+      />
+
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-background/50">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+            <p className="text-white">Loading 3D Model...</p>
+          </div>
+        </div>
+      )}
+
+      <Button onClick={resetView} className="absolute top-4 right-4 bg-background/80 hover:bg-background" size="sm">
+        <RefreshCw className="h-4 w-4 mr-2" />
+        Reset View
+      </Button>
+    </div>
   )
 }
-
