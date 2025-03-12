@@ -1,8 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import type React from "react"
+
+import { useState, useEffect } from "react"
+import { createPortal } from "react-dom"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 interface ImageWithDescription {
   url: string
@@ -17,113 +19,205 @@ interface ImageGalleryProps {
 export default function ImageGallery({ images, alt }: ImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [portalElement, setPortalElement] = useState<HTMLElement | null>(null)
+
+  // Create portal element when component mounts
+  useEffect(() => {
+    // This ensures we're in the browser environment
+    if (typeof document !== "undefined") {
+      setPortalElement(document.body)
+    }
+
+    // Cleanup function
+    return () => {
+      setPortalElement(null)
+    }
+  }, [])
 
   const openModal = (index: number) => {
     setCurrentIndex(index)
     setIsModalOpen(true)
+    // Prevent scrolling when modal is open
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = "hidden"
+    }
   }
 
   const closeModal = () => {
     setIsModalOpen(false)
+    // Re-enable scrolling
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = ""
+    }
   }
 
-  const goToPrevious = () => {
+  const goToPrevious = (e: React.MouseEvent) => {
+    e.stopPropagation()
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1))
   }
 
-  const goToNext = () => {
+  const goToNext = (e: React.MouseEvent) => {
+    e.stopPropagation()
     setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1))
   }
 
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isModalOpen) return
+
+      switch (e.key) {
+        case "ArrowLeft":
+          setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1))
+          break
+        case "ArrowRight":
+          setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1))
+          break
+        case "Escape":
+          closeModal()
+          break
+      }
+    }
+
+    if (isModalOpen) {
+      window.addEventListener("keydown", handleKeyDown)
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [isModalOpen, images.length])
+
+  // Masonry gallery layout
   return (
     <>
-      {/* Masonry layout container */}
-      {/*
-         1) "columns-1 sm:columns-2 md:columns-3" 
-            means:
-              - 1 column on extra-small screens,
-              - 2 columns on small/medium,
-              - 3 columns on md+ screens.
-         2) "gap-4" sets spacing between columns.
-         3) Each item will use "break-inside-avoid" to prevent images from splitting.
-      */}
       <div className="columns-1 sm:columns-2 md:columns-3 gap-4">
         {images.map((image, index) => (
-          <div
-            key={index}
-            className="mb-4 break-inside-avoid"
-          >
+          <div key={index} className="mb-4 break-inside-avoid">
             <div
-              className="cursor-pointer rounded-lg overflow-hidden"
+              className="cursor-pointer rounded-lg overflow-hidden anduril-card gallery-item"
               onClick={() => openModal(index)}
             >
               <img
                 src={image.url || "/placeholder.svg"}
                 alt={`${alt} - Image ${index + 1}`}
-                className="w-full h-auto object-cover transition-transform hover:scale-105"
+                className="w-full h-auto object-cover"
               />
+
+              {/* Description shown on hover */}
+              {image.description && (
+                <div className="description-overlay">
+                  <p className="text-sm uppercase tracking-wider text-white">{image.description}</p>
+                </div>
+              )}
             </div>
-            {/* Description shown below the thumbnail */}
-            {image.description && (
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                {image.description}
-              </p>
-            )}
           </div>
         ))}
       </div>
 
-      {/* Modal for enlarged images */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4">
-          {/* Close Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-4 text-white"
+      {/* Modal rendered directly to body via portal */}
+      {isModalOpen &&
+        portalElement &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90"
             onClick={closeModal}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 9999,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <X className="h-6 w-6" />
-            <span className="sr-only">Close</span>
-          </Button>
+            {/* Close button */}
+            <button
+              className="absolute right-4 top-4 z-[10000] bg-black/80 hover:bg-black text-white p-2 rounded-full border border-white/30"
+              onClick={(e) => {
+                e.stopPropagation()
+                closeModal()
+              }}
+              style={{
+                position: "fixed",
+                top: "20px",
+                right: "20px",
+                zIndex: 10000,
+              }}
+            >
+              <X className="h-6 w-6" />
+            </button>
 
-          {/* Previous Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-white"
-            onClick={goToPrevious}
-          >
-            <ChevronLeft className="h-8 w-8" />
-            <span className="sr-only">Previous</span>
-          </Button>
+            {/* Image container with navigation */}
+            <div
+              className="relative flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                maxWidth: "90vw",
+                maxHeight: "80vh",
+              }}
+            >
+              {/* Previous button */}
+              <button
+                className="absolute left-4 z-[10000] bg-black/80 hover:bg-black text-white p-2 rounded-full border border-white/30"
+                onClick={goToPrevious}
+                style={{
+                  position: "absolute",
+                  left: "-60px",
+                  zIndex: 10000,
+                }}
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
 
-          {/* Enlarged image */}
-          <div className="max-h-[80vh] max-w-[90vw] flex flex-col items-center justify-center">
-            <img
-              src={images[currentIndex].url || "/placeholder.svg"}
-              alt={`${alt} - Image ${currentIndex + 1}`}
-              className="max-h-[70vh] w-auto object-contain"
-            />
-            {images[currentIndex].description && (
-              <p className="mt-4 text-sm text-gray-300 text-center max-w-[80%]">
-                {images[currentIndex].description}
-              </p>
-            )}
-          </div>
+              {/* Image - much larger now */}
+              <div>
+                <img
+                  src={images[currentIndex].url || "/placeholder.svg"}
+                  alt={`${alt} - Image ${currentIndex + 1}`}
+                  style={{
+                    maxWidth: "80vw",
+                    maxHeight: "70vh",
+                    display: "block",
+                  }}
+                />
 
-          {/* Next Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-white"
-            onClick={goToNext}
-          >
-            <ChevronRight className="h-8 w-8" />
-            <span className="sr-only">Next</span>
-          </Button>
-        </div>
-      )}
+                {/* Description below the image - width matched to image */}
+                {images[currentIndex].description && (
+                  <div
+                    style={{
+                      backgroundColor: "rgba(0, 0, 0, 0.7)",
+                      padding: "12px",
+                      textAlign: "center",
+                      marginTop: "8px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    <p className="text-sm text-white uppercase tracking-wider">{images[currentIndex].description}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Next button */}
+              <button
+                className="absolute right-4 z-[10000] bg-black/80 hover:bg-black text-white p-2 rounded-full border border-white/30"
+                onClick={goToNext}
+                style={{
+                  position: "absolute",
+                  right: "-60px",
+                  zIndex: 10000,
+                }}
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
+          </div>,
+          portalElement,
+        )}
     </>
   )
 }
+

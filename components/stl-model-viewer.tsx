@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader"
@@ -32,7 +32,7 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
 
     // Setup orbit controls with full rotation capability
     const controls = new OrbitControls(camera, renderer.domElement)
-    
+
     // Enable all rotations and improve responsiveness
     controls.enableRotate = true
     controls.rotateSpeed = 1.0
@@ -42,11 +42,11 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
     controls.panSpeed = 0.8
     controls.enableDamping = true
     controls.dampingFactor = 0.2
-    
+
     // Allow rotation in all directions
     controls.minPolarAngle = 0
     controls.maxPolarAngle = Math.PI
-    
+
     // Set initial rotation target to origin
     controls.target.set(0, 0, 0)
     controls.update()
@@ -54,11 +54,11 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
     // Improved lighting for better visibility
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.7)
     scene.add(ambientLight)
-    
+
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8)
     dirLight1.position.set(10, 10, 10)
     scene.add(dirLight1)
-    
+
     const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.5)
     dirLight2.position.set(-10, -5, -10)
     scene.add(dirLight2)
@@ -73,23 +73,23 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
       modelUrl,
       (geometry: THREE.BufferGeometry) => {
         // Create the main mesh with improved material
-        const material = new THREE.MeshPhongMaterial({ 
-          color: 0x6CA6CD,
+        const material = new THREE.MeshPhongMaterial({
+          color: 0x6ca6cd,
           specular: 0x111111,
-          shininess: 200
+          shininess: 200,
         })
         const mesh = new THREE.Mesh(geometry, material)
-    
+
         // Center the model based on its bounding box
         geometry.computeBoundingBox()
         if (geometry.boundingBox) {
           const center = new THREE.Vector3()
           geometry.boundingBox.getCenter(center)
           mesh.position.set(-center.x, -center.y, -center.z)
-          
+
           // Update the controls target to the center of the model
           controls.target.copy(new THREE.Vector3(0, 0, 0))
-          
+
           // Calculate appropriate camera distance based on model size
           const size = new THREE.Vector3()
           geometry.boundingBox.getSize(size)
@@ -97,35 +97,35 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
           const fov = camera.fov * (Math.PI / 180)
           let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2))
           cameraZ *= 1.5 // Add some margin
-          
+
           // Position camera
           camera.position.set(0, 0, cameraZ)
           controls.update()
         }
-        
+
         // Add the main mesh to the scene
         scene.add(mesh)
-        
+
         // Create edges for better visibility
         const edgesGeometry = new THREE.EdgesGeometry(geometry, 15) // 15 degree threshold
-        const edgesMaterial = new THREE.LineBasicMaterial({ 
-          color: 0x000000, 
+        const edgesMaterial = new THREE.LineBasicMaterial({
+          color: 0x000000,
           linewidth: 1,
           opacity: 0.5,
-          transparent: true
+          transparent: true,
         })
         const edges = new THREE.LineSegments(edgesGeometry, edgesMaterial)
-        
+
         // Position edges to match the main mesh
         edges.position.copy(mesh.position)
-        
+
         // Add edges to the scene
         scene.add(edges)
       },
       undefined, // No progress callback
       (error: Error | ErrorEvent) => {
         console.error("Error loading STL:", error)
-      }
+      },
     )
 
     // Render loop with controls update
@@ -167,8 +167,9 @@ export default function STLModelViewer({ modelUrl, backgroundColor = "#ffffff" }
       style={{
         width: "100%",
         height: "600px",
-        position: "relative"
+        position: "relative",
       }}
     />
   )
 }
+

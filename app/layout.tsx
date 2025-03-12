@@ -1,38 +1,44 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter, Playfair_Display } from "next/font/google"
+import { ThemeProvider } from "@/components/theme-provider"
+import "./globals.css"
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+})
 
 export const metadata: Metadata = {
-  title: "Built by Henry",
-  description: "Beep Boop... Boop Beep?",
+  title: "Henry Speiser | Engineering Portfolio",
+  description: "Explore the engineering projects and creations of Henry Speiser",
   icons: {
-    icon: "/favicon.ico", // Default icon
+    icon: "/favicon.ico",
   },
-};
+    generator: 'v0.dev'
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} ${playfair.variable} font-sans min-h-screen`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
+
+
+
+import './globals.css'
