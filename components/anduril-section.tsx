@@ -36,17 +36,13 @@ export default function AndurilSection({
       <div className="anduril-grid"></div>
       <div className="container px-4 md:px-6 anduril-container">
         <div className={`flex flex-col ${alignClass[align]} space-y-4 mb-12 fade-in ${inView ? "visible" : ""}`}>
-          <div className="space-y-2 max-w-[800px] relative">
-            <div className="absolute -left-4 top-1/2 w-2 h-10 bg-white -translate-y-1/2"></div>
-            <h2
-              className="text-3xl font-medium uppercase tracking-wider sm:text-4xl md:text-5xl text-white"
-              style={{ color: "#ffffff !important" }}
-            >
+          <div className="space-y-2 max-w-[800px]">
+            <h2 className="text-3xl font-medium uppercase tracking-wider sm:text-4xl md:text-5xl text-white">
               {title}
             </h2>
 
             {subtitle && (
-              <p className="text-white md:text-xl" style={{ color: "#ffffff !important" }}>
+              <p className="text-white md:text-xl">
                 {subtitle}
               </p>
             )}
@@ -58,4 +54,3 @@ export default function AndurilSection({
     </section>
   )
 }
-

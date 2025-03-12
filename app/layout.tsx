@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: "Henry Speiser | Engineering Portfolio",
+  title: "Built By Henry",
   description: "Explore the engineering projects and creations of Henry Speiser",
   icons: {
     icon: "/favicon.ico",
