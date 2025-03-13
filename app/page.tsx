@@ -177,15 +177,10 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 slide-in">
               <p className="text-lg text-white" style={{ color: "#ffffff !important" }}>
-                Henry loves all things engineering, whether it's designing in CAD, creating printed circuit boards, or
-                writing code, he's all about the process of designing anything. His journey in engineering started with
-                FIRST Robotics, where, as a member of Team 971, he learned how to design PCBs, write industry-level
-                code, and develop complex mechanical systems.
+              I love all things engineering, whether it's designing in CAD, creating printed circuit boards, or writing code, I'm all about the process of designing anything. My journey in engineering started with FIRST Robotics, where, as a member of Team 971, I learned how to design PCBs, write industry level code, and develop complex mechanical systems.
               </p>
               <p className="text-lg text-white" style={{ color: "#ffffff !important" }}>
-                To Henry, the world is a sandbox, every problem is an opportunity to build something, whether it's a
-                small fix, like stamping his name 18 times on a test, or something massive, like launching rockets into
-                space. He's always thinking about different ways to do things.
+              To me, the world is a sandbox, every problem is an opportunity to build something, whether it's a small fix, like stamping my name 18 times on a test, or something massive, like launching rockets into space. I’m always thinking about different ways to do things.
               </p>
 
               <div className="pt-4">
