@@ -20,6 +20,59 @@ export interface Project {
 // Update the categories for each project
 export const projects: Project[] = [
   {
+    title: "Hour of Robotics (YC Robohacks 2nd Place Winner)",
+    description:
+      "A browser-based platform that lets anyone program real robots through a drag-and-drop interface, making robotics as accessible as Hour of Code made programming.",
+    longDescription:
+      "Hour of Code reached hundreds of millions of people and changed who gets into programming. We think robotics needs that same inflection point, because right now the barrier to entry is just way too high. So we built Hour of Robotics, a platform that lets anyone program real robots through a drag-and-drop interface like Scratch, running entirely in the browser.\n\nThe Innate MARS robot has LiDAR, dual cameras, a drive base, and a 6-DOF arm. Instead of throwing people into complex ROS terminals, we turned everything into visual blocks: movement, arm control, navigation, vision, and speech, all backed by real ROS commands over WebSocket.\n\nWith the platform you can build full pick-and-place manipulation pipelines visually (most teams couldn't get consistent pickups, we were doing it reliably with ~20 blocks), test everything in a full in-browser simulator with IK, collision detection, and 3D visualization before touching hardware, use open vocabulary vision to find objects like a \"red cup\" by description, and run local LLM (Gemma 4) blocks for on-device reasoning with no API costs.\n\nWe took concepts like inverse kinematics, SLAM, and computer vision, and made them feel simple. That's the goal.",
+    tags: ["Next.js", "React", "Blockly", "ROS2", "Python", "FastAPI", "PyTorch", "IKpy"],
+    imageUrl: `${baseUrl}/robohacks/complex_example.png`,
+    slug: "hour_of_robotics",
+    demoUrl: "https://www.youtube.com/watch?v=Dn52xctBjB8",
+    githubUrl: "https://github.com/filipkujawa/hour_of_robotics",
+    images: [
+      {
+        url: `${baseUrl}/robohacks/all_of_the_robots_lined_up.jpg`,
+        description: "All of the robots lined up at the event.",
+      },
+      {
+        url: `${baseUrl}/robohacks/camera_view_picking_up_block.png`,
+        description: "Camera view of the robot picking up a block.",
+      },
+      {
+        url: `${baseUrl}/robohacks/complex_example.png`,
+        description: "Complex block-based program example.",
+      },
+      {
+        url: `${baseUrl}/robohacks/me_presenting.jpg`,
+        description: "Presenting Hour of Robotics at YC Robohacks.",
+      },
+      {
+        url: `${baseUrl}/robohacks/me_with_robot.JPG`,
+        description: "With the Innate MARS robot.",
+      },
+      {
+        url: `${baseUrl}/robohacks/photo_of_us_working_at_event.JPG`,
+        description: "Working on the project at the event.",
+      },
+      {
+        url: `${baseUrl}/robohacks/robot_in_front_of_block.png`,
+        description: "Robot in front of a block.",
+      },
+      {
+        url: `${baseUrl}/robohacks/simple_example_in_simulation.png`,
+        description: "Simple example running in simulation.",
+      },
+    ],
+    videos: [
+      {
+        url: `${baseUrl}/robohacks/video_pick_and_place-1.mp4`,
+        description: "Demo of Hour of Robotics in action.",
+      },
+    ],
+    categories: ["Web Development", "Robotics"],
+  },
+  {
     title: "6-DOF Robot Arm",
     description:
       "Custom-built 6-degree-of-freedom robot arm with inverse kinematics, path planning, and camera-based control.",
@@ -676,35 +729,5 @@ export const projects: Project[] = [
     ],
     models: [{ url: `${baseUrl}/3d_models/tramp.stl`, description: "Stamp holder 3d print." }],
     categories: ["3D Printing"],
-  },
-  {
-    title: "Personal Portfolio Website",
-    description: "A fully custom-built portfolio showcasing my engineering projects.",
-    longDescription:
-      "I built a fully custom portfolio to showcase my engineering projects. I used Next.js and React, and I had to figure out how to structure a clean, fast loading site while making sure it could handle a ton of images and assets efficiently—because I had a lot, and that's a lot of data to host. To solve that, I wrote some scripts that compress images and videos while keeping them sharp, so everything loads quickly without sacrificing quality. For storage, I set up Cloudflare R2, so images load fast no matter where you are, and I host the whole site on Vercel, which makes deployment automatic every time I push to GitHub. I had never done anything like this before, so everything, from getting the styles right with Tailwind CSS to setting up dynamic project pages, was a learning experience. It was really fun seeing it all come together and getting to build something completely from scratch.",
-    tags: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-    imageUrl: `${baseUrl}/portfolio_website/homepage.png`,
-    slug: "portfolio_website",
-    demoUrl: "https://henryspeiser.com",
-    githubUrl: "https://github.com/hspeiser/henry-portfolio",
-    images: [
-      {
-        url: `${baseUrl}/portfolio_website/homepage.png`,
-        description: "Homepage of the portfolio site, showcasing an overview of projects.",
-      },
-      {
-        url: `${baseUrl}/portfolio_website/project_page.png`,
-        description: "Detailed project page layout with interactive features.",
-      },
-      {
-        url: `${baseUrl}/portfolio_website/codebase.png`,
-        description: "Screenshot of the organized codebase, showing the Next.js project structure.",
-      },
-      {
-        url: `${baseUrl}/portfolio_website/3d_model.png`,
-        description: "Fully interactive 3d model's from my projects, built into the site.",
-      },
-    ],
-    categories: ["Web Development"],
   },
 ]
