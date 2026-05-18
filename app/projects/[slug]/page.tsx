@@ -6,7 +6,7 @@ import { useState, useEffect, use } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Github, ExternalLink } from "lucide-react"
+import { ArrowLeft, Github, ExternalLink, FileText, Download } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -189,6 +189,22 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                   </a>
                 </Button>
               )}
+              {project.paperUrl && (
+                <Button
+                  variant="outline"
+                  className="gap-2 bg-transparent"
+                  onClick={() => {
+                    trackEvent.navigationClick(`project_paper_${project.slug}`)
+                    setActiveTab("paper")
+                    setTimeout(() => {
+                      document.getElementById("project-tabs")?.scrollIntoView({ behavior: "smooth", block: "start" })
+                    }, 50)
+                  }}
+                >
+                  <FileText className="h-4 w-4" />
+                  Read Paper
+                </Button>
+              )}
             </div>
           </div>
 
@@ -222,8 +238,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             </div>
           </div>
 
-          {/* Tabs for Gallery, Videos, 3D Models */}
-          <Tabs value={activeTab} onValueChange={handleTabChange} className="mt-8">
+          {/* Tabs for Gallery, Videos, 3D Models, Paper */}
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="mt-8" id="project-tabs">
             <TabsList className="mb-6">
               <TabsTrigger value="gallery" className="text-sm">
                 Gallery
@@ -236,6 +252,11 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
               {project.models && project.models.length > 0 && (
                 <TabsTrigger value="models" className="text-sm">
                   3D Models
+                </TabsTrigger>
+              )}
+              {project.papers && project.papers.length > 0 && (
+                <TabsTrigger value="paper" className="text-sm">
+                  Paper
                 </TabsTrigger>
               )}
             </TabsList>
@@ -268,6 +289,55 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                       >
                         {activeTab === "models" && <ModelViewer modelUrl={model.url} projectSlug={project.slug} />}
                       </ErrorBoundary>
+                    </div>
+                  ))}
+                </div>
+              </TabsContent>
+            )}
+
+            {project.papers && project.papers.length > 0 && (
+              <TabsContent value="paper" className="mt-0">
+                <div className="space-y-6 max-w-5xl mx-auto">
+                  {project.papers.map((paper, index) => (
+                    <div key={index} className="overflow-hidden rounded-lg border bg-card">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 py-3 border-b">
+                        <div className="flex items-start gap-3 min-w-0">
+                          <FileText className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                          <div className="min-w-0">
+                            <h4 className="font-medium truncate">{paper.title}</h4>
+                            <p className="text-xs text-muted-foreground mt-0.5">{paper.description}</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 shrink-0">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="gap-2 bg-transparent"
+                            onClick={() => window.open(paper.url, "_blank", "noopener,noreferrer")}
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                            <span className="hidden sm:inline">Open</span>
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="gap-2 bg-transparent"
+                            asChild
+                          >
+                            <a href={paper.url} download target="_blank" rel="noopener noreferrer">
+                              <Download className="h-4 w-4" />
+                              <span className="hidden sm:inline">Download</span>
+                            </a>
+                          </Button>
+                        </div>
+                      </div>
+                      {activeTab === "paper" && (
+                        <iframe
+                          src={paper.url}
+                          className="w-full h-[85vh] border-0 bg-white"
+                          title={paper.title}
+                        />
+                      )}
                     </div>
                   ))}
                 </div>

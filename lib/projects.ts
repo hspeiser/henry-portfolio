@@ -11,9 +11,11 @@ export interface Project {
   featured?: boolean
   demoUrl?: string
   githubUrl?: string
+  paperUrl?: string
   images: { url: string; description: string }[]
   videos?: { url: string; description: string }[]
   models?: { url: string; description: string }[]
+  papers?: { url: string; title: string; description: string }[]
   categories: string[] // This field already exists
 }
 
@@ -71,6 +73,93 @@ export const projects: Project[] = [
       },
     ],
     categories: ["Web Development", "Robotics"],
+  },
+  {
+    title: "Shrimpy: The Mantis Shrimp Inspired Helicoid Composite",
+    description:
+      "Bio-inspired Bouligand fiber composites 3D-printed in continuous Kevlar, tested in compression and 3-point bend. Compressive strength nearly doubled and toughness peaked at almost exactly the angle mantis shrimp use biologically.",
+    longDescription:
+      "The mantis shrimp is one of the most ridiculous animals on the planet. It punches with the speed and force of a .22 caliber bullet, accelerates its claw at around 10,000 g, and uses that claw to repeatedly smash open snail shells and crabs without breaking it. The secret is the dactyl club, a hammer made out of a helical fiber structure called the Bouligand architecture. Each layer of fibers is rotated by a small angle from the one below, which forces any crack to twist through every successive layer instead of running cleanly. Evolution basically built a self-toughening armor better than most composites we know how to make.\n\nSo obviously, we wanted to make one. And then crush it.\n\nWe used a Markforged X7 continuous-fiber printer to lay down Kevlar inside an Onyx matrix, with each layer rotated by Δθ from the one below. Five pitch angles got printed (0°, 5°, 10°, 15°, 20°), then we ran them through an Instron 5583: half got crushed per ASTM D695, the rest got three-point-bent.\n\nThe compression results were honestly really cool. Strength nearly doubled, from 106 MPa at 0° to 210 MPa at 20°, and the failure mode shifted from a catastrophic 'splat into a mushroom' to a contained dent on one side. Energy absorption peaked at around 11°, which is wild because that's basically right where the mantis shrimp lives biologically. We accidentally rediscovered evolution's answer to a materials problem.\n\nThe bend results went the other direction: 0° was strongest at 290 MPa, but the helical samples kept carrying load way past where the others fractured. The 20° beam held on out to ~12% strain instead of snapping at ~5%. The Bouligand structure trades some peak strength for a huge gain in damage tolerance, which is exactly the trade-off the shrimp has converged on. When you're punching things 50,000 times in your life, toughness beats stiffness every time.\n\nNext time: more than one specimen per angle (we were material-limited), drop-weight testing to actually probe the impact regime, and trying different matrix/fiber combos to figure out how much of this is the structure vs. Kevlar just being good at being Kevlar.",
+    tags: [
+      "Markforged X7",
+      "Continuous Fiber 3D Printing",
+      "Kevlar",
+      "Onyx",
+      "Bouligand Composites",
+      "ASTM D695",
+      "Instron Testing",
+      "FEA",
+      "Bio-Inspired Design",
+    ],
+    imageUrl: `${baseUrl}/mantis_shrimp/figure%201%20-%20compression%20ply%20orientations.png`,
+    slug: "mantis-shrimp-composites",
+    featured: true,
+    paperUrl: `${baseUrl}/mantis_shrimp/mantis_shrimp_inspired_composites.pdf`,
+    images: [
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%201%20-%20compression%20ply%20orientations.png`,
+        description:
+          "Slicer view of the five compression specimens. Each ply rotates by Δθ (0°, 5°, 10°, 15°, 20°), so you can actually see the helix wrap around the cylinder as the angle increases.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%202%20-%203pt%20bend%20ply%20orientations.png`,
+        description: "Same ply orientations for the rectangular three-point bend specimens.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%203%20-%20kevlar%20fiber%20path%2060deg.png`,
+        description:
+          "Top-down view of the Kevlar fiber path inside a single layer at 60°. The fibers can't quite fill the rectangular corners when rotated, which slightly lowers the fiber volume fraction in the helical specimens vs. the unidirectional control.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%204%20-%20compression%20sim%20specimens.png`,
+        description:
+          "FEA simulation in Markforged's Eiger solver under the same compression load. Higher pitch angles distribute stress much more uniformly across the cylinder.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/3pt%20bend%20test%20machine%20setup%20photo.png`,
+        description:
+          "Test setup on the Instron 5583. Specimen sitting between the platens, mid-test.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%205%20-%20compression%20force-displacement%20curves.png`,
+        description:
+          "Force vs. displacement for every compression specimen. Peak load roughly doubles from 13 kN at 0° to 26 kN at 20°.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%206%20-%203pt%20bend%20stress-strain%20curves.png`,
+        description:
+          "Flexural stress-strain curves. The 0° unidirectional control hits the highest peak (290 MPa), but the 20° helical sample keeps carrying load way out to 12% strain, past where the others have already fractured.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%207%20-%20compression%20specimens%20post-test.png`,
+        description:
+          "Compression specimens after testing. The 0° one totally flattened into a mushroom; the 20° one is barely deformed.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%208%20-%203pt%20bend%20specimens%20post-test.png`,
+        description:
+          "Bend specimens after testing. Low-pitch beams snapped sharply at the loading point; high-pitch beams curved smoothly with no single failure plane, so damage spread out instead of concentrating.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%209%20-%20strength%20and%20modulus%20vs%20fiber%20angle.png`,
+        description:
+          "Strength and modulus vs. fiber pitch angle for both tests. Compression strength climbs with angle, flexural strength drops. Exactly opposite trends, which makes sense given how each test loads the fibers.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%2010%20-%20energy%20absorption%20vs%20fiber%20angle.png`,
+        description:
+          "Volumetric energy absorption vs. pitch angle. Compression toughness peaks around 11°, eerily close to where mantis shrimp biology lands. Energy absorption is the one metric that improves with helical stacking across both tests.",
+      },
+    ],
+    papers: [
+      {
+        url: `${baseUrl}/mantis_shrimp/mantis_shrimp_inspired_composites.pdf`,
+        title: "Mechanical Properties of Mantis Shrimp Inspired Helicoidal Composites",
+        description:
+          "Full write-up with the methods, all force-displacement and stress-strain data, post-test morphology, the Tsai-Hill off-axis model fit, and discussion of the strength vs. toughness trade-off.",
+      },
+    ],
+    categories: ["Mechanical", "3D Printing", "Materials Science"],
   },
   {
     title: "6-DOF Robot Arm",
