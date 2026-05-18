@@ -91,7 +91,7 @@ export const projects: Project[] = [
       "FEA",
       "Bio-Inspired Design",
     ],
-    imageUrl: `${baseUrl}/mantis_shrimp/figure%201%20-%20compression%20ply%20orientations.png`,
+    imageUrl: `${baseUrl}/mantis_shrimp/mantis.png`,
     slug: "mantis-shrimp-composites",
     featured: true,
     paperUrl: `${baseUrl}/mantis_shrimp/mantis_shrimp_inspired_composites.pdf`,
