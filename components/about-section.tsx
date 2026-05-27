@@ -6,7 +6,7 @@ import Image from "next/image"
 import { Download, ExternalLink } from "lucide-react"
 import ResumeViewer from "@/components/resume-viewer"
 
-const baseUrl = "https://pub-23ed2f7e90c646778e7f318e43b4e788.r2.dev/public"
+const profileImage = "/profile-photo.png"
 const resumePdfPath = "/api/resume"
 
 export default function AboutSection() {
@@ -26,10 +26,10 @@ export default function AboutSection() {
           >
             <div className="relative aspect-[4/5] rounded-xl overflow-hidden border border-border bg-muted max-w-md mx-auto md:mx-0">
               <Image
-                src={`${baseUrl}/pictures_henry/profile.png`}
+                src={profileImage}
                 alt="Henry Speiser"
                 fill
-                className={`object-cover transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+                className={`object-cover scale-[1.08] transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
                 sizes="(max-width: 768px) 100vw, 50vw"
                 onLoad={() => setImageLoaded(true)}
               />

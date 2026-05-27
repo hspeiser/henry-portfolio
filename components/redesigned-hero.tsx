@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { Github, Linkedin, Mail, ArrowDown } from "lucide-react"
 
-const baseUrl = "https://pub-23ed2f7e90c646778e7f318e43b4e788.r2.dev/public"
+const profileImage = "/profile-photo.png"
 
 const phrases = [
   "building rockets.",
@@ -188,10 +188,10 @@ export default function RedesignedHero() {
         >
           <div className="relative w-44 h-44 sm:w-52 sm:h-52 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full overflow-hidden border border-border bg-muted">
             <Image
-              src={`${baseUrl}/pictures_henry/profile.png`}
+              src={profileImage}
               alt="Henry Speiser"
               fill
-              className={`object-cover transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+              className={`object-cover scale-[1.14] transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
               quality={75}
               priority
               onLoad={() => setImageLoaded(true)}
