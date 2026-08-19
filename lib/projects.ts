@@ -22,6 +22,129 @@ export interface Project {
 // Update the categories for each project
 export const projects: Project[] = [
   {
+    title: "Anduril AI Grand Prix (25th of 3,000+)",
+    description:
+      "Autonomous drone racing for Anduril and DCL's AI Grand Prix. Flew a 17-gate course using only a camera and IMU at 30 Hz, finishing 25th out of more than 3,000 entries with a 35.37 second lap.",
+    longDescription:
+      "This summer, one of my teammates and I competed in Anduril and DCL's AI Grand Prix, an autonomous drone racing competition. We ended up finishing 25th out of more than 3,000 entries with a final time of 35.37 seconds.\n\nThis was probably one of the most fun technical projects I have worked on. We came into it with basically no background in autonomous drone racing, very limited compute, and seven weeks to figure everything out.\n\nThere were two virtual qualifiers, VQ1 and VQ2. VQ1 gave us absolute position, which made the problem much easier. VQ2 removed that. Now the drone had to fly a 17 gate course using only a camera and IMU while running everything live at 30 Hz.\n\nThat changed basically the entire problem.\n\nThe first big question was localization. If the drone does not know where it is, having a good controller does not really matter. We needed to detect the gates, estimate their geometry accurately enough to recover pose, fuse that with the IMU, and keep the estimate stable while the drone was moving at race speed.\n\nI went through close to 30 versions of the vision stack.\n\nAt different points I was training YOLO models, custom corner detection networks, crop trackers, and different versions of the localization pipeline. One of the biggest improvements came from looking specifically at where our models sucked. I spent around six hours manually clicking gate corners on images where the detector was failing, especially blurry frames, close approaches, partial occlusions, and weird viewing angles. We then combined those high quality manual labels with much larger amounts of automatically generated simulator data.\n\nBy the end we had around 39,000 labeled frames. The final corner detector could localize gate corners to subpixel accuracy, and our localization became good enough that some of the other top teams were asking us how we were doing it.\n\nThen there was the control problem.\n\nThere were a million possible ways to approach it. We could train everything with PPO. We could build a simplified simulator and learn a residual policy there. We could imitate human flights. We could hand tune a controller. We could try to model the dynamics ourselves. We tried a lot of them.\n\nI pulled out my old FPV controller and personally flew the course hundreds of times. Some of that data was useful for training, but honestly a lot of the value was just learning what a fast line actually looked like. I could see where the drone needed to accelerate, where it needed to start rotating early, which gates were actually hard, and which problems were coming from perception instead of control.\n\nPure imitation learning did not end up being enough. The drone basically inherited how cautious the human pilot was. Pure end to end RL also had transfer problems.\n\nWhat eventually worked was a hybrid system. We had a reference controller that could already finish the course, optimized the racing line offline, and then trained PPO residual policies to make smaller corrections in the sections where learned control actually helped.\n\nOne of the biggest constraints through all of this was compute.\n\nA real simulator flight took around 40 seconds. That is completely terrible if you want to do millions of RL steps. We also did not have a lab full of GPUs. Most of the competition I was working with one shared RTX 5090 and my laptop 5070.\n\nSo I trained a dynamics world model from our flight data.\n\nInstead of making the model predict the entire simulator from scratch, we modeled the physics we understood and trained a small neural network ensemble to predict the remaining error. Eventually we could run around 300,000 simulated steps per second on one GPU. That made it possible to test huge numbers of controller changes and PPO policies offline before wasting another real simulator flight.\n\nThe world model was definitely not perfect. Over longer horizons the prediction error got large enough that an optimizer could find ways to exploit it. We learned pretty quickly that it was useful for short horizon search and ranking candidates, not as a replacement for the actual simulator.\n\nCompute management itself became part of the competition. I basically tried to keep every GPU I could get access to at 100 percent utilization. At one point I had six laptops connected and doing different jobs. One would be training a vision model, another running post-training on YOLO, another fitting dynamics, another processing flight logs. If a friend had a GPU sitting around, I wanted it.\n\nWe collected over 200 GB of data and ran a few thousand live flights. Most of them failed.\n\nThat was another thing I learned from this project. Making one good flight happen is very different from building something that repeatedly works. We would fix one gate, suddenly start reaching three gates farther, and immediately discover an entirely new failure mode. Sometimes a change looked amazing and then failed six times in a row. Sometimes the simulator itself was lagging and we spent hours thinking our policy had gotten worse.\n\nEventually we got pretty obsessive about evaluation. We kept a frozen champion, tested changes against it, replayed failures, tracked exactly where runs died, and stopped trusting a change just because one flight looked good.\n\nThe final jump happened really fast. Our first complete VQ2 lap was 40.01 seconds. Fixing the gate map brought that to 39.79. Better multigate localization and a better racing line brought it to 37.62. Adding routed residual policies got us to 36.83. Then a bunch of speed tuning and work on the later part of the course brought the final time down to 35.37 seconds.\n\nA lot of this project was just iteration. Train something, fly it, crash, figure out why, collect the failure, train again, and repeat. I worked around the clock for a lot of the competition and tried basically every idea I thought had a chance of making the drone faster.\n\nWe started with almost no domain knowledge and ended up learning a ridiculous amount about reinforcement learning, PPO, behavior cloning, world models, system identification, visual localization, EKFs, real-time inference, control, model fine-tuning, and just how difficult it is to make a drone fly fast when the only thing telling it where it is is a blurry camera.\n\nIt was extremely scrappy, which was probably my favorite part. We did not have the compute or number of people that some of the labs we were competing against had. We just had to keep finding ways around that.\n\nSeven weeks later, we had a drone flying a 17 gate course autonomously in 35.37 seconds.",
+    tags: [
+      "Reinforcement Learning",
+      "PPO",
+      "World Models",
+      "Behavior Cloning",
+      "YOLO",
+      "Computer Vision",
+      "EKF",
+      "PyTorch",
+      "Real-Time Inference",
+      "Drones",
+    ],
+    imageUrl: `${baseUrl}/ai-grand-prix/gatenet_human_side_by_side.png`,
+    slug: "ai-grand-prix",
+    featured: true,
+    githubUrl: "https://github.com/hspeiser/redemption",
+    images: [
+      {
+        url: `${baseUrl}/ai-grand-prix/gatenet_human_side_by_side.png`,
+        description:
+          "Judging the corner detectors against my manual clicks on the exact same frames. GateNet v7 often only found 2 of 4 corners; v13 and CropGateNet v11 find all four with a few pixels of error, even on the hard frames.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/v13_labled_image_mid_flight.jpg`,
+        description:
+          "Live view mid-flight. The v13 detector locks onto two gates at once, 17.5m and 32m out, with all 8 corners at sub-pixel error while the EKF holds a 2.2cm position estimate.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/gatenet_comparison_3_gate16.png`,
+        description:
+          "Detector generations side by side on gate 16. v7 finds 2 of 4 corners while v13 and CropGateNet v11 find all four. This progression is what six hours of manually clicking corners bought us.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/detector_blind_frame_recovery.png`,
+        description:
+          "Hand-labeling failure frames taught the detector to see. Blind-frame recovery went from 44% on the v7 baseline to 61% on v13 with hand-seeded drought labels.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/vision_model_precision_comparison.png`,
+        description:
+          "More detections were not enough. The pose also had to be precise. YOLO found gates but with ~60cm p90 pose error; CropGateNet v11 got that down to ~13cm on the same 101 manually clicked frames.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/vision_latency.png`,
+        description:
+          "Moving dense GateNet inference from CPU (220ms) to GPU (28ms) removed the 3 Hz vision ceiling and let the full stack run inside the 33ms control period at 30 Hz.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/exact_framework_graph.png`,
+        description:
+          "The full system. Camera frames and IMU feed GateNet and a visual-inertial EKF, a 53-dimensional observation drives the reference controller plus routed PPO residual actors, and every flight gets recorded into the training corpus that feeds the world model and offline searches.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/course_racing_line.png`,
+        description:
+          "The offline-optimized racing line through all 17 gates of the VQ2 course, colored by planned speed.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/record_progression.png`,
+        description:
+          "The lap-time progression. 40.01s first finish, 39.79s after fixing the gate map, 37.62s with multigate localization and a better line, 36.83s with routed residuals, and 35.37s after speed tuning the end of the course.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/where_runs_died.png`,
+        description:
+          "Most of the 8,561 recorded flights never made it past gate 3. This is what iteration actually looks like.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/terminal_position_heatmap.png`,
+        description:
+          "Heatmap of where 1,931 timing-healthy failures ended on the course map. Bright clusters are repeated walls. They show where engineering time paid off and where the course kept fighting back.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/failure_modes.png`,
+        description:
+          "Failure taxonomy from the live episode logs. Collisions dominate at 1,731 flights, followed by everything else you can imagine going wrong.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/flight_gate_distribution.png`,
+        description:
+          "Where 2,395 logged flights ended, with big walls at gates 5, 9, and 10, plus 49 complete laps at the far end.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/worldmodel_horizon_error.png`,
+        description:
+          "World-model accuracy over rollout horizon. Useful for short-horizon search and ranking candidates, but the error grows enough over ~1 second that an optimizer can exploit it, so it never replaced the real simulator.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/worldmodel_error_by_gate.png`,
+        description:
+          "Where the all-course world model was least reliable. The 32-step prediction error spikes at gates 9, 10, and 15, exactly the sections that needed specialist residual policies.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/flywheel_data_growth.png`,
+        description:
+          "Each flywheel cycle fed fresh flight data back into the world model. One jump added 81,000 new transitions from 36 hours of flying.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/data_footprint.png`,
+        description:
+          "211 GB of flight data spread across three machines and about 3.7 million files by the end of the competition.",
+      },
+      {
+        url: `${baseUrl}/ai-grand-prix/stats_machinery.png`,
+        description:
+          "The machinery in numbers. 12 world-model versions, 300,000 simulated steps per second on one GPU, 408 commits in 7 weeks, 0.73px median corner localization, and 28ms GPU inference.",
+      },
+    ],
+    videos: [
+      {
+        url: `${baseUrl}/ai-grand-prix/vq2_NO_CONTACT_GENERIC_V7_EKF_V6_NO17_first17s.mp4`,
+        description:
+          "Onboard view of a clean, contact-free VQ2 run. Camera and IMU only, everything running live at 30 Hz.",
+      },
+    ],
+    categories: ["Robotics", "AI / Machine Learning"],
+  },
+  {
     title: "Hour of Robotics (YC Robohacks 2nd Place Winner)",
     description:
       "A browser-based platform that lets anyone program real robots through a drag-and-drop interface, making robotics as accessible as Hour of Code made programming.",

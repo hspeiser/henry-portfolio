@@ -6,7 +6,7 @@ import { useState, useEffect, use } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Github, ExternalLink, FileText, Download } from "lucide-react"
+import { ArrowLeft, Github, ExternalLink, FileText, Download, ChevronDown, ChevronUp } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -44,6 +44,7 @@ function ModelViewerFallback({ modelUrl, description }: { modelUrl: string; desc
 export default function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
   const [activeTab, setActiveTab] = useState("gallery")
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
 
@@ -212,13 +213,44 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <div className="lg:col-span-2">
               <h4 className="text-xl font-semibold mb-3">Project Details</h4>
-              <div className="prose prose-invert max-w-none">
-                {project.longDescription?.split("\n").map((paragraph, index) => (
-                  <p key={index} className="mb-4 text-base sm:text-lg text-muted-foreground">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+              {(() => {
+                const paragraphs = project.longDescription?.split("\n").filter((p) => p.trim()) ?? []
+                const isCollapsible = paragraphs.length > 4
+                const collapsed = isCollapsible && !descriptionExpanded
+                return (
+                  <>
+                    <div className={`relative ${collapsed ? "max-h-[22rem] overflow-hidden" : ""}`}>
+                      <div className="prose prose-invert max-w-none">
+                        {paragraphs.map((paragraph, index) => (
+                          <p key={index} className="mb-4 text-base sm:text-lg text-muted-foreground">
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
+                      {collapsed && (
+                        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+                      )}
+                    </div>
+                    {isCollapsible && (
+                      <button
+                        type="button"
+                        onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+                        className="w-full flex items-center justify-center gap-2 py-2 mt-1 text-sm font-medium text-muted-foreground hover:text-foreground border rounded-lg transition-colors"
+                      >
+                        {descriptionExpanded ? (
+                          <>
+                            Show less <ChevronUp className="h-4 w-4" />
+                          </>
+                        ) : (
+                          <>
+                            Read more <ChevronDown className="h-4 w-4" />
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </>
+                )
+              })()}
             </div>
 
             <div>
