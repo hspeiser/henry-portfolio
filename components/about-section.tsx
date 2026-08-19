@@ -47,19 +47,27 @@ export default function AboutSection() {
 
             <div className="space-y-4 text-muted-foreground leading-relaxed mb-8">
               <p>
-                I love all things engineering, whether it's designing in CAD, creating printed
-                circuit boards, or writing code, I'm all about the process of designing anything.
+                I hate leaving any stone unturned. If I don't know something, I go figure it out,
+                either by finding someone who does or by digging into it myself. No matter how much
+                work it takes, if there's an answer, I want to find it.
               </p>
               <p>
-                My journey in engineering started with FIRST Robotics, where, as a member of Team
-                971, I learned how to design PCBs, write industry level code, and develop complex
-                mechanical systems.
+                That's also why I've ended up working across so many different parts of
+                engineering. I love designing mechanical systems, circuit boards, writing software
+                and firmware, and training models. Whatever the problem needs, I'm happy to learn.
+                Instead of thinking about engineering in terms of disciplines, I think about what
+                needs to happen to get to the best solution.
               </p>
               <p>
-                To me, the world is a sandbox — every problem is an opportunity to build
-                something, whether it's a small fix, like stamping my name 18 times on a test, or
-                something massive, like launching rockets into space. I'm always thinking about
-                different ways to do things.
+                And I hate treating things like black boxes. I always want to know exactly why
+                something works. The more of a system you understand, the more options you have
+                when you're trying to solve something, and the less you're constrained by whatever
+                tools or abstractions you already know.
+              </p>
+              <p>
+                That's pretty much how I approach engineering. Understand the problem all the way
+                down, figure out what the best solution should be, and then do whatever work it
+                takes to get there.
               </p>
             </div>
 
