@@ -12,7 +12,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Henry Speiser | Engineer & Builder",
+  title: "Henry Speiser",
   description:
     "Portfolio of Henry Speiser, an engineer who builds things across software, electronics, and mechanical domains.",
   keywords: [
@@ -35,14 +35,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://henryspeiser.com",
-    title: "Henry Speiser | Engineer & Builder",
+    title: "Henry Speiser",
     description:
       "Portfolio of Henry Speiser, an engineer who builds things across software, electronics, and mechanical domains.",
     siteName: "Henry Speiser Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Henry Speiser | Engineer & Builder",
+    title: "Henry Speiser",
     description:
       "Portfolio of Henry Speiser, an engineer who builds things across software, electronics, and mechanical domains.",
   },

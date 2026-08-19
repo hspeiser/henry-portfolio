@@ -85,16 +85,6 @@ export default function RedesignedHero() {
       <div className="max-w-[1200px] mx-auto px-6 py-20 w-full grid md:grid-cols-2 gap-12 md:gap-16 items-center">
         {/* Text */}
         <div className="order-2 md:order-1 text-center md:text-left">
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={0}
-            className="text-sm text-muted-foreground mb-4 tracking-wide uppercase"
-          >
-            Engineer & Builder
-          </motion.p>
-
           <motion.h1
             variants={fadeUp}
             initial="hidden"
