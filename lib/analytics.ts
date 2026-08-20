@@ -1,4 +1,13 @@
-import { track } from "@vercel/analytics"
+import { track as vercelTrack } from "@vercel/analytics"
+import posthog from "posthog-js"
+
+// Send every event to both Vercel Analytics and PostHog
+const track = (name: string, properties?: Record<string, string | number | undefined>) => {
+  vercelTrack(name, properties)
+  if (typeof window !== "undefined" && posthog.__loaded) {
+    posthog.capture(name, properties)
+  }
+}
 
 // Custom analytics events
 export const trackEvent = {
