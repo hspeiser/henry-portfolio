@@ -94,22 +94,29 @@ export default function ImageGallery({ images, projectSlug }: ImageGalleryProps)
             </Button>
           </div>
 
-          <div className="flex flex-col items-center justify-center p-4 pt-2 h-full w-full">
+          <div className="flex flex-col items-center justify-center p-4 pt-2 h-full w-full" onClick={closeLightbox}>
             {selectedImage !== null && (
               <>
                 <div className="relative w-full h-[75vh] flex justify-center items-center">
                   <img
                     src={images[selectedImage].url || "/placeholder.svg"}
                     alt={images[selectedImage].description}
-                    className="max-w-full max-h-full w-auto h-auto object-contain"
+                    className="max-w-full max-h-full w-auto h-auto object-contain rounded-xl"
+                    onClick={(e) => e.stopPropagation()}
                   />
                 </div>
 
-                <p className="text-center text-white mt-4 max-w-4xl text-base sm:text-lg px-4 bg-black/60 py-3 rounded-lg backdrop-blur-sm">
+                <p
+                  className="text-center text-white mt-4 max-w-4xl text-base sm:text-lg px-4 bg-black/60 py-3 rounded-lg backdrop-blur-sm"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   {images[selectedImage].description}
                 </p>
 
-                <div className="flex justify-between w-full max-w-4xl mt-4 px-4">
+                <div
+                  className="flex justify-between w-full max-w-4xl mt-4 px-4"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <Button
                     variant="outline"
                     size="icon"
