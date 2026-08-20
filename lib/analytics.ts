@@ -62,8 +62,9 @@ export const trackEvent = {
   },
 
   // Gallery events
-  imageView: (projectSlug: string, imageIndex: number) => {
-    track("image_view", { project: projectSlug, index: imageIndex })
+  imageView: (projectSlug: string, imageIndex: number, imageUrl?: string) => {
+    const imageName = imageUrl ? decodeURIComponent(imageUrl.split("/").pop() ?? "") : undefined
+    track("image_view", { project: projectSlug, index: imageIndex, image: imageName })
   },
 
   // Social media clicks

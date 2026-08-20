@@ -21,7 +21,7 @@ export default function ImageGallery({ images, projectSlug }: ImageGalleryProps)
 
     // Track image view
     if (projectSlug) {
-      trackEvent.imageView(projectSlug, index)
+      trackEvent.imageView(projectSlug, index, images[index].url)
     }
   }
 
@@ -36,7 +36,7 @@ export default function ImageGallery({ images, projectSlug }: ImageGalleryProps)
 
     // Track image view
     if (projectSlug) {
-      trackEvent.imageView(projectSlug, newIndex)
+      trackEvent.imageView(projectSlug, newIndex, images[newIndex].url)
     }
   }
 
@@ -47,7 +47,7 @@ export default function ImageGallery({ images, projectSlug }: ImageGalleryProps)
 
     // Track image view
     if (projectSlug) {
-      trackEvent.imageView(projectSlug, newIndex)
+      trackEvent.imageView(projectSlug, newIndex, images[newIndex].url)
     }
   }
 
