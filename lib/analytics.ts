@@ -3,7 +3,10 @@ import posthog from "posthog-js"
 
 // Send every event to both Vercel Analytics and PostHog
 const track = (name: string, properties?: Record<string, string | number | undefined>) => {
-  vercelTrack(name, properties)
+  const defined = properties
+    ? Object.fromEntries(Object.entries(properties).filter(([, v]) => v !== undefined))
+    : undefined
+  vercelTrack(name, defined as Record<string, string | number> | undefined)
   if (typeof window !== "undefined" && posthog.__loaded) {
     posthog.capture(name, properties)
   }
