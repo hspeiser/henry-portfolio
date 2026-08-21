@@ -198,91 +198,194 @@ export const projects: Project[] = [
     categories: ["Web Development", "Robotics"],
   },
   {
-    title: "Shrimpy: The Mantis Shrimp Inspired Helicoid Composite",
+    title: "FRC Team 971 - Spartan Robotics",
     description:
-      "Bio-inspired Bouligand fiber composites 3D-printed in continuous Kevlar, tested in compression and 3-point bend. Compressive strength nearly doubled and toughness peaked at almost exactly the angle mantis shrimp use biologically.",
+      "Universal connectorized system to reduce unintentional unplugs of sensor and motor connectors.",
     longDescription:
-      "The mantis shrimp is one of the most ridiculous animals on the planet. It punches with the speed and force of a .22 caliber bullet, accelerates its claw at around 10,000 g, and uses that claw to repeatedly smash open snail shells and crabs without breaking it. The secret is the dactyl club, a hammer made out of a helical fiber structure called the Bouligand architecture. Each layer of fibers is rotated by a small angle from the one below, which forces any crack to twist through every successive layer instead of running cleanly. Evolution basically built a self-toughening armor better than most composites we know how to make.\n\nSo obviously, we wanted to make one. And then crush it.\n\nWe used a Markforged X7 continuous-fiber printer to lay down Kevlar inside an Onyx matrix, with each layer rotated by Δθ from the one below. Five pitch angles got printed (0°, 5°, 10°, 15°, 20°), then we ran them through an Instron 5583: half got crushed per ASTM D695, the rest got three-point-bent.\n\nThe compression results were honestly really cool. Strength nearly doubled, from 106 MPa at 0° to 210 MPa at 20°, and the failure mode shifted from a catastrophic 'splat into a mushroom' to a contained dent on one side. Energy absorption peaked at around 11°, which is wild because that's basically right where the mantis shrimp lives biologically. We accidentally rediscovered evolution's answer to a materials problem.\n\nThe bend results went the other direction: 0° was strongest at 290 MPa, but the helical samples kept carrying load way past where the others fractured. The 20° beam held on out to ~12% strain instead of snapping at ~5%. The Bouligand structure trades some peak strength for a huge gain in damage tolerance, which is exactly the trade-off the shrimp has converged on. When you're punching things 50,000 times in your life, toughness beats stiffness every time.\n\nNext time: more than one specimen per angle (we were material-limited), drop-weight testing to actually probe the impact regime, and trying different matrix/fiber combos to figure out how much of this is the structure vs. Kevlar just being good at being Kevlar.",
-    tags: [
-      "Markforged X7",
-      "Continuous Fiber 3D Printing",
-      "Kevlar",
-      "Onyx",
-      "Bouligand Composites",
-      "ASTM D695",
-      "Instron Testing",
-      "FEA",
-      "Bio-Inspired Design",
-    ],
-    imageUrl: `${baseUrl}/mantis_shrimp/mantis.png`,
-    slug: "mantis-shrimp-composites",
-    featured: true,
-    paperUrl: `${baseUrl}/mantis_shrimp/mantis_shrimp_inspired_composites.pdf`,
+      "In our robotics competitions, we frequently encountered issues where high-impact collisions caused connectors to sensors and motors to unplug, rendering the robot inoperable mid-match. To solve this, I designed a suite of 11 custom circuit boards that securely attach to sensors, motors, and our onboard computing system, dramatically reducing connector failures. I transitioned our system to Molex SL connectors, which feature latching mechanisms to prevent accidental disconnections. Additionally, I developed a custom wire tester to ensure all connections were reliable before matches, incorporating LED indicators on each board for quick debugging. This system significantly improved our robot's reliability, and our designs were so effective that we began selling these boards to other teams at competitions.",
+    tags: ["KiCAD", "OnShape", "FEA"],
+    imageUrl: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
+    slug: "robot-electronics",
+    githubUrl: "https://github.com/frc971/electrical",
     images: [
       {
-        url: `${baseUrl}/mantis_shrimp/figure%201%20-%20compression%20ply%20orientations.png`,
+        url: `${baseUrl}/robot_electronics/2022_robot_collision_action_shot_cool_looking.jpg`,
         description:
-          "Slicer view of the five compression specimens. Each ply rotates by Δθ (0°, 5°, 10°, 15°, 20°), so you can actually see the helix wrap around the cylinder as the angle increases.",
+          "Two of our robots smashing into each other mid-match, motion blur and all.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%202%20-%203pt%20bend%20ply%20orientations.png`,
-        description: "Same ply orientations for the rectangular three-point bend specimens.",
+        url: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
+        description:
+          "Full sprint across the field with the intake down.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%203%20-%20kevlar%20fiber%20path%2060deg.png`,
+        url: `${baseUrl}/robot_electronics/2022_robot_half_assembled.jpg`,
         description:
-          "Top-down view of the Kevlar fiber path inside a single layer at 60°. The fibers can't quite fill the rectangular corners when rotated, which slightly lowers the fiber volume fraction in the helical specimens vs. the unidirectional control.",
+          "The 2022 robot half assembled on the shop table.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%204%20-%20compression%20sim%20specimens.png`,
+        url: `${baseUrl}/robot_electronics/2022_robot_mid_shot_catapult.jpg`,
         description:
-          "FEA simulation in Markforged's Eiger solver under the same compression load. Higher pitch angles distribute stress much more uniformly across the cylinder.",
+          "The 2022 catapult robot out on the field.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/3pt%20bend%20test%20machine%20setup%20photo.png`,
+        url: `${baseUrl}/robot_electronics/2022_me_zeroing_the_intake_potentiometer.jpg`,
         description:
-          "Test setup on the Instron 5583. Specimen sitting between the platens, mid-test.",
+          "Zeroing the intake potentiometer at competition. Get this wrong and the intake is wrong everywhere.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%205%20-%20compression%20force-displacement%20curves.png`,
+        url: `${baseUrl}/robot_electronics/another_action_shot_of_2022_catapult_mid_shot.jpg`,
         description:
-          "Force vs. displacement for every compression specimen. Peak load roughly doubles from 13 kN at 0° to 26 kN at 20°.",
+          "Catapult firing mid-drive, ball still in the air.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%206%20-%203pt%20bend%20stress-strain%20curves.png`,
+        url: `${baseUrl}/robot_electronics/Full_Robot_cropped_top_down_cad_2022.jpg`,
         description:
-          "Flexural stress-strain curves. The 0° unidirectional control hits the highest peak (290 MPa), but the 20° helical sample keeps carrying load way out to 12% strain, past where the others have already fractured.",
+          "Top down CAD of the full 2022 robot. Everything packed into one frame.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%207%20-%20compression%20specimens%20post-test.png`,
+        url: `${baseUrl}/robot_electronics/2023_robot_long_reach_placing_cone_scoring_points.jpg`,
         description:
-          "Compression specimens after testing. The 0° one totally flattened into a mushroom while the 20° one is barely deformed.",
+          "The 2023 arm at full stretch dropping a cone on the top level.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%208%20-%203pt%20bend%20specimens%20post-test.png`,
+        url: `${baseUrl}/robot_electronics/2023_robot_partial_assembly.jpg`,
         description:
-          "Bend specimens after testing. Low-pitch beams snapped sharply at the loading point while high-pitch beams curved smoothly, so damage spread out instead of concentrating.",
+          "The 2023 robot coming together in the shop.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%209%20-%20strength%20and%20modulus%20vs%20fiber%20angle.png`,
+        url: `${baseUrl}/robot_electronics/2023_robot_placing_cone_different_angle.jpg`,
         description:
-          "Strength and modulus vs. fiber pitch angle for both tests. Compression strength climbs with angle, flexural strength drops. Exactly opposite trends, which makes sense given how each test loads the fibers.",
+          "Placing a cone from another angle.",
       },
       {
-        url: `${baseUrl}/mantis_shrimp/figure%2010%20-%20energy%20absorption%20vs%20fiber%20angle.png`,
+        url: `${baseUrl}/robot_electronics/action_shot_of_2023_robot_driving_through_the_field_with_arm_up_holding_cone.jpg`,
         description:
-          "Volumetric energy absorption vs. pitch angle. Compression toughness peaks around 11°, eerily close to where mantis shrimp biology lands. Energy absorption is the one metric that improves with helical stacking across both tests.",
+          "Hauling across the field with the arm up and a cone locked in.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/the_enormous_2023_proximal_and_distal_gearboxes_for_5_dof_7ft_carbon_fiber_robot_arm.jpg`,
+        description:
+          "The comically large gearboxes for the 7 foot carbon fiber arm.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/box_of_pis_used_this_to_map_out_the_field_bc_of_differences_4pis_4cameras_submm_accuacy_in_mapping_all_22april_tags.jpg`,
+        description:
+          "A box of Raspberry Pis and cameras I used to map every AprilTag on the field down to the millimeter, because no two fields are actually built the same.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/button_board_used_to_control_robot.jpg`,
+        description:
+          "The button board from our driver station. One arcade button for everything the robot can do.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/led_ring_board_i_designed_for_retro_reflective.jpg`,
+        description:
+          "An LED ring board I designed so the cameras could actually see the targets.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/me_fixing_robot_2023_competition.jpg`,
+        description:
+          "Fixing the arm chain between matches in 2023.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2024_Robot_Shooting_Disk.jpg`,
+        description:
+          "The 2024 robot launching a ring mid-match.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2024_pre_match_checklist_pit_me_looking_at_potential_problem.jpg`,
+        description:
+          "Running the pre match checklist in the pit and staring down something suspicious.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2024_robot_partial_wiring_inside.jpg`,
+        description:
+          "Inside the 2024 robot mid wiring. Organized chaos.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/looking_stylish_in_cowboy_hat_while_building_2024_robot_shooter.jpg`,
+        description:
+          "Building the 2024 shooter. Cowboy hats required.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/Me_swapping_battery_2024.jpg`,
+        description:
+          "Swapping the battery between matches, pit crew style.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/robot.png`,
+        description: "Final competition robot, equipped with all custom electronics.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/beam_break_adapter.png`,
+        description: "Beam break sensor circuit for object detection.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/jetson_orin_assembly.png`,
+        description: "Jetson Orin NX computing module wired and assembled.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/jetson_orin_adapter.png`,
+        description: "Adapter board for integrating the Jetson Orin NX with robot systems.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/motor_can_adapter.png`,
+        description: "CAN motor controller adapter for improved signal integrity.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/optical_encoder_adapter.png`,
+        description: "Optical encoder adapter for precision motor feedback.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/power_adapter.png`,
+        description: "Custom power adapter for sensor and motor connections.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/pot_board.png`,
+        description: "Potentiometer breakout board for analog feedback.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/mag_encoder.png`,
+        description: "Magnetic encoder board for precise motor control.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/roborio_interface.png`,
+        description: "Main interface board for the RoboRIO control system.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/wire_tester.png`,
+        description: "Custom wire tester for validating electrical connections.",
       },
     ],
-    papers: [
+    videos: [
       {
-        url: `${baseUrl}/mantis_shrimp/mantis_shrimp_inspired_composites.pdf`,
-        title: "Mechanical Properties of Mantis Shrimp Inspired Helicoidal Composites",
+        url: `${baseUrl}/robot_electronics/2022_robot_turret_pov_video_web.mp4`,
         description:
-          "Full write-up with the methods, all force-displacement and stress-strain data, post-test morphology, the Tsai-Hill off-axis model fit, and discussion of the strength vs. toughness trade-off.",
+          "POV from the 2022 turret as it spins up to track the hub. The Pi cameras and my green LED ring boards sweep across the arena.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2022_super_satisfying_auto_align_web.mp4`,
+        description:
+          "Auto align in action. The robot locks onto the target and snaps into position. Exactly as satisfying as it sounds.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/first_3_piece_autonomous_plus_balance_autonomous_in_the_world_we_set_the_bar_I_wrote_it_2023_web.mp4`,
+        description:
+          "The first 3 piece autonomous plus balance in the world. We set the bar and I wrote it. Watch the arm score three cones and drive onto the charge station without a driver touching anything.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2023_robot_head_on_collision_sending_opposing_robot_flying_web.mp4`,
+        description:
+          "Head-on collision at San Francisco Regional sending the opposing robot flying. Defense is a contact sport.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2024_initial_design_practice_shooting_disks_web_web.mp4`,
+        description:
+          "Early testing of the 2024 shooter, chucking rings at the practice field.",
       },
     ],
-    categories: ["Mechanical", "3D Printing", "Materials Science"],
+    categories: ["Electronics", "3D Printing"],
   },
   {
     title: "6-DOF Robot Arm",
@@ -750,194 +853,91 @@ export const projects: Project[] = [
     categories: ["Electronics", "Embedded Systems"],
   },
   {
-    title: "FRC Team 971 - Spartan Robotics",
+    title: "Shrimpy: The Mantis Shrimp Inspired Helicoid Composite",
     description:
-      "Universal connectorized system to reduce unintentional unplugs of sensor and motor connectors.",
+      "Bio-inspired Bouligand fiber composites 3D-printed in continuous Kevlar, tested in compression and 3-point bend. Compressive strength nearly doubled and toughness peaked at almost exactly the angle mantis shrimp use biologically.",
     longDescription:
-      "In our robotics competitions, we frequently encountered issues where high-impact collisions caused connectors to sensors and motors to unplug, rendering the robot inoperable mid-match. To solve this, I designed a suite of 11 custom circuit boards that securely attach to sensors, motors, and our onboard computing system, dramatically reducing connector failures. I transitioned our system to Molex SL connectors, which feature latching mechanisms to prevent accidental disconnections. Additionally, I developed a custom wire tester to ensure all connections were reliable before matches, incorporating LED indicators on each board for quick debugging. This system significantly improved our robot's reliability, and our designs were so effective that we began selling these boards to other teams at competitions.",
-    tags: ["KiCAD", "OnShape", "FEA"],
-    imageUrl: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
-    slug: "robot-electronics",
-    githubUrl: "https://github.com/frc971/electrical",
+      "The mantis shrimp is one of the most ridiculous animals on the planet. It punches with the speed and force of a .22 caliber bullet, accelerates its claw at around 10,000 g, and uses that claw to repeatedly smash open snail shells and crabs without breaking it. The secret is the dactyl club, a hammer made out of a helical fiber structure called the Bouligand architecture. Each layer of fibers is rotated by a small angle from the one below, which forces any crack to twist through every successive layer instead of running cleanly. Evolution basically built a self-toughening armor better than most composites we know how to make.\n\nSo obviously, we wanted to make one. And then crush it.\n\nWe used a Markforged X7 continuous-fiber printer to lay down Kevlar inside an Onyx matrix, with each layer rotated by Δθ from the one below. Five pitch angles got printed (0°, 5°, 10°, 15°, 20°), then we ran them through an Instron 5583: half got crushed per ASTM D695, the rest got three-point-bent.\n\nThe compression results were honestly really cool. Strength nearly doubled, from 106 MPa at 0° to 210 MPa at 20°, and the failure mode shifted from a catastrophic 'splat into a mushroom' to a contained dent on one side. Energy absorption peaked at around 11°, which is wild because that's basically right where the mantis shrimp lives biologically. We accidentally rediscovered evolution's answer to a materials problem.\n\nThe bend results went the other direction: 0° was strongest at 290 MPa, but the helical samples kept carrying load way past where the others fractured. The 20° beam held on out to ~12% strain instead of snapping at ~5%. The Bouligand structure trades some peak strength for a huge gain in damage tolerance, which is exactly the trade-off the shrimp has converged on. When you're punching things 50,000 times in your life, toughness beats stiffness every time.\n\nNext time: more than one specimen per angle (we were material-limited), drop-weight testing to actually probe the impact regime, and trying different matrix/fiber combos to figure out how much of this is the structure vs. Kevlar just being good at being Kevlar.",
+    tags: [
+      "Markforged X7",
+      "Continuous Fiber 3D Printing",
+      "Kevlar",
+      "Onyx",
+      "Bouligand Composites",
+      "ASTM D695",
+      "Instron Testing",
+      "FEA",
+      "Bio-Inspired Design",
+    ],
+    imageUrl: `${baseUrl}/mantis_shrimp/mantis.png`,
+    slug: "mantis-shrimp-composites",
+    featured: true,
+    paperUrl: `${baseUrl}/mantis_shrimp/mantis_shrimp_inspired_composites.pdf`,
     images: [
       {
-        url: `${baseUrl}/robot_electronics/2022_robot_collision_action_shot_cool_looking.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%201%20-%20compression%20ply%20orientations.png`,
         description:
-          "Two of our robots smashing into each other mid-match, motion blur and all.",
+          "Slicer view of the five compression specimens. Each ply rotates by Δθ (0°, 5°, 10°, 15°, 20°), so you can actually see the helix wrap around the cylinder as the angle increases.",
       },
       {
-        url: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%202%20-%203pt%20bend%20ply%20orientations.png`,
+        description: "Same ply orientations for the rectangular three-point bend specimens.",
+      },
+      {
+        url: `${baseUrl}/mantis_shrimp/figure%203%20-%20kevlar%20fiber%20path%2060deg.png`,
         description:
-          "Full sprint across the field with the intake down.",
+          "Top-down view of the Kevlar fiber path inside a single layer at 60°. The fibers can't quite fill the rectangular corners when rotated, which slightly lowers the fiber volume fraction in the helical specimens vs. the unidirectional control.",
       },
       {
-        url: `${baseUrl}/robot_electronics/2022_robot_half_assembled.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%204%20-%20compression%20sim%20specimens.png`,
         description:
-          "The 2022 robot half assembled on the shop table.",
+          "FEA simulation in Markforged's Eiger solver under the same compression load. Higher pitch angles distribute stress much more uniformly across the cylinder.",
       },
       {
-        url: `${baseUrl}/robot_electronics/2022_robot_mid_shot_catapult.jpg`,
+        url: `${baseUrl}/mantis_shrimp/3pt%20bend%20test%20machine%20setup%20photo.png`,
         description:
-          "The 2022 catapult robot out on the field.",
+          "Test setup on the Instron 5583. Specimen sitting between the platens, mid-test.",
       },
       {
-        url: `${baseUrl}/robot_electronics/2022_me_zeroing_the_intake_potentiometer.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%205%20-%20compression%20force-displacement%20curves.png`,
         description:
-          "Zeroing the intake potentiometer at competition. Get this wrong and the intake is wrong everywhere.",
+          "Force vs. displacement for every compression specimen. Peak load roughly doubles from 13 kN at 0° to 26 kN at 20°.",
       },
       {
-        url: `${baseUrl}/robot_electronics/another_action_shot_of_2022_catapult_mid_shot.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%206%20-%203pt%20bend%20stress-strain%20curves.png`,
         description:
-          "Catapult firing mid-drive, ball still in the air.",
+          "Flexural stress-strain curves. The 0° unidirectional control hits the highest peak (290 MPa), but the 20° helical sample keeps carrying load way out to 12% strain, past where the others have already fractured.",
       },
       {
-        url: `${baseUrl}/robot_electronics/Full_Robot_cropped_top_down_cad_2022.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%207%20-%20compression%20specimens%20post-test.png`,
         description:
-          "Top down CAD of the full 2022 robot. Everything packed into one frame.",
+          "Compression specimens after testing. The 0° one totally flattened into a mushroom while the 20° one is barely deformed.",
       },
       {
-        url: `${baseUrl}/robot_electronics/2023_robot_long_reach_placing_cone_scoring_points.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%208%20-%203pt%20bend%20specimens%20post-test.png`,
         description:
-          "The 2023 arm at full stretch dropping a cone on the top level.",
+          "Bend specimens after testing. Low-pitch beams snapped sharply at the loading point while high-pitch beams curved smoothly, so damage spread out instead of concentrating.",
       },
       {
-        url: `${baseUrl}/robot_electronics/2023_robot_partial_assembly.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%209%20-%20strength%20and%20modulus%20vs%20fiber%20angle.png`,
         description:
-          "The 2023 robot coming together in the shop.",
+          "Strength and modulus vs. fiber pitch angle for both tests. Compression strength climbs with angle, flexural strength drops. Exactly opposite trends, which makes sense given how each test loads the fibers.",
       },
       {
-        url: `${baseUrl}/robot_electronics/2023_robot_placing_cone_different_angle.jpg`,
+        url: `${baseUrl}/mantis_shrimp/figure%2010%20-%20energy%20absorption%20vs%20fiber%20angle.png`,
         description:
-          "Placing a cone from another angle.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/action_shot_of_2023_robot_driving_through_the_field_with_arm_up_holding_cone.jpg`,
-        description:
-          "Hauling across the field with the arm up and a cone locked in.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/the_enormous_2023_proximal_and_distal_gearboxes_for_5_dof_7ft_carbon_fiber_robot_arm.jpg`,
-        description:
-          "The comically large gearboxes for the 7 foot carbon fiber arm.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/box_of_pis_used_this_to_map_out_the_field_bc_of_differences_4pis_4cameras_submm_accuacy_in_mapping_all_22april_tags.jpg`,
-        description:
-          "A box of Raspberry Pis and cameras I used to map every AprilTag on the field down to the millimeter, because no two fields are actually built the same.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/button_board_used_to_control_robot.jpg`,
-        description:
-          "The button board from our driver station. One arcade button for everything the robot can do.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/led_ring_board_i_designed_for_retro_reflective.jpg`,
-        description:
-          "An LED ring board I designed so the cameras could actually see the targets.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/me_fixing_robot_2023_competition.jpg`,
-        description:
-          "Fixing the arm chain between matches in 2023.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/2024_Robot_Shooting_Disk.jpg`,
-        description:
-          "The 2024 robot launching a ring mid-match.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/2024_pre_match_checklist_pit_me_looking_at_potential_problem.jpg`,
-        description:
-          "Running the pre match checklist in the pit and staring down something suspicious.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/2024_robot_partial_wiring_inside.jpg`,
-        description:
-          "Inside the 2024 robot mid wiring. Organized chaos.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/looking_stylish_in_cowboy_hat_while_building_2024_robot_shooter.jpg`,
-        description:
-          "Building the 2024 shooter. Cowboy hats required.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/Me_swapping_battery_2024.jpg`,
-        description:
-          "Swapping the battery between matches, pit crew style.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/robot.png`,
-        description: "Final competition robot, equipped with all custom electronics.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/beam_break_adapter.png`,
-        description: "Beam break sensor circuit for object detection.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/jetson_orin_assembly.png`,
-        description: "Jetson Orin NX computing module wired and assembled.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/jetson_orin_adapter.png`,
-        description: "Adapter board for integrating the Jetson Orin NX with robot systems.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/motor_can_adapter.png`,
-        description: "CAN motor controller adapter for improved signal integrity.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/optical_encoder_adapter.png`,
-        description: "Optical encoder adapter for precision motor feedback.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/power_adapter.png`,
-        description: "Custom power adapter for sensor and motor connections.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/pot_board.png`,
-        description: "Potentiometer breakout board for analog feedback.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/mag_encoder.png`,
-        description: "Magnetic encoder board for precise motor control.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/roborio_interface.png`,
-        description: "Main interface board for the RoboRIO control system.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/wire_tester.png`,
-        description: "Custom wire tester for validating electrical connections.",
+          "Volumetric energy absorption vs. pitch angle. Compression toughness peaks around 11°, eerily close to where mantis shrimp biology lands. Energy absorption is the one metric that improves with helical stacking across both tests.",
       },
     ],
-    videos: [
+    papers: [
       {
-        url: `${baseUrl}/robot_electronics/2022_robot_turret_pov_video_web.mp4`,
+        url: `${baseUrl}/mantis_shrimp/mantis_shrimp_inspired_composites.pdf`,
+        title: "Mechanical Properties of Mantis Shrimp Inspired Helicoidal Composites",
         description:
-          "POV from the 2022 turret as it spins up to track the hub. The Pi cameras and my green LED ring boards sweep across the arena.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/2022_super_satisfying_auto_align_web.mp4`,
-        description:
-          "Auto align in action. The robot locks onto the target and snaps into position. Exactly as satisfying as it sounds.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/first_3_piece_autonomous_plus_balance_autonomous_in_the_world_we_set_the_bar_I_wrote_it_2023_web.mp4`,
-        description:
-          "The first 3 piece autonomous plus balance in the world. We set the bar and I wrote it. Watch the arm score three cones and drive onto the charge station without a driver touching anything.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/2023_robot_head_on_collision_sending_opposing_robot_flying_web.mp4`,
-        description:
-          "Head-on collision at San Francisco Regional sending the opposing robot flying. Defense is a contact sport.",
-      },
-      {
-        url: `${baseUrl}/robot_electronics/2024_initial_design_practice_shooting_disks_web_web.mp4`,
-        description:
-          "Early testing of the 2024 shooter, chucking rings at the practice field.",
+          "Full write-up with the methods, all force-displacement and stress-strain data, post-test morphology, the Tsai-Hill off-axis model fit, and discussion of the strength vs. toughness trade-off.",
       },
     ],
-    categories: ["Electronics", "3D Printing"],
+    categories: ["Mechanical", "3D Printing", "Materials Science"],
   },
   {
     title: "100MPH FPV Drone",
