@@ -215,7 +215,7 @@ export const projects: Project[] = [
       "Match Strategy",
     ],
     imageUrl: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
-    slug: "robot-electronics",
+    slug: "frc-971",
     githubUrl: "https://github.com/frc971/electrical",
     images: [
       {
