@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useRef, useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Play, Pause, Volume2, VolumeX } from "lucide-react"
+import { Play, Pause, Volume2, VolumeX, Maximize } from "lucide-react"
 import { trackEvent } from "@/lib/analytics"
 
 interface VideoPlayerProps {
@@ -15,6 +15,7 @@ interface VideoPlayerProps {
 
 export default function VideoPlayer({ videoUrl, title, projectSlug }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -88,6 +89,24 @@ export default function VideoPlayer({ videoUrl, title, projectSlug }: VideoPlaye
     setIsMuted(!isMuted)
   }
 
+  const toggleFullscreen = () => {
+    const video = videoRef.current as (HTMLVideoElement & { webkitEnterFullscreen?: () => void }) | null
+    if (!video) return
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen()
+      return
+    }
+
+    const container = containerRef.current
+    if (container?.requestFullscreen) {
+      container.requestFullscreen()
+    } else if (video.webkitEnterFullscreen) {
+      // iPhone Safari only supports fullscreen on the video element itself
+      video.webkitEnterFullscreen()
+    }
+  }
+
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const video = videoRef.current
     if (!video) return
@@ -98,7 +117,7 @@ export default function VideoPlayer({ videoUrl, title, projectSlug }: VideoPlaye
   }
 
   return (
-    <div className="relative rounded-lg overflow-hidden border">
+    <div ref={containerRef} className="relative rounded-lg overflow-hidden border">
       <video
         ref={videoRef}
         className="w-full aspect-video object-contain bg-black"
@@ -125,6 +144,10 @@ export default function VideoPlayer({ videoUrl, title, projectSlug }: VideoPlaye
 
         <Button variant="ghost" size="icon" className="h-8 w-8 text-white hover:bg-white/20" onClick={toggleMute}>
           {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+        </Button>
+
+        <Button variant="ghost" size="icon" className="h-8 w-8 text-white hover:bg-white/20" onClick={toggleFullscreen}>
+          <Maximize className="h-4 w-4" />
         </Button>
       </div>
     </div>
