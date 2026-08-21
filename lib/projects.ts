@@ -203,7 +203,17 @@ export const projects: Project[] = [
       "Four years on FRC Team 971 doing a little bit of everything. Autonomous software, power electronics and PCBs, firmware, gearboxes, machining, driving, and match strategy.",
     longDescription:
       "For four years I spent more time at the lab than I did at school. When I joined the team I was told I would pick one discipline, mechanical, electrical, or software. I always thought that was BS. Why not every single one?\n\nSo I did all of them. I wrote the autonomous. I designed most of our power electronics and coprocessor PCBs, wrote the firmware that ran on them, and built the superstructure collision avoidance software so the robot could not tear itself apart. I designed gearboxes and mechanical linkages. I wired the robot and manufactured parts on the lathe and mill, and CAMed parts for the CNC routers. I drove the robot in matches and worked out our match strategy. I wanted to do everything because I was interested in everything.\n\nMy trick was asking the mentors the dumb questions early, actually listening, and then coming back with the hard questions once I had some idea of what was going on. Eventually I learned to love all of it.\n\nSome favorites from those years. We wrote the first 3 piece plus balance autonomous in the world. I designed a suite of 11 connector boards that basically ended our unplugged-sensor problem, and other teams started buying them from us at competitions. And when we could not trust the published field layout, I threw 4 Raspberry Pis and 4 cameras in a box and mapped every AprilTag on the field myself.",
-    tags: ["KiCAD", "OnShape", "FEA"],
+    tags: [
+      "Autonomous",
+      "PCB Design",
+      "Firmware",
+      "KiCAD",
+      "OnShape",
+      "Gearbox Design",
+      "CNC Machining",
+      "Controls",
+      "Match Strategy",
+    ],
     imageUrl: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
     slug: "robot-electronics",
     githubUrl: "https://github.com/frc971/electrical",
