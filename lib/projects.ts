@@ -761,10 +761,6 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/frc971/electrical",
     images: [
       {
-        url: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
-        description: "The robot intaking across the field mid-match.",
-      },
-      {
         url: `${baseUrl}/robot_electronics/2022_robot_collision_action_shot_cool_looking.jpg`,
         description:
           "Two 971 robots colliding mid-match during Rapid React, motion blur and all. The green LED ring boards I designed are lit up on both robots.",
