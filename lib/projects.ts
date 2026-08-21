@@ -750,15 +750,125 @@ export const projects: Project[] = [
     categories: ["Electronics", "Embedded Systems"],
   },
   {
-    title: "Universal Connector System",
-    description: "Universal connectorized system to reduce unintentional unplugs of sensor and motor connectors.",
+    title: "FRC Team 971 - Spartan Robotics",
+    description:
+      "Universal connectorized system to reduce unintentional unplugs of sensor and motor connectors.",
     longDescription:
       "In our robotics competitions, we frequently encountered issues where high-impact collisions caused connectors to sensors and motors to unplug, rendering the robot inoperable mid-match. To solve this, I designed a suite of 11 custom circuit boards that securely attach to sensors, motors, and our onboard computing system, dramatically reducing connector failures. I transitioned our system to Molex SL connectors, which feature latching mechanisms to prevent accidental disconnections. Additionally, I developed a custom wire tester to ensure all connections were reliable before matches, incorporating LED indicators on each board for quick debugging. This system significantly improved our robot's reliability, and our designs were so effective that we began selling these boards to other teams at competitions.",
     tags: ["KiCAD", "OnShape", "FEA"],
-    imageUrl: `${baseUrl}/robot_electronics/robot.png`,
+    imageUrl: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
     slug: "robot-electronics",
     githubUrl: "https://github.com/frc971/electrical",
     images: [
+      {
+        url: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
+        description: "The robot intaking across the field mid-match.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2022_robot_collision_action_shot_cool_looking.jpg`,
+        description:
+          "Two 971 robots colliding mid-match during Rapid React, motion blur and all. The green LED ring boards I designed are lit up on both robots.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2022_robot_driving_action_shot_intaking_across_the_field.jpg`,
+        description:
+          "Full sprint across the field with the intake down, cargo secured. You can see the intake rollers mid-spin.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2022_robot_half_assembled.jpg`,
+        description:
+          "The 2022 robot half-assembled on the shop table with the turret exposed, teammates working around it.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2022_robot_mid_shot_catapult.jpg`,
+        description:
+          "The 2022 catapult robot in the competition area, sponsor panel facing out, cargo balls staged around it.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2022_me_zeroing_the_intake_potentiometer.jpg`,
+        description:
+          "Zeroing the intake potentiometer at competition. If this sensor drifted, the intake position was wrong everywhere else.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/another_action_shot_of_2022_catapult_mid_shot.jpg`,
+        description:
+          "Catapult mid-shot, cargo ball in the air with the referee watching. The turret tracks the hub while the catapult fires on the move.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/Full_Robot_cropped_top_down_cad_2022.jpg`,
+        description:
+          "Top-down CAD of the full 2022 robot: swerve drive, central turret, catapult, and intake all packed into the frame.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2023_robot_long_reach_placing_cone_scoring_points.jpg`,
+        description:
+          "The 2023 arm at full extension placing a cone on the top level of the grid for maximum points.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2023_robot_partial_assembly.jpg`,
+        description:
+          "The 2023 robot partially assembled in the shop. The massive spur gear and carbon fiber arm tube give a sense of scale.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2023_robot_placing_cone_different_angle.jpg`,
+        description:
+          "Same scoring motion from a different angle, blue alliance side, Seaside Spartans banner in the background.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/action_shot_of_2023_robot_driving_through_the_field_with_arm_up_holding_cone.jpg`,
+        description:
+          "Driving through the field with the arm up and a cone secured, heading to the next scoring position.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/the_enormous_2023_proximal_and_distal_gearboxes_for_5_dof_7ft_carbon_fiber_robot_arm.jpg`,
+        description:
+          "The enormous proximal and distal gearboxes for the 5-DOF, 7ft carbon fiber arm. Topology-optimized aluminum plates with Talon FX motors.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/box_of_pis_used_this_to_map_out_the_field_bc_of_differences_4pis_4cameras_submm_accuacy_in_mapping_all_22april_tags.jpg`,
+        description:
+          "A box of 4 Raspberry Pis and 4 cameras I used to map out the field. Because of field-to-field manufacturing differences, we measured the exact pose of all 22 AprilTags with sub-millimeter accuracy instead of trusting the published layout.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/button_board_used_to_control_robot.jpg`,
+        description:
+          "The driver station button board used to control the robot. Every arcade button is labeled for a specific action: climb, spit, catapult, amp, balance, and more.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/led_ring_board_i_designed_for_retro_reflective.jpg`,
+        description:
+          "An LED ring board I designed for illuminating retroreflective targets, so the vision system could track them reliably under arena lighting.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/me_fixing_robot_2023_competition.jpg`,
+        description:
+          "Fixing the arm's chain and sprocket between matches at the 2023 competition.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2024_Robot_Shooting_Disk.jpg`,
+        description:
+          "The 2024 robot mid-shot, launching a ring from the shooter during a practice match.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2024_pre_match_checklist_pit_me_looking_at_potential_problem.jpg`,
+        description:
+          "Running the pre-match checklist in the pit, hunting down a potential problem before it became a match-losing one.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2024_robot_partial_wiring_inside.jpg`,
+        description:
+          "Inside the 2024 robot mid-wiring: Kraken X60 motor controllers, a network switch, and orange Ethernet runs to every camera.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/looking_stylish_in_cowboy_hat_while_building_2024_robot_shooter.jpg`,
+        description:
+          "Building the 2024 shooter in the shop, cowboy hats required. The flywheel and hood assembly are taking shape on top of the chassis.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/Me_swapping_battery_2024.jpg`,
+        description:
+          "Swapping the battery on the 2024 robot between matches. A clean battery swap is the fastest pit crew move there is.",
+      },
       {
         url: `${baseUrl}/robot_electronics/robot.png`,
         description: "Final competition robot, equipped with all custom electronics.",
@@ -806,6 +916,33 @@ export const projects: Project[] = [
       {
         url: `${baseUrl}/robot_electronics/wire_tester.png`,
         description: "Custom wire tester for validating electrical connections.",
+      },
+    ],
+    videos: [
+      {
+        url: `${baseUrl}/robot_electronics/2022_robot_turret_pov_video_web.mp4`,
+        description:
+          "POV from the 2022 turret as it spins up to track the hub. The Pi cameras and my green LED ring boards sweep across the arena.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2022_super_satisfying_auto_align_web.mp4`,
+        description:
+          "Auto-align in action: the robot locks onto the target and snaps into position. Exactly as satisfying as it sounds.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/first_3_piece_autonomous_plus_balance_autonomous_in_the_world_we_set_the_bar_I_wrote_it_2023_web.mp4`,
+        description:
+          "The first 3-piece autonomous plus balance in the world — we set the bar. I wrote it. Watch the arm score three cones and drive onto the charge station without a driver touching anything.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2023_robot_head_on_collision_sending_opposing_robot_flying_web.mp4`,
+        description:
+          "Head-on collision at San Francisco Regional sending the opposing robot flying. Defense is a contact sport.",
+      },
+      {
+        url: `${baseUrl}/robot_electronics/2024_initial_design_practice_shooting_disks_web_web.mp4`,
+        description:
+          "Early design validation of the 2024 shooter, throwing rings downrange at the practice field structure.",
       },
     ],
     categories: ["Electronics", "3D Printing"],
