@@ -51,13 +51,10 @@ function ModelViewerFallback({ modelUrl, projectSlug }: { modelUrl: string; proj
 }
 
 // STL Loader Component
-function STLModel({
-  modelUrl,
-  wireframe,
-  onBoundsCalculated,
-}: { modelUrl: string; wireframe: boolean; onBoundsCalculated?: (radius: number) => void }) {
+function STLModel({ modelUrl, wireframe }: { modelUrl: string; wireframe: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null)
+  const [scale, setScale] = useState(1)
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -155,15 +152,13 @@ function STLModel({
           geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3))
         }
 
-        // Compute bounding sphere for proper camera positioning
+        // Center the geometry and normalize its size so the fixed camera always frames it
+        geometry.center()
         geometry.computeBoundingSphere()
-
-        // Notify parent of the model's size
-        if (geometry.boundingSphere && onBoundsCalculated) {
-          onBoundsCalculated(geometry.boundingSphere.radius)
-        }
+        const radius = geometry.boundingSphere?.radius ?? 0
 
         if (isMounted) {
+          setScale(radius > 0 ? 5 / radius : 1)
           setGeometry(geometry)
           setIsLoading(false)
         }
@@ -211,12 +206,14 @@ function STLModel({
   }
 
   return (
-    <mesh ref={meshRef} geometry={geometry}>
-      <meshPhongMaterial
+    <mesh ref={meshRef} geometry={geometry} scale={scale}>
+      <meshStandardMaterial
         color={wireframe ? "white" : "#3f88c5"}
         wireframe={wireframe}
         side={THREE.DoubleSide}
         flatShading={!wireframe}
+        metalness={0.15}
+        roughness={0.55}
       />
     </mesh>
   )
@@ -234,7 +231,6 @@ export default function ModelViewer({ modelUrl, projectSlug }: ModelViewerProps)
   const [isClient, setIsClient] = useState(false)
   const [hasError, setHasError] = useState(false)
   const [hasTrackedView, setHasTrackedView] = useState(false)
-  const [modelRadius, setModelRadius] = useState<number>(5)
 
   useEffect(() => {
     setIsClient(true)
@@ -256,7 +252,8 @@ export default function ModelViewer({ modelUrl, projectSlug }: ModelViewerProps)
     return <ModelViewerFallback modelUrl={modelUrl} projectSlug={projectSlug} />
   }
 
-  const cameraDistance = modelRadius * 2.5 // 2.5x the model radius for good framing
+  // Models are normalized to a radius of 5, so a fixed camera frames everything
+  const cameraDistance = 12.5
 
   return (
     <div className="flex flex-col">
@@ -284,7 +281,7 @@ export default function ModelViewer({ modelUrl, projectSlug }: ModelViewerProps)
 
             {/* STL Model */}
             <Center>
-              <STLModel modelUrl={modelUrl} wireframe={wireframe} onBoundsCalculated={setModelRadius} />
+              <STLModel modelUrl={modelUrl} wireframe={wireframe} />
             </Center>
 
             {/* Environment and controls */}
@@ -293,8 +290,8 @@ export default function ModelViewer({ modelUrl, projectSlug }: ModelViewerProps)
               enablePan={true}
               enableZoom={true}
               enableRotate={true}
-              minDistance={modelRadius * 0.5}
-              maxDistance={modelRadius * 10}
+              minDistance={2.5}
+              maxDistance={50}
               autoRotate={autoRotate}
               autoRotateSpeed={1}
               makeDefault
