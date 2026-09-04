@@ -119,6 +119,46 @@ function HoverVideo({ src, active }: { src: string; active: boolean }) {
   )
 }
 
+// Projects that get the full treatment (photo fan, hover video, description)
+const featured = new Set(["ai-grand-prix", "hour_of_robotics", "frc-971", "somo-ai", "custom-rocket", "robot-arm"])
+
+function CompactEntry({ project, first }: { project: (typeof projects)[number]; first: boolean }) {
+  const meta = timelineMeta[project.slug]
+  const Icon = meta?.icon ?? Cog
+
+  return (
+    <li className={`relative pb-8 pl-8 last:pb-4 ${first ? "pt-4" : ""}`}>
+      <span
+        className={`absolute -left-[13px] flex h-[26px] w-[26px] items-center justify-center rounded-full bg-background ${
+          first ? "top-4" : "top-0"
+        }`}
+      >
+        <Icon className="h-5 w-5" strokeWidth={1.75} />
+      </span>
+
+      <Link href={`/projects/${project.slug}`} className="group block">
+        <h2 className="text-[17px] font-semibold leading-tight group-hover:underline underline-offset-4 decoration-muted-foreground/60">
+          {project.title}
+          {meta?.period && (
+            <span className="font-normal text-muted-foreground no-underline">
+              {" "}
+              · {meta.period}
+            </span>
+          )}
+        </h2>
+
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {project.tags.slice(0, 3).map((tag) => (
+            <span key={tag} className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-muted-foreground">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </Link>
+    </li>
+  )
+}
+
 function TimelineEntry({ project }: { project: (typeof projects)[number] }) {
   const [hovered, setHovered] = useState(false)
   const meta = timelineMeta[project.slug]
@@ -227,9 +267,16 @@ export default function MinimalHome() {
       {/* Timeline */}
       <section id="work" className="mx-auto w-full max-w-[34rem] px-6 pb-8 pt-16">
         <ol className="relative border-l border-border">
-          {projects.map((project) => (
-            <TimelineEntry key={project.slug} project={project} />
-          ))}
+          {projects
+            .filter((project) => featured.has(project.slug))
+            .map((project) => (
+              <TimelineEntry key={project.slug} project={project} />
+            ))}
+          {projects
+            .filter((project) => !featured.has(project.slug))
+            .map((project, i) => (
+              <CompactEntry key={project.slug} project={project} first={i === 0} />
+            ))}
         </ol>
       </section>
 
