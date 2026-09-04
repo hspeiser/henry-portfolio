@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -26,28 +27,41 @@ import { projects } from "@/lib/projects"
 const profileImage = "/profile-photo.png"
 
 // Presentation-only metadata for the timeline. Lives here so lib/projects.ts stays untouched.
-const timelineMeta: Record<string, { period: string; icon: LucideIcon; live?: boolean }> = {
+const timelineMeta: Record<string, { period: string; icon: LucideIcon }> = {
   "ai-grand-prix": { period: "2026", icon: Radar },
   hour_of_robotics: { period: "2026", icon: Blocks },
   "frc-971": { period: "2021-2024", icon: Bot },
-  "robot-arm": { period: "2025", icon: Cog, live: true },
+  "robot-arm": { period: "2025", icon: Cog },
   "somo-ai": { period: "2024-2025", icon: Hotel },
   "can-robot-controller": { period: "2024", icon: Gamepad2 },
-  "custom-rocket": { period: "2023", icon: Rocket },
-  sky_drive: { period: "2025", icon: Orbit, live: true },
+  "custom-rocket": { period: "2024", icon: Rocket },
+  sky_drive: { period: "2025", icon: Orbit },
   "atila-biosystems": { period: "2023", icon: Microscope },
   "mantis-shrimp-composites": { period: "2026", icon: Waves },
   fpv_drone: { period: "2024", icon: Zap },
   rocket_car: { period: "2024", icon: Car },
-  wooden_bench: { period: "2023", icon: Armchair },
+  wooden_bench: { period: "2024", icon: Armchair },
   tramp_stamp: { period: "2025", icon: Stamp },
 }
 
 const rotations = ["-rotate-6 translate-y-3", "rotate-0 -translate-y-1 z-10", "rotate-6 translate-y-3"]
 
-function ImageFan({ images, title }: { images: { url: string; description: string }[]; title: string }) {
+function ImageFan({
+  images,
+  videoUrl,
+  title,
+  hovered,
+}: {
+  images: { url: string; description: string }[]
+  videoUrl?: string
+  title: string
+  hovered: boolean
+}) {
   const picks = images.slice(0, 3)
   if (picks.length === 0) return null
+
+  // The front card (middle of three) swaps to the project's video on hover
+  const videoIndex = picks.length === 3 ? 1 : picks.length - 1
 
   return (
     <div className="flex items-center justify-center pt-5 pb-9 -space-x-8 sm:-space-x-10">
@@ -58,16 +72,93 @@ function ImageFan({ images, title }: { images: { url: string; description: strin
             rotations[picks.length === 1 ? 1 : picks.length === 2 ? (i === 0 ? 0 : 2) : i]
           } group-hover:[&:nth-child(1)]:-translate-x-3 group-hover:[&:nth-child(3)]:translate-x-3 group-hover:[&:nth-child(2)]:-translate-y-3`}
         >
-          <Image
-            src={img.url}
-            alt={img.description || title}
-            fill
-            sizes="200px"
-            className="object-cover"
-          />
+          <Image src={img.url} alt={img.description || title} fill sizes="200px" className="object-cover" />
+          {videoUrl && i === videoIndex && <HoverVideo src={videoUrl} active={hovered} />}
         </div>
       ))}
     </div>
+  )
+}
+
+function HoverVideo({ src, active }: { src: string; active: boolean }) {
+  const ref = useRef<HTMLVideoElement>(null)
+  const [ready, setReady] = useState(false)
+  const [started, setStarted] = useState(false)
+
+  useEffect(() => {
+    if (active) setStarted(true)
+  }, [active])
+
+  // Runs again once the video element mounts after the first hover, so the first hover plays too
+  useEffect(() => {
+    const video = ref.current
+    if (!video) return
+    if (active) {
+      video.play().catch(() => {})
+    } else {
+      video.pause()
+      video.currentTime = 0
+    }
+  }, [active, started])
+
+  if (!started) return null
+
+  return (
+    <video
+      ref={ref}
+      src={src}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      onLoadedData={() => setReady(true)}
+      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+        active && ready ? "opacity-100" : "opacity-0"
+      }`}
+    />
+  )
+}
+
+function TimelineEntry({ project }: { project: (typeof projects)[number] }) {
+  const [hovered, setHovered] = useState(false)
+  const meta = timelineMeta[project.slug]
+  const Icon = meta?.icon ?? Cog
+
+  return (
+    <li className="relative pb-20 pl-8 last:pb-8">
+      <span className="absolute -left-[13px] top-0 flex h-[26px] w-[26px] items-center justify-center rounded-full bg-background">
+        <Icon className="h-5 w-5" strokeWidth={1.75} />
+      </span>
+
+      <Link
+        href={`/projects/${project.slug}`}
+        className="group block"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <h2 className="text-[17px] font-semibold leading-tight">
+          {project.title}
+          {meta?.period && (
+            <span className="font-normal text-muted-foreground">
+              {" "}
+              · {meta.period}
+            </span>
+          )}
+        </h2>
+
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {project.tags.slice(0, 3).map((tag) => (
+            <span key={tag} className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-muted-foreground">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <ImageFan images={project.images} videoUrl={project.videos?.[0]?.url} title={project.title} hovered={hovered} />
+
+        <p className="text-[15px] leading-relaxed text-muted-foreground">{project.description}</p>
+      </Link>
+    </li>
   )
 }
 
@@ -136,44 +227,9 @@ export default function MinimalHome() {
       {/* Timeline */}
       <section id="work" className="mx-auto w-full max-w-[34rem] px-6 pb-8 pt-16">
         <ol className="relative border-l border-border">
-          {projects.map((project) => {
-            const meta = timelineMeta[project.slug]
-            const Icon = meta?.icon ?? Cog
-            return (
-              <li key={project.slug} className="relative pb-20 pl-8 last:pb-8">
-                <span className="absolute -left-[13px] top-0 flex h-[26px] w-[26px] items-center justify-center rounded-full bg-background">
-                  <Icon className="h-5 w-5" strokeWidth={1.75} />
-                </span>
-
-                <Link href={`/projects/${project.slug}`} className="group block">
-                  <h2 className="text-[17px] font-semibold leading-tight">
-                    {project.title}
-                    {meta?.period && (
-                      <span className="font-normal text-muted-foreground">
-                        {" "}
-                        · {meta.period}
-                      </span>
-                    )}
-                    {meta?.live && (
-                      <span className="ml-2 inline-block h-2 w-2 rounded-full bg-green-500 align-middle" aria-label="In progress" />
-                    )}
-                  </h2>
-
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-muted-foreground">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <ImageFan images={project.images} title={project.title} />
-
-                  <p className="text-[15px] leading-relaxed text-muted-foreground">{project.description}</p>
-                </Link>
-              </li>
-            )
-          })}
+          {projects.map((project) => (
+            <TimelineEntry key={project.slug} project={project} />
+          ))}
         </ol>
       </section>
 
