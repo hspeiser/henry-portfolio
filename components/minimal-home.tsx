@@ -5,7 +5,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import {
-  ArrowDown,
   Armchair,
   Blocks,
   Bot,
@@ -42,6 +41,54 @@ const timelineMeta: Record<string, { period: string; icon: LucideIcon }> = {
   rocket_car: { period: "2024", icon: Car },
   wooden_bench: { period: "2024", icon: Armchair },
   tramp_stamp: { period: "2025", icon: Stamp },
+}
+
+const work = [
+  { company: "Tesla", role: "Cybercab", href: "https://www.tesla.com/cybercab" },
+  { company: "Origami Robotics", role: "Dexterous robot hands", href: "https://www.origami-robotics.com" },
+  { company: "Somo AI", role: "Lead prototyping engineer", href: "/projects/somo-ai" },
+  { company: "Atila Biosystems", role: "Point of care device electronics", href: "/projects/atila-biosystems" },
+]
+
+// Organization each project was done with, shown as the first pill
+const orgTag: Record<string, string> = {
+  "ai-grand-prix": "Anduril",
+  hour_of_robotics: "Y Combinator",
+  "frc-971": "FIRST Robotics",
+  "somo-ai": "Somo AI",
+  "atila-biosystems": "Atila Biosystems",
+}
+
+// Punchier one-liners for the featured entries. Lead with the number.
+const blurbs: Record<string, string> = {
+  "ai-grand-prix":
+    "25th of 3,000+ entries in Anduril and DCL's autonomous drone race. A 17 gate course flown on a camera and IMU alone, 35.37 second lap.",
+  hour_of_robotics:
+    "2nd place at YC Robohacks. Drag and drop programming for real robots, running entirely in the browser.",
+  "frc-971":
+    "Four years doing every job on the team. Autonomous software, PCBs, firmware, gearboxes, machining, driving, and match strategy.",
+  "somo-ai":
+    "Lead prototyping engineer. 12 custom PCBs and a CAN bus smart hotel system that helped raise $20M+.",
+  "custom-rocket":
+    "Broke Mach 1 with homemade APCP propellant, a custom nozzle, and my own altimeter and ignition electronics.",
+  "robot-arm":
+    "A 6 axis arm designed in Onshape with inverse kinematics and path planning written from scratch. Still in progress.",
+}
+
+function Tags({ project }: { project: (typeof projects)[number] }) {
+  const org = orgTag[project.slug]
+  return (
+    <div className="mt-2 flex flex-wrap gap-1.5">
+      {org && (
+        <span className="rounded-full px-2.5 py-0.5 text-xs font-medium text-foreground ring-1 ring-border">{org}</span>
+      )}
+      {project.tags.slice(0, org ? 2 : 3).map((tag) => (
+        <span key={tag} className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-muted-foreground">
+          {tag}
+        </span>
+      ))}
+    </div>
+  )
 }
 
 const rotations = ["-rotate-6 translate-y-3", "rotate-0 -translate-y-1 z-10", "rotate-6 translate-y-3"]
@@ -147,13 +194,7 @@ function CompactEntry({ project, first }: { project: (typeof projects)[number]; 
           )}
         </h2>
 
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {project.tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-muted-foreground">
-              {tag}
-            </span>
-          ))}
-        </div>
+        <Tags project={project} />
       </Link>
     </li>
   )
@@ -186,17 +227,11 @@ function TimelineEntry({ project }: { project: (typeof projects)[number] }) {
           )}
         </h2>
 
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {project.tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-muted-foreground">
-              {tag}
-            </span>
-          ))}
-        </div>
+        <Tags project={project} />
 
         <ImageFan images={project.images} videoUrl={project.videos?.[0]?.url} title={project.title} hovered={hovered} />
 
-        <p className="text-[15px] leading-relaxed text-muted-foreground">{project.description}</p>
+        <p className="text-[15px] leading-relaxed text-muted-foreground">{blurbs[project.slug] ?? project.description}</p>
       </Link>
     </li>
   )
@@ -206,12 +241,12 @@ export default function MinimalHome() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Intro */}
-      <section className="relative flex min-h-[100dvh] items-center">
+      <section>
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-          className="mx-auto w-full max-w-[34rem] px-6 pb-24 pt-12"
+          className="mx-auto w-full max-w-[34rem] px-6 pb-2 pt-14 sm:pt-16"
         >
           <div className="relative mb-8 h-16 w-16 overflow-hidden rounded-xl bg-muted">
             <Image src={profileImage} alt="Henry Speiser" fill sizes="64px" className="scale-[1.14] object-cover" priority />
@@ -253,19 +288,29 @@ export default function MinimalHome() {
             </p>
             <p>Currently, I&apos;m working on solving robot data collection.</p>
           </div>
-        </motion.div>
 
-        <a
-          href="#work"
-          aria-label="Scroll to projects"
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-foreground/70 hover:text-foreground transition-colors"
-        >
-          <ArrowDown className="h-6 w-6" strokeWidth={1.5} />
-        </a>
+          {/* Work */}
+          <ul className="mt-8 divide-y divide-border border-y border-border text-[15px]">
+            {work.map((job) => (
+              <li key={job.company} className="flex flex-col gap-0.5 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                <a
+                  href={job.href}
+                  target={job.href.startsWith("/") ? undefined : "_blank"}
+                  rel={job.href.startsWith("/") ? undefined : "noopener noreferrer"}
+                  className="font-semibold hover:underline underline-offset-4 decoration-muted-foreground/60"
+                >
+                  {job.company}
+                </a>
+                <span className="text-muted-foreground sm:text-right">{job.role}</span>
+              </li>
+            ))}
+          </ul>
+
+        </motion.div>
       </section>
 
       {/* Timeline */}
-      <section id="work" className="mx-auto w-full max-w-[34rem] px-6 pb-8 pt-16">
+      <section id="work" className="mx-auto w-full max-w-[34rem] px-6 pb-8 pt-12">
         <ol className="relative border-l border-border">
           {projects
             .filter((project) => featured.has(project.slug))
