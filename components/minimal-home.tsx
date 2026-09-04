@@ -88,11 +88,16 @@ export default function MinimalHome() {
 
           <div className="space-y-5 text-[17px] leading-relaxed">
             <p>Hey, I&apos;m Henry.</p>
+            <p>Currently, I&apos;m working on solving robot data collection.</p>
             <p>
-              I broke the sound barrier with a{" "}
-              <Link href="/projects/custom-rocket" className="underline underline-offset-4 decoration-muted-foreground/60 hover:decoration-foreground transition-colors">
-                rocket I built in my backyard
-              </Link>
+              Previously I worked on the{" "}
+              <a href="https://www.tesla.com/cybercab" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 decoration-muted-foreground/60 hover:decoration-foreground transition-colors">
+                Cybercab
+              </a>{" "}
+              at Tesla and on dexterous hands at{" "}
+              <a href="https://www.origami-robotics.com" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 decoration-muted-foreground/60 hover:decoration-foreground transition-colors">
+                Origami Robotics
+              </a>
               .
             </p>
             <p>
@@ -103,18 +108,15 @@ export default function MinimalHome() {
               a 17 gate course with nothing but a camera and an IMU. It placed 25th out of more than 3,000.
             </p>
             <p>
-              Before that I spent four years on{" "}
+              I broke the sound barrier with a{" "}
+              <Link href="/projects/custom-rocket" className="underline underline-offset-4 decoration-muted-foreground/60 hover:decoration-foreground transition-colors">
+                rocket I built myself
+              </Link>
+              , and spent four years on{" "}
               <Link href="/projects/frc-971" className="underline underline-offset-4 decoration-muted-foreground/60 hover:decoration-foreground transition-colors">
                 FRC Team 971
               </Link>{" "}
               doing every job on the team.
-            </p>
-            <p>
-              Currently, I&apos;m building a{" "}
-              <Link href="/projects/robot-arm" className="underline underline-offset-4 decoration-muted-foreground/60 hover:decoration-foreground transition-colors">
-                6 axis robot arm
-              </Link>{" "}
-              from scratch, inverse kinematics and all.
             </p>
           </div>
         </motion.div>
