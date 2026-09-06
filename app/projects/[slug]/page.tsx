@@ -1,11 +1,8 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect, use } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 import { ArrowLeft, Github, ExternalLink, FileText, Download, ChevronDown, ChevronUp } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -46,14 +43,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   const [activeTab, setActiveTab] = useState("gallery")
   const [descriptionExpanded, setDescriptionExpanded] = useState(false)
   const { toast } = useToast()
-  const router = useRouter()
 
   const project = projects.find((p) => p.slug === slug)
-
-  // Scroll to top when component mounts
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
 
   // Track project view
   useEffect(() => {
@@ -90,20 +81,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
     }
   }
 
-  // Simple back navigation without animations
-  const handleBackClick = (e: React.MouseEvent) => {
-    e.preventDefault()
+  const handleBackClick = () => {
     trackEvent.navigationClick("back_to_projects")
-
-    router.push("/")
-
-    // Scroll to projects section after navigation
-    setTimeout(() => {
-      const projectsSection = document.getElementById("projects")
-      if (projectsSection) {
-        projectsSection.scrollIntoView({ behavior: "smooth" })
-      }
-    }, 100)
   }
 
   if (!project) {
