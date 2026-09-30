@@ -10,8 +10,6 @@ import { sans } from "@/components/notebook"
 
 export const metadata: Metadata = {
   title: "Henry Speiser",
-  description:
-    "Portfolio of Henry Speiser, an engineer who builds things across software, electronics, and mechanical domains.",
   keywords: [
     "Henry Speiser",
     "Engineer",
@@ -33,15 +31,11 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://henryspeiser.com",
     title: "Henry Speiser",
-    description:
-      "Portfolio of Henry Speiser, an engineer who builds things across software, electronics, and mechanical domains.",
     siteName: "Henry Speiser Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Henry Speiser",
-    description:
-      "Portfolio of Henry Speiser, an engineer who builds things across software, electronics, and mechanical domains.",
   },
   robots: {
     index: true,
