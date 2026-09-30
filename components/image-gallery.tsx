@@ -54,14 +54,14 @@ export default function ImageGallery({ images, projectSlug }: ImageGalleryProps)
   return (
     <div>
       {/* True CSS columns-based masonry layout */}
-      <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+      <div className="columns-1 sm:columns-2 lg:columns-3 gap-5">
         {images.map((image, index) => (
           <div
             key={index}
-            className="break-inside-avoid mb-4 rounded-lg overflow-hidden border cursor-pointer group"
+            className="break-inside-avoid mb-6 cursor-pointer group"
             onClick={() => openLightbox(index)}
           >
-            <div className="relative">
+            <div className="relative overflow-hidden rounded-2xl bg-muted">
               <img
                 src={image.url || "/placeholder.svg"}
                 alt={image.description}
@@ -71,7 +71,9 @@ export default function ImageGallery({ images, projectSlug }: ImageGalleryProps)
                 <Maximize2 className="h-8 w-8 text-white" />
               </div>
             </div>
-            <div className="p-3 text-base text-muted-foreground bg-background">{image.description}</div>
+            <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground group-hover:text-foreground transition-colors">
+              {image.description}
+            </p>
           </div>
         ))}
       </div>

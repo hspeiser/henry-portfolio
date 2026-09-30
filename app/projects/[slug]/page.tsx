@@ -3,24 +3,23 @@
 import { useState, useEffect, use } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Github, ExternalLink, FileText, Download, ChevronDown, ChevronUp } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
+import { ArrowLeft, ArrowUpRight, Github, ExternalLink, FileText, Download, ChevronDown, ChevronUp } from "lucide-react"
 import { projects } from "@/lib/projects"
 import VideoPlayer from "@/components/video-player"
 import ImageGallery from "@/components/image-gallery"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { useToast } from "@/components/ui/use-toast"
 import { trackEvent } from "@/lib/analytics"
+import { cn } from "@/lib/utils"
+import { HOME, Label, NotebookHeader, mono, splitTitle } from "@/components/notebook"
 import dynamic from "next/dynamic"
 
 // Dynamically import ModelViewer to avoid SSR issues
 const ModelViewer = dynamic(() => import("@/components/model-viewer"), {
   ssr: false,
   loading: () => (
-    <div className="w-full aspect-video rounded-lg border bg-card flex items-center justify-center">
-      <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+    <div className="w-full aspect-video rounded-2xl bg-card flex items-center justify-center">
+      <div className="animate-spin h-8 w-8 border-4 border-signal border-t-transparent rounded-full"></div>
     </div>
   ),
 })
@@ -28,15 +27,24 @@ const ModelViewer = dynamic(() => import("@/components/model-viewer"), {
 // Fallback component for model viewer errors
 function ModelViewerFallback({ modelUrl, description }: { modelUrl: string; description: string }) {
   return (
-    <div className="p-8 border rounded-lg bg-card text-center">
+    <div className="p-8 rounded-2xl bg-card text-center">
       <h3 className="text-lg font-medium mb-2">3D Model Available</h3>
       <p className="text-muted-foreground mb-4">{description}</p>
-      <Button variant="outline" onClick={() => window.open(modelUrl, "_blank")}>
+      <button
+        type="button"
+        onClick={() => window.open(modelUrl, "_blank")}
+        className="rounded-full border border-foreground/25 px-4 py-2 text-sm hover:border-signal hover:text-signal transition-colors"
+      >
         Download 3D Model
-      </Button>
+      </button>
     </div>
   )
 }
+
+const pillPrimary =
+  "inline-flex items-center gap-2 rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-medium hover:bg-signal hover:text-white transition-colors"
+const pillOutline =
+  "inline-flex items-center gap-2 rounded-full border border-foreground/25 px-5 py-2.5 text-sm font-medium hover:border-signal hover:text-signal transition-colors"
 
 export default function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
@@ -44,7 +52,9 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   const [descriptionExpanded, setDescriptionExpanded] = useState(false)
   const { toast } = useToast()
 
-  const project = projects.find((p) => p.slug === slug)
+  const index = projects.findIndex((p) => p.slug === slug)
+  const project = index >= 0 ? projects[index] : undefined
+  const next = projects[(index + 1) % projects.length]
 
   // Track project view
   useEffect(() => {
@@ -87,276 +97,294 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="container px-4 py-24 md:px-6 flex flex-col items-center justify-center min-h-[50vh]">
-          <div className="rounded-lg border bg-card p-8 max-w-md mx-auto text-center">
-            <h1 className="text-2xl font-bold mb-4">Project Not Found</h1>
-            <p className="mb-6 text-muted-foreground">
-              The project you're looking for is still being developed. Check back later!
-            </p>
-            <Button asChild>
-              <Link href="/#projects">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Projects
-              </Link>
-            </Button>
-          </div>
+      <div className={"min-h-screen"}>
+        <NotebookHeader />
+        <div className="mx-auto max-w-[1200px] px-4 md:px-8 py-24">
+          <Label>Error · 404</Label>
+          <h1 className="mt-4 text-4xl md:text-6xl font-semibold tracking-[-0.04em]">
+            Project not found<span className="text-signal">.</span>
+          </h1>
+          <p className="mt-4 text-foreground/70 max-w-md">
+            The project you're looking for is still being developed. Check back later!
+          </p>
+          <Link href={`${HOME}#work`} className={cn(pillPrimary, "mt-8")}>
+            <ArrowLeft className="h-4 w-4" />
+            Back to Projects
+          </Link>
         </div>
       </div>
     )
   }
 
+  const { name, note } = splitTitle(project.title)
+  const paragraphs = project.longDescription?.split("\n").filter((p) => p.trim()) ?? []
+  const isCollapsible = paragraphs.length > 4
+  const collapsed = isCollapsible && !descriptionExpanded
+
+  const tabs = [
+    { value: "gallery", label: "Gallery", count: project.images.length },
+    { value: "videos", label: "Videos", count: project.videos?.length ?? 0 },
+    { value: "models", label: "3D Models", count: project.models?.length ?? 0 },
+    { value: "paper", label: "Paper", count: project.papers?.length ?? 0 },
+  ].filter((t) => t.count > 0)
+
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container px-4 py-12 md:px-6 max-w-7xl mx-auto">
-        {/* Back Button */}
-        <div className="mb-6">
+    <div className={"min-h-screen"}>
+      <NotebookHeader />
+
+      <main className="mx-auto max-w-[1200px] px-4 md:px-8 pb-10">
+        {/* Back */}
+        <div className="pt-8 md:pt-10">
           <Link
-            href="/#projects"
-            className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            href={`${HOME}#work`}
             onClick={handleBackClick}
+            className="group inline-flex items-center gap-2 hover:text-signal transition-colors"
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Projects
+            <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
+            <Label className="group-hover:text-signal transition-colors">All projects</Label>
           </Link>
         </div>
 
-        {/* Project Content */}
-        <div className="w-full">
-          {/* Featured Image */}
-          <div className="rounded-lg overflow-hidden border mb-6">
-            <div className="relative aspect-video">
-              <Image
-                src={project.imageUrl || "/placeholder.svg"}
-                alt={project.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+        {/* Title */}
+        <section className="pt-8 md:pt-12 pb-8 md:pb-10">
+          <div className="flex items-baseline gap-3">
+            <span className={cn(mono.className, "text-[13px] text-signal")}>{String(index + 1).padStart(2, "0")}</span>
+            {note && <Label>{note}</Label>}
           </div>
+          <h1 className="mt-3 text-4xl sm:text-5xl md:text-7xl font-semibold tracking-[-0.045em] leading-[0.98] max-w-4xl">
+            {name}
+            <span className="text-signal">.</span>
+          </h1>
+          <p className="mt-5 text-lg md:text-xl text-foreground/70 max-w-2xl leading-snug">{project.description}</p>
 
-          {/* Project info underneath image */}
-          <div className="mb-8">
-            <div className="flex flex-wrap gap-2 mb-3">
-              {project.tags.map((tag, i) => (
-                <Badge key={i} className="mb-1">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3">{project.title}</h2>
-            <p className="mb-6 text-base sm:text-lg md:text-xl text-muted-foreground">{project.description}</p>
-
-            {/* Demo / Repo Links */}
-            <div className="flex flex-wrap gap-4 mt-6">
+          {(project.demoUrl || project.githubUrl || project.paperUrl) && (
+            <div className="mt-7 flex flex-wrap gap-3">
               {project.demoUrl && (
-                <Button variant="default" className="gap-2" onClick={() => handleDemoClick(project.demoUrl!)}>
+                <button type="button" className={pillPrimary} onClick={() => handleDemoClick(project.demoUrl!)}>
                   <ExternalLink className="h-4 w-4" />
                   Live Demo
-                </Button>
+                </button>
               )}
               {project.githubUrl && (
-                <Button variant="outline" className="gap-2 bg-transparent" asChild>
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => handleGithubClick(project.githubUrl!)}
-                  >
-                    <Github className="h-4 w-4" />
-                    GitHub
-                  </a>
-                </Button>
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => handleGithubClick(project.githubUrl!)}
+                  className={project.demoUrl ? pillOutline : pillPrimary}
+                >
+                  <Github className="h-4 w-4" />
+                  GitHub
+                </a>
               )}
               {project.paperUrl && (
-                <Button
-                  variant="outline"
-                  className="gap-2 bg-transparent"
+                <button
+                  type="button"
+                  className={pillOutline}
                   onClick={() => {
                     trackEvent.navigationClick(`project_paper_${project.slug}`)
                     setActiveTab("paper")
                     setTimeout(() => {
-                      document.getElementById("project-tabs")?.scrollIntoView({ behavior: "smooth", block: "start" })
+                      document.getElementById("project-media")?.scrollIntoView({ behavior: "smooth", block: "start" })
                     }, 50)
                   }}
                 >
                   <FileText className="h-4 w-4" />
                   Read Paper
-                </Button>
+                </button>
               )}
             </div>
+          )}
+        </section>
+
+        {/* Hero image */}
+        <div className="relative aspect-video overflow-hidden rounded-2xl bg-muted">
+          <Image
+            src={project.imageUrl || "/placeholder.svg"}
+            alt={project.title}
+            fill
+            sizes="(max-width: 1200px) 100vw, 1200px"
+            className="object-cover"
+            priority
+          />
+        </div>
+
+        {/* Write-up + spec sheet */}
+        <section className="pt-12 md:pt-16 grid lg:grid-cols-[1fr_300px] gap-12 lg:gap-16">
+          <div>
+            <div className="border-b border-foreground pb-3 mb-6">
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-[-0.03em]">The build</h2>
+            </div>
+            <div className={cn("relative", collapsed && "max-h-[26rem] overflow-hidden")}>
+              {paragraphs.map((paragraph, i) => (
+                <p key={i} className="mb-5 text-base sm:text-lg leading-relaxed text-foreground/80">
+                  {paragraph}
+                </p>
+              ))}
+              {collapsed && (
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+              )}
+            </div>
+            {isCollapsible && (
+              <button
+                type="button"
+                onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+                className={cn(pillOutline, "mt-2")}
+              >
+                {descriptionExpanded ? (
+                  <>
+                    Show less <ChevronUp className="h-4 w-4" />
+                  </>
+                ) : (
+                  <>
+                    Read the whole thing <ChevronDown className="h-4 w-4" />
+                  </>
+                )}
+              </button>
+            )}
           </div>
 
-          {/* Project Details Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <div className="lg:col-span-2">
-              <h4 className="text-xl font-semibold mb-3">Project Details</h4>
-              {(() => {
-                const paragraphs = project.longDescription?.split("\n").filter((p) => p.trim()) ?? []
-                const isCollapsible = paragraphs.length > 4
-                const collapsed = isCollapsible && !descriptionExpanded
-                return (
-                  <>
-                    <div className={`relative ${collapsed ? "max-h-[22rem] overflow-hidden" : ""}`}>
-                      <div className="prose prose-invert max-w-none">
-                        {paragraphs.map((paragraph, index) => (
-                          <p key={index} className="mb-4 text-base sm:text-lg text-muted-foreground">
-                            {paragraph}
-                          </p>
-                        ))}
+          <aside className="lg:sticky lg:top-24 self-start">
+            <dl className="rounded-2xl bg-card p-5 space-y-5">
+              <div>
+                <dt><Label>Discipline</Label></dt>
+                <dd className="mt-1.5 text-sm">{project.categories.join(", ")}</dd>
+              </div>
+              <div className="border-t border-border pt-5">
+                <dt><Label>Stack</Label></dt>
+                <dd className="mt-2 flex flex-wrap gap-1.5">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="rounded-full border border-foreground/15 px-2.5 py-1 text-xs text-foreground/80">
+                      {tag}
+                    </span>
+                  ))}
+                </dd>
+              </div>
+              <div className="border-t border-border pt-5">
+                <dt><Label>On file</Label></dt>
+                <dd className={cn(mono.className, "mt-1.5 text-sm text-foreground/80")}>
+                  {tabs
+                    .map((t) => {
+                      const label = t.value === "gallery" ? "photo" : t.value === "models" ? "3d model" : t.value.replace(/s$/, "")
+                      return `${t.count} ${label}${t.count === 1 ? "" : "s"}`
+                    })
+                    .join(" · ")}
+                </dd>
+              </div>
+            </dl>
+          </aside>
+        </section>
+
+        {/* Media */}
+        <section id="project-media" className="scroll-mt-20 pt-16 md:pt-24">
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-foreground pb-3 mb-8">
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-[-0.03em]">Evidence</h2>
+            {tabs.length > 1 && (
+              <div className="flex flex-wrap gap-2" role="tablist">
+                {tabs.map((t) => (
+                  <button
+                    key={t.value}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTab === t.value}
+                    onClick={() => handleTabChange(t.value)}
+                    className={cn(
+                      "rounded-full px-3.5 py-1.5 text-sm transition-colors",
+                      activeTab === t.value
+                        ? "bg-foreground text-background"
+                        : "border border-foreground/20 text-foreground/70 hover:text-foreground hover:border-foreground/50"
+                    )}
+                  >
+                    {t.label}
+                    <span className={cn(mono.className, "ml-1.5 text-[11px] opacity-60")}>{t.count}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {activeTab === "gallery" && <ImageGallery images={project.images} projectSlug={project.slug} />}
+
+          {activeTab === "videos" && project.videos && (
+            <div className="space-y-10 max-w-5xl mx-auto">
+              {project.videos.map((video, i) => (
+                <figure key={i}>
+                  <div className="overflow-hidden rounded-2xl">
+                    <VideoPlayer videoUrl={video.url} title={project.title} projectSlug={project.slug} />
+                  </div>
+                  <figcaption className="mt-3 text-sm text-foreground/70">{video.description}</figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "models" && project.models && (
+            <div className="space-y-10 max-w-5xl mx-auto">
+              {project.models.map((model, i) => (
+                <figure key={i}>
+                  <div className="overflow-hidden rounded-2xl">
+                    <ErrorBoundary fallback={<ModelViewerFallback modelUrl={model.url} description={model.description} />}>
+                      <ModelViewer modelUrl={model.url} projectSlug={project.slug} />
+                    </ErrorBoundary>
+                  </div>
+                  <figcaption className="mt-3 text-sm text-foreground/70">{model.description}</figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "paper" && project.papers && (
+            <div className="space-y-6 max-w-5xl mx-auto">
+              {project.papers.map((paper, i) => (
+                <div key={i} className="overflow-hidden rounded-2xl bg-card">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4">
+                    <div className="flex items-start gap-3 min-w-0">
+                      <FileText className="h-5 w-5 text-signal shrink-0 mt-0.5" />
+                      <div className="min-w-0">
+                        <h4 className="font-medium">{paper.title}</h4>
+                        <p className="text-xs text-muted-foreground mt-0.5">{paper.description}</p>
                       </div>
-                      {collapsed && (
-                        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-                      )}
                     </div>
-                    {isCollapsible && (
+                    <div className="flex gap-2 shrink-0">
                       <button
                         type="button"
-                        onClick={() => setDescriptionExpanded(!descriptionExpanded)}
-                        className="w-full flex items-center justify-center gap-2 py-2 mt-1 text-sm font-medium text-muted-foreground hover:text-foreground border rounded-lg transition-colors"
+                        className={pillOutline}
+                        onClick={() => window.open(paper.url, "_blank", "noopener,noreferrer")}
                       >
-                        {descriptionExpanded ? (
-                          <>
-                            Show less <ChevronUp className="h-4 w-4" />
-                          </>
-                        ) : (
-                          <>
-                            Read more <ChevronDown className="h-4 w-4" />
-                          </>
-                        )}
+                        <ExternalLink className="h-4 w-4" />
+                        Open
                       </button>
-                    )}
-                  </>
-                )
-              })()}
-            </div>
-
-            <div>
-              <h4 className="text-xl font-semibold mb-3">Project Info</h4>
-              <div className="space-y-4">
-                <div className="flex flex-col">
-                  <span className="text-sm text-muted-foreground">Categories</span>
-                  <div className="flex flex-wrap gap-2 mt-1">
-                    {project.categories?.map((category, i) => (
-                      <Badge key={i} variant="outline" className="text-xs">
-                        {category}
-                      </Badge>
-                    ))}
+                      <a href={paper.url} download target="_blank" rel="noopener noreferrer" className={pillOutline}>
+                        <Download className="h-4 w-4" />
+                        Download
+                      </a>
+                    </div>
                   </div>
+                  <iframe src={paper.url} className="w-full h-[85vh] border-0 bg-white" title={paper.title} />
                 </div>
-              </div>
+              ))}
             </div>
-          </div>
+          )}
+        </section>
 
-          {/* Tabs for Gallery, Videos, 3D Models, Paper */}
-          <Tabs value={activeTab} onValueChange={handleTabChange} className="mt-8" id="project-tabs">
-            <TabsList className="mb-6">
-              <TabsTrigger value="gallery" className="text-sm">
-                Gallery
-              </TabsTrigger>
-              {project.videos && project.videos.length > 0 && (
-                <TabsTrigger value="videos" className="text-sm">
-                  Videos
-                </TabsTrigger>
-              )}
-              {project.models && project.models.length > 0 && (
-                <TabsTrigger value="models" className="text-sm">
-                  3D Models
-                </TabsTrigger>
-              )}
-              {project.papers && project.papers.length > 0 && (
-                <TabsTrigger value="paper" className="text-sm">
-                  Paper
-                </TabsTrigger>
-              )}
-            </TabsList>
+        {/* Next project */}
+        {next && next.slug !== project.slug && (
+          <Link href={`/projects/${next.slug}`} className="group mt-24 md:mt-32 block border-t border-foreground pt-6">
+            <Label>Next project · {String(((index + 1) % projects.length) + 1).padStart(2, "0")}</Label>
+            <div className="mt-3 flex items-center justify-between gap-6">
+              <span className="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-[-0.04em] leading-[1.02] group-hover:text-signal transition-colors">
+                {splitTitle(next.title).name}
+              </span>
+              <ArrowUpRight className="h-8 w-8 md:h-12 md:w-12 shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-signal" />
+            </div>
+          </Link>
+        )}
 
-            <TabsContent value="gallery" className="mt-0">
-              <ImageGallery images={project.images} projectSlug={project.slug} />
-            </TabsContent>
-
-            {project.videos && project.videos.length > 0 && (
-              <TabsContent value="videos" className="mt-0">
-                <div className="space-y-6 max-w-5xl mx-auto">
-                  {project.videos.map((video, index) => (
-                    <div key={index} className="overflow-hidden rounded-lg border">
-                      <VideoPlayer videoUrl={video.url} title={project.title} projectSlug={project.slug} />
-                      <div className="p-3 text-sm text-muted-foreground">{video.description}</div>
-                    </div>
-                  ))}
-                </div>
-              </TabsContent>
-            )}
-
-            {project.models && project.models.length > 0 && (
-              <TabsContent value="models" className="mt-0">
-                <div className="space-y-6 max-w-5xl mx-auto">
-                  {project.models.map((model, index) => (
-                    <div key={index} className="overflow-hidden rounded-lg border p-4">
-                      <h4 className="font-medium mb-2">{model.description}</h4>
-                      <ErrorBoundary
-                        fallback={<ModelViewerFallback modelUrl={model.url} description={model.description} />}
-                      >
-                        {activeTab === "models" && <ModelViewer modelUrl={model.url} projectSlug={project.slug} />}
-                      </ErrorBoundary>
-                    </div>
-                  ))}
-                </div>
-              </TabsContent>
-            )}
-
-            {project.papers && project.papers.length > 0 && (
-              <TabsContent value="paper" className="mt-0">
-                <div className="space-y-6 max-w-5xl mx-auto">
-                  {project.papers.map((paper, index) => (
-                    <div key={index} className="overflow-hidden rounded-lg border bg-card">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 py-3 border-b">
-                        <div className="flex items-start gap-3 min-w-0">
-                          <FileText className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                          <div className="min-w-0">
-                            <h4 className="font-medium truncate">{paper.title}</h4>
-                            <p className="text-xs text-muted-foreground mt-0.5">{paper.description}</p>
-                          </div>
-                        </div>
-                        <div className="flex gap-2 shrink-0">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="gap-2 bg-transparent"
-                            onClick={() => window.open(paper.url, "_blank", "noopener,noreferrer")}
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                            <span className="hidden sm:inline">Open</span>
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="gap-2 bg-transparent"
-                            asChild
-                          >
-                            <a href={paper.url} download target="_blank" rel="noopener noreferrer">
-                              <Download className="h-4 w-4" />
-                              <span className="hidden sm:inline">Download</span>
-                            </a>
-                          </Button>
-                        </div>
-                      </div>
-                      {activeTab === "paper" && (
-                        <iframe
-                          src={paper.url}
-                          className="w-full h-[85vh] border-0 bg-white"
-                          title={paper.title}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </TabsContent>
-            )}
-          </Tabs>
-        </div>
-      </div>
+        <footer className="mt-20 flex flex-col sm:flex-row gap-3 justify-between border-t border-foreground/15 pt-4">
+          <Label>© {new Date().getFullYear()} Henry Speiser</Label>
+          <Label>Built by hand, mostly</Label>
+        </footer>
+      </main>
     </div>
   )
 }

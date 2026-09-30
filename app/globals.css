@@ -48,7 +48,32 @@
   --ring: #444444;
 }
 
+/* Lab notebook theme, opt in with className="notebook" */
+.notebook {
+  --background: #0c0c0b;
+  --foreground: #f1f0ec;
+  --card: #151514;
+  --card-foreground: #f1f0ec;
+  --popover: #151514;
+  --popover-foreground: #f1f0ec;
+  --primary: #f1f0ec;
+  --primary-foreground: #0c0c0b;
+  --secondary: #1c1c1a;
+  --secondary-foreground: #f1f0ec;
+  --muted: #1c1c1a;
+  --muted-foreground: #a3a19b;
+  --accent: #1c1c1a;
+  --accent-foreground: #f1f0ec;
+  --border: #2a2a27;
+  --input: #2a2a27;
+  --ring: #ff4a2e;
+  --signal: #ff4a2e;
+  background: var(--background);
+  color: var(--foreground);
+}
+
 @theme inline {
+  --color-signal: var(--signal);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

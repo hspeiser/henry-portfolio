@@ -398,6 +398,87 @@ export const projects: Project[] = [
     categories: ["Electronics", "3D Printing"],
   },
   {
+    title: "Custom Mach 1 Rocket",
+    description: "Fully custom solid-state rocket with custom remote ignitors and parachute deployment system.",
+    longDescription:
+      "I built and launched a rocket equipped with a custom altimeter and a wireless launch system, successfully breaking the sound barrier. To power the rocket, I developed APCP rocket fuel from scratch, formulating unique mixtures tailored to our specific rocket specifications. I also designed and fabricated a custom converging-diverging nozzle and casing, optimizing them for reusability and ease of manufacturing. To validate performance, I constructed a test stand to measure thrust and compare results with simulations. It was awesome.",
+    tags: ["KiCad", "Onshape", "OpenRocket", "Microcontrollers", "Rocket Propellant"],
+    imageUrl: `${baseUrl}/rocket_photos/launch_good.png`,
+    slug: "custom-rocket",
+    featured: true,
+    githubUrl: "https://github.com/hspeiser/rocket-development",
+    demoUrl: "https://www.youtube.com/watch?v=p_gHWFGRnWY&ab_channel=HenrySpeiser",
+    images: [
+      { url: `${baseUrl}/rocket_photos/launch_good.png`, description: "Liftoff! Achieved Mach 1 during ascent." },
+      {
+        url: `${baseUrl}/rocket_photos/overview_rocket.JPG`,
+        description: "The evolution of our rocket motors and nozzles.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/completed_rocket.png`,
+        description: "The fully assembled rocket, ready for flight testing.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/APCP_creation.png`,
+        description: "Mixing up the APCP propellant for maximum thrust output.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/APCP_fuel_mold.png`,
+        description: "Filling and molding the solid rocket propellant grains.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/APCP_vacuum.png`,
+        description: "Pulling a vacuum on the propellant to remove air bubbles.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/completed_ignitor_pair.png`,
+        description: "A pair of homemade ignitors to trigger the propellant.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/ignitor_testing.png`,
+        description: "Testing the ignitor's reliability and ignition timing.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/thrust_stand.png`,
+        description: "Custom-built thrust stand for measuring rocket motor performance.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/motor_testing.PNG`,
+        description: "Rocket motor hot-fire test on the thrust stand.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/thrust_stand_explosion.PNG`,
+        description:
+          "I was lucky I didnt get blasted in the face when I took this photo, instead it flew into the neighbors yard and started a fire.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/automatic_parachute_deployment.png`,
+        description: "Electronics for automatic parachute deployment.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/nozzle.png`,
+        description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow.",
+      },
+    ],
+    videos: [
+      { url: `${baseUrl}/rocket_photos/rocket_launch.mp4`, description: "Successful rocket launch." },
+      {
+        url: `${baseUrl}/rocket_photos/test_fire.mp4`,
+        description: "First successful static fire w/ data collection.",
+      },
+      {
+        url: `${baseUrl}/rocket_photos/loadcell_measurements_apcp.mp4`,
+        description:
+          "Using the data collected from our test stand we graphed the thrust curve and compared it to the simulation.",
+      },
+    ],
+    models: [
+      { url: `${baseUrl}/3d_models/rocket.stl`, description: "Our custom rocket motor geometry." },
+      { url: `${baseUrl}/3d_models/thrust_stand.stl`, description: "Logged thrust measurements from motor at 80Hz." },
+    ],
+    categories: ["Electronics", "Mechanical", "3D Printing", "Rockets", "Embedded Systems"],
+  },
+  {
     title: "6-DOF Robot Arm",
     description:
       "Custom-built 6-degree-of-freedom robot arm with inverse kinematics, path planning, and camera-based control.",
@@ -707,87 +788,6 @@ export const projects: Project[] = [
       },
     ],
     categories: ["Electronics", "Embedded Systems", "Robotics"],
-  },
-  {
-    title: "Custom Mach 1 Rocket",
-    description: "Fully custom solid-state rocket with custom remote ignitors and parachute deployment system.",
-    longDescription:
-      "I built and launched a rocket equipped with a custom altimeter and a wireless launch system, successfully breaking the sound barrier. To power the rocket, I developed APCP rocket fuel from scratch, formulating unique mixtures tailored to our specific rocket specifications. I also designed and fabricated a custom converging-diverging nozzle and casing, optimizing them for reusability and ease of manufacturing. To validate performance, I constructed a test stand to measure thrust and compare results with simulations. It was awesome.",
-    tags: ["KiCad", "Onshape", "OpenRocket", "Microcontrollers", "Rocket Propellant"],
-    imageUrl: `${baseUrl}/rocket_photos/launch_good.png`,
-    slug: "custom-rocket",
-    featured: true,
-    githubUrl: "https://github.com/hspeiser/rocket-development",
-    demoUrl: "https://www.youtube.com/watch?v=p_gHWFGRnWY&ab_channel=HenrySpeiser",
-    images: [
-      { url: `${baseUrl}/rocket_photos/launch_good.png`, description: "Liftoff! Achieved Mach 1 during ascent." },
-      {
-        url: `${baseUrl}/rocket_photos/overview_rocket.JPG`,
-        description: "The evolution of our rocket motors and nozzles.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/completed_rocket.png`,
-        description: "The fully assembled rocket, ready for flight testing.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/APCP_creation.png`,
-        description: "Mixing up the APCP propellant for maximum thrust output.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/APCP_fuel_mold.png`,
-        description: "Filling and molding the solid rocket propellant grains.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/APCP_vacuum.png`,
-        description: "Pulling a vacuum on the propellant to remove air bubbles.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/completed_ignitor_pair.png`,
-        description: "A pair of homemade ignitors to trigger the propellant.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/ignitor_testing.png`,
-        description: "Testing the ignitor's reliability and ignition timing.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/thrust_stand.png`,
-        description: "Custom-built thrust stand for measuring rocket motor performance.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/motor_testing.PNG`,
-        description: "Rocket motor hot-fire test on the thrust stand.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/thrust_stand_explosion.PNG`,
-        description:
-          "I was lucky I didnt get blasted in the face when I took this photo, instead it flew into the neighbors yard and started a fire.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/automatic_parachute_deployment.png`,
-        description: "Electronics for automatic parachute deployment.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/nozzle.png`,
-        description: "Custom-fabricated converging-diverging nozzle for supersonic exhaust flow.",
-      },
-    ],
-    videos: [
-      { url: `${baseUrl}/rocket_photos/rocket_launch.mp4`, description: "Successful rocket launch." },
-      {
-        url: `${baseUrl}/rocket_photos/test_fire.mp4`,
-        description: "First successful static fire w/ data collection.",
-      },
-      {
-        url: `${baseUrl}/rocket_photos/loadcell_measurements_apcp.mp4`,
-        description:
-          "Using the data collected from our test stand we graphed the thrust curve and compared it to the simulation.",
-      },
-    ],
-    models: [
-      { url: `${baseUrl}/3d_models/rocket.stl`, description: "Our custom rocket motor geometry." },
-      { url: `${baseUrl}/3d_models/thrust_stand.stl`, description: "Logged thrust measurements from motor at 80Hz." },
-    ],
-    categories: ["Electronics", "Mechanical", "3D Printing", "Rockets", "Embedded Systems"],
   },
   {
     title: "SkyDrive (Rocket Thrower)",

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
@@ -79,11 +79,86 @@ function ProjectMedia({
   )
 }
 
+const montage = {
+  hd: "/hero/montage-1080.mp4",
+  sd: "/hero/montage-720.mp4",
+  poster: "/hero/montage-poster.jpg",
+}
+
+function MontageBanner() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [near, setNear] = useState(false)
+  const visibleRef = useRef(false)
+
+  const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+  // Start downloading once it's close to the viewport, and only play while it's on screen
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const loadObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true)
+          loadObserver.disconnect()
+        }
+      },
+      { rootMargin: "600px 0px" }
+    )
+    const playObserver = new IntersectionObserver(([entry]) => {
+      visibleRef.current = entry.isIntersecting
+      const video = videoRef.current
+      if (!video) return
+      if (entry.isIntersecting && !reducedMotion()) {
+        video.play().catch(() => {})
+      } else {
+        video.pause()
+      }
+    }, { threshold: 0.15 })
+    loadObserver.observe(el)
+    playObserver.observe(el)
+    return () => {
+      loadObserver.disconnect()
+      playObserver.disconnect()
+    }
+  }, [])
+
+  // Sources are added late, so the video has to be told to pick them up
+  useEffect(() => {
+    const video = videoRef.current
+    if (!near || !video) return
+    video.load()
+    if (visibleRef.current && !reducedMotion()) video.play().catch(() => {})
+  }, [near])
+
+  return (
+    <div ref={containerRef} className="relative w-full aspect-video max-h-[70vh] bg-black overflow-hidden mb-16 md:mb-20">
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover"
+        muted
+        loop
+        playsInline
+        preload="none"
+        poster={montage.poster}
+        aria-hidden="true"
+      >
+        {near && <source src={montage.sd} type="video/mp4" media="(max-width: 767px)" />}
+        {near && <source src={montage.hd} type="video/mp4" />}
+      </video>
+      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" aria-hidden="true" />
+    </div>
+  )
+}
+
 export default function RedesignedProjects() {
   const [imageLoaded, setImageLoaded] = useState<Record<string, boolean>>({})
 
   return (
-    <section id="projects" className="py-24 md:py-32">
+    <section id="projects" className="pb-24 md:pb-32">
+      <MontageBanner />
       <div className="max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
