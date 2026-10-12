@@ -187,30 +187,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Montage */}
-        <section>
-          <div className="relative aspect-video bg-black overflow-hidden rounded-2xl ring-1 ring-foreground/10">
-            <video
-              className="absolute inset-0 h-full w-full object-cover"
-              poster="/hero/montage-poster.jpg"
-              autoPlay
-              muted
-              loop
-              playsInline
-              aria-hidden="true"
-            >
-              <source src="/hero/montage-720.mp4" type="video/mp4" media="(max-width: 767px)" />
-              <source src="/hero/montage-1080.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div className="mt-2 flex justify-between">
-            <Label>Fig. 00 · Everything, fast</Label>
-            <Label>0:48</Label>
-          </div>
-        </section>
-
         {/* Work */}
-        <section id="work" className="scroll-mt-20 pt-16 md:pt-24">
+        <section id="work" className="scroll-mt-20 pt-6 md:pt-10">
           <div className="flex items-baseline justify-between border-b border-foreground pb-3 mb-8 md:mb-10">
             <h2 className="text-2xl md:text-3xl font-semibold tracking-[-0.03em]">Projects</h2>
             <Label>{projects.length} entries</Label>
