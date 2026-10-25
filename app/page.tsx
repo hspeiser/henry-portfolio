@@ -163,7 +163,7 @@ export default function Home() {
         <section className="pt-12 md:pt-20 pb-10 md:pb-14 grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-end">
           <div>
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-[-0.045em] leading-[0.95]">
-              Henry Speiser<span className="text-signal">.</span>
+              Henry Speiser
             </h1>
             <p className="mt-5 text-lg md:text-xl text-foreground/70 max-w-md leading-snug">
               I build things. Sometimes they even work.
@@ -207,7 +207,7 @@ export default function Home() {
           <div className="border-t border-foreground pt-6">
             <Label>Contact</Label>
             <p className="mt-4 text-3xl sm:text-4xl md:text-6xl font-semibold tracking-[-0.04em] leading-[1.05] max-w-3xl">
-              Got something that needs building<span className="text-signal">?</span>
+              Got something that needs building?
             </p>
             <a
               href="mailto:henry@speiser.net"

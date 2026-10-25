@@ -8,7 +8,7 @@ export default function NotFound() {
       <div className="mx-auto max-w-[1200px] px-4 md:px-8 py-24">
         <Label>Error · 404</Label>
         <h1 className="mt-4 text-4xl md:text-6xl font-semibold tracking-[-0.04em]">
-          Page not found<span className="text-signal">.</span>
+          Page not found
         </h1>
         <p className="mt-4 text-foreground/70 max-w-md">
           Sorry, the page you are looking for does not exist or has been moved.

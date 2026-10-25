@@ -102,7 +102,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         <div className="mx-auto max-w-[1200px] px-4 md:px-8 py-24">
           <Label>Error · 404</Label>
           <h1 className="mt-4 text-4xl md:text-6xl font-semibold tracking-[-0.04em]">
-            Project not found<span className="text-signal">.</span>
+            Project not found
           </h1>
           <p className="mt-4 text-foreground/70 max-w-md">
             The project you're looking for is still being developed. Check back later!
@@ -153,7 +153,6 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           </div>
           <h1 className="mt-3 text-4xl sm:text-5xl md:text-7xl font-semibold tracking-[-0.045em] leading-[0.98] max-w-4xl">
             {name}
-            <span className="text-signal">.</span>
           </h1>
           <p className="mt-5 text-lg md:text-xl text-foreground/70 max-w-2xl leading-snug">{project.description}</p>
 
