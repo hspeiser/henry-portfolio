@@ -22,8 +22,8 @@ export async function GET(request: NextRequest) {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": "inline; filename=Henry_Speiser_Resume.pdf",
-        // Short cache so a newly pushed resume shows up within a few minutes
-        "Cache-Control": "public, max-age=0, s-maxage=300, stale-while-revalidate=3600",
+        // Browsers always recheck, the CDN holds it for a minute so a new push shows up fast
+        "Cache-Control": "public, max-age=0, must-revalidate, s-maxage=60",
       },
     })
   } catch (error) {

@@ -12,7 +12,7 @@ import { Label, NotebookHeader, mono, splitTitle } from "@/components/notebook"
 const links = [
   { label: "GitHub", href: "https://github.com/hspeiser" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/henryspeiser/" },
-  { label: "Resume", href: "/api/resume" },
+  { label: "Resume", href: "/resume" },
   { label: "Email", href: "mailto:henry@speiser.net" },
 ]
 
@@ -148,7 +148,7 @@ function About() {
           </button>
         </div>
       </div>
-      <ResumeViewer isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} pdfUrl="/api/resume" />
+      <ResumeViewer isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} pdfUrl="/resume" />
     </section>
   )
 }
