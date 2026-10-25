@@ -1,16 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
-  const pdfUrl = "https://pub-23ed2f7e90c646778e7f318e43b4e788.r2.dev/public/[Resume] Henry Speiser.docx (4).pdf"
+  // Always the latest resume.pdf on main in github.com/hspeiser/resume
+  const pdfUrl = "https://raw.githubusercontent.com/hspeiser/resume/main/resume.pdf"
 
   try {
-    // Fetch the PDF from Cloudflare R2 (server-side, no CORS issues)
-    const response = await fetch(pdfUrl, {
-      headers: {
-        // Forward some headers if needed
-        Accept: "application/pdf",
-      },
-    })
+    // GitHub serves it as octet-stream, so proxy it to get a PDF the browser will show inline
+    const response = await fetch(pdfUrl, { cache: "no-store" })
 
     if (!response.ok) {
       return new NextResponse(`Failed to fetch PDF: ${response.statusText}`, {
@@ -26,7 +22,8 @@ export async function GET(request: NextRequest) {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": "inline; filename=Henry_Speiser_Resume.pdf",
-        "Cache-Control": "public, max-age=31536000, immutable",
+        // Short cache so a newly pushed resume shows up within a few minutes
+        "Cache-Control": "public, max-age=0, s-maxage=300, stale-while-revalidate=3600",
       },
     })
   } catch (error) {
